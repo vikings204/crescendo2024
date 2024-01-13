@@ -102,8 +102,4 @@ public final class Constants204 {
         public static final double TARGET_HEIGHT_METERS = 0.61;
         public static final double CAMERA_PITCH_DEGREES = 180;
     }
-
-    public static final class Automation {
-        public static final int DRIVE_BACKWARD_MS = 3000;
-    }
 }
