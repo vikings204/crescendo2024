@@ -1,3 +1,5 @@
+// removed because it is not exactly possible with phoenix6 and it is probably not necessary
+
 package frc.lib.util;
 
 import com.ctre.phoenix.sensors.CANCoder;

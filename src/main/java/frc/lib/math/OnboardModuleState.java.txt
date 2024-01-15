@@ -1,3 +1,5 @@
+// removed because unused
+
 package frc.lib.math;
 
 import edu.wpi.first.math.geometry.Rotation2d;
