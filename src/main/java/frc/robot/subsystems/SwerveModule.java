@@ -17,7 +17,6 @@ import frc.lib.config.SwerveModuleConstants;
 import frc.lib.util.CANSparkMaxUtil;
 import frc.lib.util.CANSparkMaxUtil.Usage;
 import frc.robot.Constants;
-import frc.robot.util.Math204;
 
 public class SwerveModule {
     public int moduleNumber;
@@ -198,7 +197,18 @@ public class SwerveModule {
 
     private double SwerveContinuous(double cDeg) {
         double nDeg;
-        int cQuad = Math204.GetQuadrant(cDeg);
+        int cQuad;
+
+        if (0 <= cDeg && cDeg < 90) {
+            cQuad = 1;
+        } else if (90 <= cDeg && cDeg < 180) {
+            cQuad = 2;
+        } else if (180 <= cDeg && cDeg < 270) {
+            cQuad = 3;
+        } else {
+            cQuad = 4;
+        }
+
         if ((turningPQuad == 3 || turningPQuad == 4) && cQuad == 1) {
             nDeg = (360 - turningPDeg) + cDeg;
         } else if ((turningPQuad == 1 || turningPQuad == 2) && cQuad == 4) {

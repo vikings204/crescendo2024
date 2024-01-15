@@ -1,19 +1,16 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-import frc.robot.util.InterpLUT;
-
 public final class Constants204 {
+    // these two are stowaways - eventually all constants will merge
     public static final class Autonomous {
         public static final String CHOREO_PATH_FILE = "path"; // omit file extension
     }
-
-
+    public static final class Controller {
+        public static final int PORT = 1;
+    }
 
     // BELOW IS UNUSED
+    /*
     public static final class DrivetrainCAN {
         public static final int FL_DRIVE_MOTOR_ID = 32;
         public static final int RL_DRIVE_MOTOR_ID = 35;
@@ -32,7 +29,7 @@ public final class Constants204 {
     public static final class ArmCAN {
         public static final int BOOM_MOTOR_ID = 11;
         public static final int DIPPER_MOTOR_ID = 21;
-        public static final int /*CLAW_MOTOR_ID*/CLAW_SERVO_PWM_CH = 0; // controlled with PWM, NOT CAN
+        public static final int CLAW_SERVO_PWM_CH = 0; // controlled with PWM, NOT CAN
     }
 
     public static final class Arm {
@@ -109,4 +106,5 @@ public final class Constants204 {
         public static final double TARGET_HEIGHT_METERS = 0.61;
         public static final double CAMERA_PITCH_DEGREES = 180;
     }
+    */
 }
