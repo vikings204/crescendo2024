@@ -17,15 +17,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import edu.wpi.first.wpilibj.CAN;
-import edu.wpi.first.hal.CANData;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.SPI;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 
-public class Swerve extends SubsystemBase {
+public class SwerveSubsystem extends SubsystemBase {
   // private final ADIS16470_IMU gyro;
  // private final AHRS gyro;
   //private final CAN gyro= new CAN(1, 8, 4);
@@ -37,7 +32,7 @@ public class Swerve extends SubsystemBase {
  // public ADXRS450_Gyro m_gyro = new ADXRS450_Gyro(kGyroPort);         //plug in AD gyro
   private Field2d field;
 
-  public Swerve() {
+  public SwerveSubsystem() {
     var toApply = new Pigeon2Configuration();
     m_gyro_P2.getConfigurator().apply(toApply);
 
