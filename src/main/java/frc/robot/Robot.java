@@ -1,17 +1,10 @@
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants204.Drivetrain;
 import frc.lib.config.CTREConfigs;
-import java.util.concurrent.TimeUnit;
-import com.pathplanner.lib.util.*;
 //import com.pathplanner.lib.PathPlanner;
 //import com.pathplanner.lib.server.PathPlannerServer;
 
@@ -24,12 +17,8 @@ import com.pathplanner.lib.util.*;
  */
 public class Robot extends TimedRobot {
     public static CTREConfigs ctreConfigs;
-
-    private Command m_autonomousCommand;
+    private Command autonomousCommand;
     private Command teleopCommand;
-    private static final double kAngleSetpoint = 0.0;
-	private static final double kP = 0.005;
-
     private RobotContainer robotContainer;
 
     /**
@@ -41,14 +30,11 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         ctreConfigs = new CTREConfigs();
-  
-        //m_gyro.getAngle()
+
         robotContainer = new RobotContainer();
-        //PathPlannerServer.startServer(5812);
         //CameraServer.startAutomaticCapture(); // use for USB camera
         PortForwarder.add(8888, "10.2.4.69", 80);
     }
-
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
      * that you want ran during disabled, autonomous, teleoperated and test.
@@ -65,48 +51,35 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
     }
 
-    /**
-     * This function is called once each time the robot enters Disabled mode.
-     */
+
+
     @Override
     public void disabledInit() {
     }
-
     @Override
     public void disabledPeriodic() {
     }
 
-    /**
-     * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
-     */
+
+
     @Override
     public void autonomousInit() {
         if (teleopCommand != null) {
             teleopCommand.cancel();
         }
 
-      //  m_autonomousCommand = robotContainer.getAutonomousCommand();
+        autonomousCommand = robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
-        if (m_autonomousCommand != null) {
-          m_autonomousCommand.schedule();
+        if (autonomousCommand != null) {
+          autonomousCommand.schedule();
         }
-
-
-//        try {
-//            TimeUnit.MILLISECONDS.sleep(Constants204.Automation.DRIVE_BACKWARD_MS);
-//        } catch (InterruptedException e) {
-//            System.out.println("FAILED TO WAIT FOR SOME FUCKING REASON");
-//        }
-//        robotContainer.autoStateMachine++;
     }
-
-    /**
-     * This function is called periodically during autonomous.
-     */
     @Override
     public void autonomousPeriodic() {
     }
+
+
 
     @Override
     public void teleopInit() {
@@ -114,19 +87,15 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
         }
-
-  
     }
-
-    /**
-     * This function is called periodically during operator control.
-     */
     @Override
     public void teleopPeriodic() {
     }
+
+
 
     @Override
     public void testInit() {
@@ -134,45 +103,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
         //teleopCommand.cancel();
     }
-
-    /**
-     * This function is called periodically during test mode.
-     */
     @Override
     public void testPeriodic() {
-        //System.out.println(robotContainer.strafeDrive.TestEncoders());
-       // robotContainer.strafeDrive.moreDrive(0, 0, 0);
-        if (robotContainer.CONTROLLER.getYButton()) {
-            //robotContainer.strafeDrive.setZero();
-            Translation2d t1 = new Translation2d(0,0);
-            Rotation2d r1 = new Rotation2d(0);
-
-            Pose2d pstart = new Pose2d(t1,r1);
-            robotContainer.s_Swerve.resetOdometry(pstart);
-            //robotContainer.strafeDrive.turningTotalDeg = 0.0;
-            System.out.println("You have 0'd the turning encoders");
-            robotContainer.autoStateMachine = 0;
-
- 
-        }
-        if (robotContainer.CONTROLLER.getAButton()) {
-            //robotContainer.armControl.boomStart= robotContainer.armControl.boomEncoder.getPosition();
-            //robotContainer.armControl.dipperMax= robotContainer.armControl.dipperEncoder.getPosition();
-            //System.out.println("Boom Start is Now: "+ robotContainer.armControl.boomStart+"\n Dipper Max is Now: "+robotContainer.armControl.dipperMax);
-
-        }
-        if (robotContainer.CONTROLLER.getBButton()) {
-
-        }
-        if (robotContainer.CONTROLLER.getXButton()) {
-
-        }
-
-        double armB=0.0, armD=0.0, armC=0.0;
-        if (robotContainer.CONTROLLER.getRightUpperBumper()) { armB = -1; } else if (robotContainer.CONTROLLER.getRightTriggerAxis()>0.2) { armB = 1; }
-        if (robotContainer.CONTROLLER.getLeftUpperBumper()) { armD = -1; } else if (robotContainer.CONTROLLER.getLeftTriggerAxis()>0.2) { armD = 1; }
-        if (robotContainer.CONTROLLER.getBButton()) { armC = 1; } else if (robotContainer.CONTROLLER.getXButton()) { armC = -1; }
-        //robotContainer.armControl.setArmTest(armB, armD, armC);
-        
     }
 }

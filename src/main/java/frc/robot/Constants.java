@@ -110,7 +110,7 @@ public final class Constants {
 
     /* Swerve Profiling Values */
     public static final double maxSpeed = 10.0; // meters per second  //4.5
-    public static final double maxAngularVelocity = 8; // 11.5
+    public static final double maxAngularVelocity = 8; // 11.5 // radians per second
 
     /* Neutral Modes */
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;

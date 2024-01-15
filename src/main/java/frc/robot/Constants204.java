@@ -7,6 +7,13 @@ package frc.robot;
 import frc.robot.util.InterpLUT;
 
 public final class Constants204 {
+    public static final class Autonomous {
+        public static final String CHOREO_PATH_FILE = "path"; // omit file extension
+    }
+
+
+
+    // BELOW IS UNUSED
     public static final class DrivetrainCAN {
         public static final int FL_DRIVE_MOTOR_ID = 32;
         public static final int RL_DRIVE_MOTOR_ID = 35;
