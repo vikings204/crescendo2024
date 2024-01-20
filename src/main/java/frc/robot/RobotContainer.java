@@ -19,8 +19,8 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;*/
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    private final AutonomousManager AutonomousManager = new AutonomousManager();
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
+    private final AutonomousManager AutonomousManager = new AutonomousManager(SwerveSubsystem);
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
 
     /**

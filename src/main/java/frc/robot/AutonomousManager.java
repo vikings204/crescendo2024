@@ -18,8 +18,12 @@ import java.util.Optional;
 // configured for the most efficient route while avoiding obstacles
 
 public class AutonomousManager {
-    private final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
+    private final SwerveSubsystem SwerveSubsystem;
     private ChoreoTrajectory trajectory;
+
+    public AutonomousManager(SwerveSubsystem subsystem) {
+        SwerveSubsystem = subsystem;
+    }
 
     public Command getCommand() {
         trajectory = Choreo.getTrajectory(Constants204.Autonomous.CHOREO_PATH_FILE);
@@ -33,10 +37,10 @@ public class AutonomousManager {
                 trajectory, // Choreo trajectory from above
                 SwerveSubsystem::getPose, // A function that returns the current field-relative pose of the robot: your
                 // wheel or vision odometry
-                new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.0), // PIDController for field-relative X
+                new PIDController(Constants.AutoConstants.kPXController, 0.0, 0.005), // PIDController for field-relative X
                 // translation (input: X error in meters,
                 // output: m/s).
-                new PIDController(Constants.AutoConstants.kPYController, 0.0, 0.0), // PIDController for field-relative Y
+                new PIDController(Constants.AutoConstants.kPYController, 0.0, 0.005), // PIDController for field-relative Y
                 // translation (input: Y error in meters,
                 // output: m/s).
                 thetaController, // PID constants to correct for rotation
@@ -47,9 +51,9 @@ public class AutonomousManager {
                         speeds.omegaRadiansPerSecond,
                         false),*/
                 (ChassisSpeeds speeds) -> SwerveSubsystem.drive(
-                        new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond),
+                        new Translation2d(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond), // x and y are reversed somewhere else in the code
                         speeds.omegaRadiansPerSecond,
-                        false, // robot oriented swerve
+                        true, // robot oriented swerve
                         true),
                 this::isRedAlliance, // Whether or not to mirror the path based on alliance (this assumes the path is created for the blue alliance)
                 SwerveSubsystem // The subsystem(s) to require, typically your drive subsystem only
