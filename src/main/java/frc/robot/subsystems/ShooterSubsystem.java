@@ -106,4 +106,23 @@ public class ShooterSubsystem extends SubsystemBase {
                     ControlType.kVelocity);
         }
     }
+        public void receive(boolean shoot) {
+        if (shoot) {
+            shooterPidController_1.setReference(
+                    Constants.Shooter.receive,
+                    ControlType.kVelocity);
+            shooterPidController_2.setReference(
+                    Constants.Shooter.receive,
+                    ControlType.kVelocity);
+        } else {
+            shooterPidController_1.setReference(
+                    0,
+                    ControlType.kVelocity);
+            shooterMotor_1.set(0);
+            shooterPidController_2.setReference(
+                    0,
+                    ControlType.kVelocity);
+            shooterMotor_2.set(0);
+        }
+    }
 }

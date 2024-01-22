@@ -1,7 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.*;
 import frc.robot.util.*;
@@ -22,6 +24,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        configureButtonBindings();
         SwerveSubsystem.setDefaultCommand(
                 new TeleopSwerve(
                         SwerveSubsystem,
@@ -43,6 +46,11 @@ public class RobotContainer {
                 new RunCommand(
                         () -> ShooterSubsystem.speakerShot(CONTROLLER.getXButton()),
                         ShooterSubsystem));
+    }
+    private void configureButtonBindings() {
+        new JoystickButton(CONTROLLER, 4)
+        .whileTrue(
+            new RunCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
     }
 
     public Command getAutonomousCommand() {
