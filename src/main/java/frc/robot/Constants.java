@@ -53,16 +53,16 @@ public final class Constants {
         public static final int driveContinuousCurrentLimit = 10;
         public static final double voltageComp = 12.0;
 
-        public static final int speakerStrength = 15760;
+        public static final int speakerStrength = -1000;
         public static final int ampStrength = 2560;
-        public static final int receive = -100;
+        public static final int receive = 100;
 
     }
 
     public static final class Swerve {
-        public static final double fastDriveSpeedMultiplier = 1.0;
-        public static final double normalDriveSpeedMultiplier = 1.0;
-        public static final double slowDriveSpeedMultiplier = 1.0;
+        public static final double fastDriveSpeedMultiplier = .8;
+        public static final double normalDriveSpeedMultiplier = .6;
+        public static final double slowDriveSpeedMultiplier = .4;
         public static final int PIGEON2_ID = 10;
         //SET ME Each Run...
         public static final double robotOffset = 0.0;
