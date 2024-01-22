@@ -1,16 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.*;
 import frc.robot.util.*;
-//import frc.robot.Auto.*;
-
-/*import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPoint;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;*/
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -20,6 +14,7 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;*/
  */
 public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
+    public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     private final AutonomousManager AutonomousManager = new AutonomousManager(SwerveSubsystem);
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
 
@@ -43,6 +38,11 @@ public class RobotContainer {
             // s_Swerve.m_gyro_P2.calib;
             System.out.println("you have calibed the gyro");
         }
+
+        ShooterSubsystem.setDefaultCommand(
+                new RunCommand(
+                        () -> ShooterSubsystem.speakerShot(CONTROLLER.getXButton()),
+                        ShooterSubsystem));
     }
 
     public Command getAutonomousCommand() {

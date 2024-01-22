@@ -29,6 +29,34 @@ public final class Constants {
         public static final double kPModuleDriveController = 1;
     }
 
+    public static final class Shooter {
+
+        public static final double shooterKS = 0.667;
+        public static final double shooterKV = 2.44;
+        public static final double shooterKA = 0.27;
+        public static final double shooterKP = 1.0;
+        public static final double shooterKI = 0.0;
+        public static final double shooterKD = 0.0;
+        public static final double shooterKFF = 0.0;
+
+        public static final IdleMode driveNeutralMode = IdleMode.kBrake;
+
+        /* Motor Inverts */
+        public static final boolean driveInvert = true;
+
+        public static final int shooterID_1 = 22;
+        public static final int shooterID_2 = 25;
+
+
+        /* Swerve Current Limiting */
+        public static final int angleContinuousCurrentLimit = 10;
+        public static final int driveContinuousCurrentLimit = 10;
+        public static final double voltageComp = 12.0;
+
+        public static final int speakerStrength = 15760;
+        public static final int ampStrength = 2560;
+
+    }
 
     public static final class Swerve {
         public static final double fastDriveSpeedMultiplier = 1.0;
