@@ -46,6 +46,7 @@ public final class Constants {
 
         public static final int shooterID_1 = 22;
         public static final int shooterID_2 = 25;
+        public static final int bumpID = 26;
 
 
         /* Swerve Current Limiting */
@@ -53,7 +54,7 @@ public final class Constants {
         public static final int driveContinuousCurrentLimit = 10;
         public static final double voltageComp = 12.0;
 
-        public static final int speakerStrength = -1000;
+        public static final int speakerStrength = 5900;
         public static final int ampStrength = 2560;
         public static final int receive = 100;
 

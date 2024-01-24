@@ -48,9 +48,9 @@ public class RobotContainer {
                         ShooterSubsystem));
     }
     private void configureButtonBindings() {
-       // new JoystickButton(CONTROLLER, 5)
-        //.whileTrue(
-          //  new RunCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
+        new JoystickButton(CONTROLLER, 5)
+        .whileTrue(
+            new RunCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
     }
 
     public Command getAutonomousCommand() {

@@ -13,6 +13,7 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax shooterMotor_1;
     private final CANSparkMax shooterMotor_2;
+    private final CANSparkMax bumpMotor;
 
     private final RelativeEncoder shooterRelativeEncoder_1;
     private final RelativeEncoder shooterRelativeEncoder_2;
@@ -32,6 +33,8 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_2 = new CANSparkMax(Constants.Shooter.shooterID_2, MotorType.kBrushless);
         shooterRelativeEncoder_2 = shooterMotor_2.getEncoder();
         shooterPidController_2 = shooterMotor_2.getPIDController();
+
+        bumpMotor = new CANSparkMax(Constants.Shooter.shooterID_2, MotorType.kBrushless);
         configShooterMotors();
     }
 
@@ -66,6 +69,13 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_2.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_2.burnFlash();
         shooterRelativeEncoder_2.setPosition(0.0);
+
+        bumpMotor.restoreFactoryDefaults();
+        CANSparkMaxUtil.setCANSparkMaxBusUsage(bumpMotor, Usage.kAll);
+        bumpMotor.setSmartCurrentLimit(Constants.Shooter.driveContinuousCurrentLimit);
+        bumpMotor.setInverted(!Constants.Shooter.driveInvert);
+        bumpMotor.setIdleMode(Constants.Shooter.driveNeutralMode);
+        bumpMotor.burnFlash();
     }
 
     public void speakerShot(boolean shoot) {
@@ -108,12 +118,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
         public void receive(boolean shoot) {
         if (shoot) {
-            shooterPidController_1.setReference(
-                    Constants.Shooter.receive,
-                    ControlType.kVelocity);
-            shooterPidController_2.setReference(
-                    Constants.Shooter.receive,
-                    ControlType.kVelocity);
+            shooterMotor_1.set(-.15);
+            shooterMotor_2.set(-.15);
         } 
         else {
           //  shooterPidController_1.setReference(
