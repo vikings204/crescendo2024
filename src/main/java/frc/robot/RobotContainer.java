@@ -51,6 +51,10 @@ public class RobotContainer {
         new JoystickButton(CONTROLLER, 5)
         .whileTrue(
             new RunCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
+
+        new JoystickButton(CONTROLLER, 6)
+        .whileTrue(
+            new RunCommand(() -> ShooterSubsystem.bump(true), ShooterSubsystem));    
     }
 
     public Command getAutonomousCommand() {
