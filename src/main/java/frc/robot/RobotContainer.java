@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -17,6 +16,7 @@ import frc.robot.util.*;
 public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
+    public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
     private final AutonomousManager AutonomousManager = new AutonomousManager(SwerveSubsystem);
     Gamepad CONTROLLER = new Gamepad(Constants204.Controller.PORT);
 
@@ -46,6 +46,12 @@ public class RobotContainer {
                 new RunCommand(
                         () -> ShooterSubsystem.speakerShot(CONTROLLER.getXButton()),
                         ShooterSubsystem));
+
+        LinearActuatorSubsystem.setDefaultCommand(
+                new RunCommand(
+                        () -> LinearActuatorSubsystem.shift(CONTROLLER.getPOV()<90||CONTROLLER.getPOV()>270, CONTROLLER.getPOV()>90||CONTROLLER.getPOV()<270)
+                )
+        );
     }
     private void configureButtonBindings() {
         new JoystickButton(CONTROLLER, 5)
