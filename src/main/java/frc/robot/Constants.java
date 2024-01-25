@@ -34,7 +34,7 @@ public final class Constants {
         public static final double shooterKS = 0.667;
         public static final double shooterKV = 2.44;
         public static final double shooterKA = 0.27;
-        public static final double shooterKP = 1.0;
+        public static final double shooterKP = 2.0;
         public static final double shooterKI = 0.0;
         public static final double shooterKD = 0.0;
         public static final double shooterKFF = 0.0;
@@ -50,11 +50,11 @@ public final class Constants {
 
 
         /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit = 10;
-        public static final int driveContinuousCurrentLimit = 10;
-        public static final double voltageComp = 12.0;
+        public static final int angleContinuousCurrentLimit = 40;
+        public static final int driveContinuousCurrentLimit = 40;
+        public static final double voltageComp = 16.0;
 
-        public static final int speakerStrength = 5900;
+        public static final int speakerStrength = 10000;
         public static final int ampStrength = 2560;
         public static final int receive = 100;
 

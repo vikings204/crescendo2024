@@ -34,7 +34,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterRelativeEncoder_2 = shooterMotor_2.getEncoder();
         shooterPidController_2 = shooterMotor_2.getPIDController();
 
-        bumpMotor = new CANSparkMax(Constants.Shooter.shooterID_2, MotorType.kBrushless);
+        bumpMotor = new CANSparkMax(Constants.Shooter.bumpID, MotorType.kBrushless);
         configShooterMotors();
     }
 
@@ -51,7 +51,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterPidController_1.setI(Constants.Shooter.shooterKI);
         shooterPidController_1.setD(Constants.Shooter.shooterKD);
         shooterPidController_1.setFF(Constants.Shooter.shooterKFF);
-        shooterMotor_1.enableVoltageCompensation(Constants.Shooter.voltageComp);
+        //shooterMotor_1.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_1.burnFlash();
         shooterRelativeEncoder_1.setPosition(0.0);
 
@@ -66,7 +66,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterPidController_2.setI(Constants.Shooter.shooterKI);
         shooterPidController_2.setD(Constants.Shooter.shooterKD);
         shooterPidController_2.setFF(Constants.Shooter.shooterKFF);
-        shooterMotor_2.enableVoltageCompensation(Constants.Shooter.voltageComp);
+        //shooterMotor_2.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_2.burnFlash();
         shooterRelativeEncoder_2.setPosition(0.0);
 
@@ -80,12 +80,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void speakerShot(boolean shoot) {
         if (shoot) {
+           /* 
             shooterPidController_1.setReference(
                     Constants.Shooter.speakerStrength,
                     ControlType.kVelocity);
             shooterPidController_2.setReference(
                     Constants.Shooter.speakerStrength,
-                    ControlType.kVelocity);
+                    ControlType.kVelocity);*/
+                    shooterMotor_1.set(1.0);
+                    shooterMotor_2.set(1.0);
         } else {
             shooterPidController_1.setReference(
                     0,
@@ -95,6 +98,7 @@ public class ShooterSubsystem extends SubsystemBase {
                     0,
                     ControlType.kVelocity);
             shooterMotor_2.set(0);
+            bumpMotor.set(0);
         }
 
     }
@@ -118,8 +122,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
         public void receive(boolean shoot) {
         if (shoot) {
-            shooterMotor_1.set(-.15);
-            shooterMotor_2.set(-.15);
+            shooterMotor_1.set(-.05);
+            shooterMotor_2.set(-.05);
+            bumpMotor.set(-.05);
         } 
         else {
           //  shooterPidController_1.setReference(
