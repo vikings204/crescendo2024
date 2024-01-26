@@ -50,8 +50,8 @@ public final class Constants {
 
 
         /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit = 50;
-        public static final int driveContinuousCurrentLimit = 50;
+        public static final int angleContinuousCurrentLimit = 40;
+        public static final int driveContinuousCurrentLimit = 40;
         public static final double voltageComp = 16.0;
 
         public static final int speakerStrength = 10000;
