@@ -47,10 +47,10 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_1.setIdleMode(Constants.Shooter.driveNeutralMode);
         // shooterRelativeEncoder_1.setVelocityConversionFactor(Constants.Shooter.driveConversionVelocityFactor);
         // shooterRelativeEncoder_1.setPositionConversionFactor(Constants.Shooter.driveConversionPositionFactor);
-        shooterPidController_1.setP(Constants.Shooter.shooterKP);
-        shooterPidController_1.setI(Constants.Shooter.shooterKI);
-        shooterPidController_1.setD(Constants.Shooter.shooterKD);
-        shooterPidController_1.setFF(Constants.Shooter.shooterKFF);
+        //shooterPidController_1.setP(Constants.Shooter.shooterKP);
+        //shooterPidController_1.setI(Constants.Shooter.shooterKI);
+        //shooterPidController_1.setD(Constants.Shooter.shooterKD);
+        //shooterPidController_1.setFF(Constants.Shooter.shooterKFF);
         //shooterMotor_1.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_1.burnFlash();
         shooterRelativeEncoder_1.setPosition(0.0);
@@ -62,10 +62,10 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_2.setIdleMode(Constants.Shooter.driveNeutralMode);
         // shooterRelativeEncoder_1.setVelocityConversionFactor(Constants.Shooter.driveConversionVelocityFactor);
         // shooterRelativeEncoder_1.setPositionConversionFactor(Constants.Shooter.driveConversionPositionFactor);
-        shooterPidController_2.setP(Constants.Shooter.shooterKP);
-        shooterPidController_2.setI(Constants.Shooter.shooterKI);
-        shooterPidController_2.setD(Constants.Shooter.shooterKD);
-        shooterPidController_2.setFF(Constants.Shooter.shooterKFF);
+       // shooterPidController_2.setP(Constants.Shooter.shooterKP);
+        //shooterPidController_2.setI(Constants.Shooter.shooterKI);
+        //shooterPidController_2.setD(Constants.Shooter.shooterKD);
+        //shooterPidController_2.setFF(Constants.Shooter.shooterKFF);
         //shooterMotor_2.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_2.burnFlash();
         shooterRelativeEncoder_2.setPosition(0.0);
@@ -80,8 +80,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void speakerShot(boolean shoot) {
         if (shoot) {
-           /* 
-            shooterPidController_1.setReference(
+            
+           /*  shooterPidController_1.setReference(
                     Constants.Shooter.speakerStrength,
                     ControlType.kVelocity);
             shooterPidController_2.setReference(

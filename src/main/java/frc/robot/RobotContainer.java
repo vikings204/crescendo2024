@@ -49,7 +49,8 @@ public class RobotContainer {
 
         LinearActuatorSubsystem.setDefaultCommand(
                 new RunCommand(
-                        () -> LinearActuatorSubsystem.shift(CONTROLLER.getPOV()<90||CONTROLLER.getPOV()>270, CONTROLLER.getPOV()>90||CONTROLLER.getPOV()<270)
+                        () -> LinearActuatorSubsystem.shift(CONTROLLER.getPOV()==0, CONTROLLER.getPOV()==180),
+                        LinearActuatorSubsystem
                 )
         );
     }
