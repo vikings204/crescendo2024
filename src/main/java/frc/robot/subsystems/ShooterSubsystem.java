@@ -105,19 +105,18 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void ampShot(boolean shoot) {
         if (shoot) {
-            shooterPidController_1.setReference(
-                    Constants.Shooter.ampStrength,
-                    ControlType.kVelocity);
-            shooterPidController_2.setReference(
-                    Constants.Shooter.ampStrength,
-                    ControlType.kVelocity);
+                   shooterMotor_1.set(Constants.Shooter.ampStrength);
+                    shooterMotor_2.set(Constants.Shooter.ampStrength-.025);
         } else {
             shooterPidController_1.setReference(
-                    Constants.Shooter.ampStrength,
+                    0,
                     ControlType.kVelocity);
+            shooterMotor_1.set(0);
             shooterPidController_2.setReference(
-                    Constants.Shooter.ampStrength,
+                    0,
                     ControlType.kVelocity);
+            shooterMotor_2.set(0);
+            bumpMotor.set(0);
         }
     }
         public void receive(boolean shoot) {

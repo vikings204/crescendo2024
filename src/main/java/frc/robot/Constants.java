@@ -55,7 +55,7 @@ public final class Constants {
         public static final double voltageComp = 16.0;
 
         public static final int speakerStrength = 10000;
-        public static final int ampStrength = 2560;
+        public static final double ampStrength = .095;
         public static final int receive = 100;
 
     }
