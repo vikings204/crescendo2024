@@ -28,7 +28,13 @@ public final class Constants {
 
         public static final double kPModuleDriveController = 1;
     }
-
+    
+    public static final class Hook {
+        public static final int MOTOR_CAN_ID = 3; // Defines the CAN id of the Spark Max motor controller
+        public static final double EXTENDED_HOOK_HEIGHT = 5; //Defines Extended Height for Hook
+        public static final double WITHDRAWN_HOOK_HEIGHT = 0; //Defines Withdrawn height for Hook
+        public static final double LIFT_HOOK_HEIGHT = 5; //Defines Lifting height for Hook
+    }
     public static final class Shooter {
 
         public static final double shooterKS = 0.667;
