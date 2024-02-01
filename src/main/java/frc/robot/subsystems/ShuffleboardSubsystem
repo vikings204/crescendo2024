@@ -31,58 +31,89 @@ public class ShuffleboardSubsystem extends SubsystemBase {
         .withSize(20,2)
         .withPosition(960,0);        
 
-	private GenericEntry hookLift = driverDashboard.add("HIGH", false)
-			.withSize(2, 1)
-			.withPosition(0, 0)
-			.withProperties(Map.of("Color when false", "#000000", "Color when true", "#17FC03"))
+	//Hook
+	private GenericEntry hookLift = driverDashboard.add("LiftingHook", false)
+			.addPersistent("Lifting Height", Constants.Hook.LIFT_HOOK_HEIGHT)
+			.withWidget(BuiltInWidgets.kNumberSlider)
+			.withProperties(Map.of("min", 0, "max", 5))
+			.withSize(330,270)
+			.withPosition(500,0)  
+			.getEntry();
+	private GenericEntry hookExtend = driverDashboard.add("ExtendingHook", false)
+			.addPersistent("Extended Height", Constants.Hook.EXTENDED_HOOK_HEIGHT)
+			.withWidget(BuiltInWidgets.kNumberSlider)
+			.withProperties(Map.of("min", 0, "max", 5))
+			.withSize(330,270)
+			.withPosition(500,275)  
+			.getEntry();
+	private GenericEntry hookWithdraw = driverDashboard.add("WithdrawingHook", false)
+			.addPersistent("Max Depth", Constants.Hook.WITHDRAWN_HOOK_HEIGHT)
+			.withWidget(BuiltInWidgets.kNumberSlider)
+			.withProperties(Map.of("min", 0, "max", -5))
+			.withSize(330,270)
+			.withPosition(500,550)  
 			.getEntry();
 
-	private GenericEntry mid = driverDashboard.add("MID", false)
-			.withSize(2, 1)
-			.withPosition(0, 1)
-			.withProperties(Map.of("Color when false", "#000000", "Color when true", "#17FC03"))
+	//Drive Encoders
+	private GenericEntry driveEncoderFL = driverDashboard.add("Front Left Drive Encoder")
+			.addPersistent("Front Left Drive Encoder", FRONTLEFT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,0)  
+			.getEntry();
+	private GenericEntry driveEncoderFR = driverDashboard.add("Front Right Drive Encoder")
+			.addPersistent("Front Right Drive Encoder", FRONTRIGHT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,270)  
+			.getEntry();
+	private GenericEntry driveEncoderBL = driverDashboard.add("Back Left Drive Encoder")
+			.addPersistent("Back Left Drive Encoder", BACKLEFT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,540)  
+			.getEntry();
+	private GenericEntry driveEncoderBR = driverDashboard.add("Back Right Drive Encoder")
+			.addPersistent("Back Right Drive Encoder", BACKRIGHT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,810)  
+			.getEntry(); 
+
+	private GenericEntry speed = driverDashboard.add("Speed")
+			.addPersistent("Speed", SPEED)
+			.withSize(330,270)
+			.withPosition(500,825)  
 			.getEntry();
 
-	private GenericEntry low = driverDashboard.add("LOW", false)
-			.withSize(2, 1)
-			.withPosition(0, 2)
-			.withProperties(Map.of("Color when false", "#000000", "Color when true", "#17FC03"))
+	private GenericEntry shootAngle	= driverDashBoard.add("Shooter Angle")
+			.addPersistent("Shooter Angle", SHOOTER_ANGLE)
+			.withSize(800,530)
+			.withPosition(850,0)  
 			.getEntry();
 
-	private GenericEntry desiredGamePiece = driverDashboard.add("Game Piece", false)
-			.withSize(2, 1)
-			.withPosition(2, 0)
-			.withProperties(Map.of("Color when false", "#7842f5", "Color when true", "#f5ef42"))
+	private GenericEntry shootAngle	= driverDashBoard.add("Swerve Angle")
+			.addPersistent("Swerve Angle", SWERVE_ANGLE)
+			.withSize(800,530)
+			.withPosition(850,545)  
 			.getEntry();
 
-	private GenericEntry desiredIntakePosition = driverDashboard
-			.add("DESIRED INTAKE", IntakePositions.SHOOT_TALL.toString())
-			.withSize(2, 1)
-			.withPosition(2, 2)
-			.getEntry();
-
-
-
-	@Override
+	/*@Override
 	public void periodic() {
 		VerticalLocations currentVerticalLocation = stateHandler.getCurrentVerticalLocation();
 
-		if (currentVerticalLocation == VerticalLocations.HIGH) {
-			high.setBoolean(true);
+		if (currentVerticalLocation == VerticalLocations.LiftingHook) {
+			hookLift.setBoolean(true);
 		} else {
-			high.setBoolean(false);
+			hookLift.setBoolean(false);
 		}
 
-		if (currentVerticalLocation == VerticalLocations.MID) {
-			mid.setBoolean(true);
+		if (currentVerticalLocation == VerticalLocations.ExtendingHook) {
+			hookExtend.setBoolean(true);
 		} else {
-			mid.setBoolean(false);
+			hookExtend.setBoolean(false);
 		}
 
-		if (currentVerticalLocation == VerticalLocations.LOW) {
-			low.setBoolean(true);
+		if (currentVerticalLocation == VerticalLocations.WithdrawingHook) {
+			hookWithdraw.setBoolean(true);
 		} else {
-			low.setBoolean(false);
+			hookWithdraw.setBoolean(false);
 		}
 
 		GamePieceMode currentGamePiece = stateHandler.getGamePieceMode();
