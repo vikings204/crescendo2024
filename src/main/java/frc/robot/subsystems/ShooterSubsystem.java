@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.CANSparkMaxUtil;
 import frc.lib.util.CANSparkMaxUtil.Usage;
@@ -47,11 +49,11 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_1.setIdleMode(Constants.Shooter.driveNeutralMode);
         // shooterRelativeEncoder_1.setVelocityConversionFactor(Constants.Shooter.driveConversionVelocityFactor);
         // shooterRelativeEncoder_1.setPositionConversionFactor(Constants.Shooter.driveConversionPositionFactor);
-        //shooterPidController_1.setP(Constants.Shooter.shooterKP);
-        //shooterPidController_1.setI(Constants.Shooter.shooterKI);
-        //shooterPidController_1.setD(Constants.Shooter.shooterKD);
-        //shooterPidController_1.setFF(Constants.Shooter.shooterKFF);
-        //shooterMotor_1.enableVoltageCompensation(Constants.Shooter.voltageComp);
+        shooterPidController_1.setP(Constants.Shooter.shooterKP);
+        shooterPidController_1.setI(Constants.Shooter.shooterKI);
+        shooterPidController_1.setD(Constants.Shooter.shooterKD);
+        shooterPidController_1.setFF(Constants.Shooter.shooterKFF);
+        shooterMotor_1.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_1.burnFlash();
         shooterRelativeEncoder_1.setPosition(0.0);
 
@@ -89,6 +91,15 @@ public class ShooterSubsystem extends SubsystemBase {
                     ControlType.kVelocity);*/
                     shooterMotor_1.set(1.0);
                     shooterMotor_2.set(1.0);
+                               /*  shooterPidController_1.setReference(
+                    Constants.Shooter.speakerStrength,
+                    ControlType.kVelocity);
+            shooterPidController_2.setReference(
+                    Constants.Shooter.speakerStrength,
+                    ControlType.kVelocity);*/
+                    //Rotation2d r1 = Rotation2d.fromDegrees(720);
+                    //shooterPidController_1.setReference(720.0, ControlType.kPosition);
+                    //shooterMotor_2.set(1.0);
         } else {
             shooterPidController_1.setReference(
                     0,
@@ -102,6 +113,28 @@ public class ShooterSubsystem extends SubsystemBase {
         }
 
     }
+        public void speakerShot(boolean shoot, int i) {
+        if (shoot) {
+            
+   
+                    //Rotation2d r1 = Rotation2d.fromDegrees(720);
+                    shooterPidController_1.setReference(-1020.0, ControlType.kPosition);
+                    //shooterMotor_2.set(1.0);
+        } else {
+            shooterPidController_1.setReference(
+                    0,
+                    ControlType.kVelocity);
+            shooterMotor_1.set(0);
+            shooterPidController_2.setReference(
+                    0,
+                    ControlType.kVelocity);
+            shooterMotor_2.set(0);
+            bumpMotor.set(0);
+        }
+
+    }
+
+    
 
     public void ampShot(boolean shoot) {
         if (shoot) {
