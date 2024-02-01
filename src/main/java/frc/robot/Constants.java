@@ -44,8 +44,8 @@ public final class Constants {
         /* Motor Inverts */
         public static final boolean driveInvert = true;
 
-        public static final int shooterID_1 = 22;
-        public static final int shooterID_2 = 25;
+        public static final int shooterID_1 = 25;
+        public static final int shooterID_2 = 22;
         public static final int bumpID = 26;
 
 
