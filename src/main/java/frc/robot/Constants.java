@@ -29,6 +29,10 @@ public final class Constants {
         public static final double kPModuleDriveController = 1;
     }
     
+    public static final class Vision{
+        public static final double DistanceFromTarget = 0;
+    }
+
     public static final class DriveEncoders {
         public static final double FRONTLEFT_DRIVE_ENCODER = 0;
         public static final double FRONTRIGHT_DRIVE_ENCODER = 0;        

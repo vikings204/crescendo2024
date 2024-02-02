@@ -12,6 +12,8 @@ import frc.robot.util.StateVariables.IntakePositions;
 import frc.robot.util.StateVariables.VerticalLocations;
 
 import frc.robot.Constants;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 //importing SUBSYSTEMS
 import frc.robot.subsystems.ArmSubsystem;
@@ -59,22 +61,22 @@ public class ShuffleboardSubsystem extends SubsystemBase {
 			.addPersistent("Front Left Drive Encoder", FRONTLEFT_DRIVE_ENCODER)
 			.withSize(495,269)
 			.withPosition(0,0)  
-			.getEntry();
+			double frontleftDriveEncoder = smartDashboard.getEntry("Back Left Drive Encoder").getDouble(); 
 	private GenericEntry driveEncoderFR = driverDashboard.add("Front Right Drive Encoder")
 			.addPersistent("Front Right Drive Encoder", FRONTRIGHT_DRIVE_ENCODER)
 			.withSize(495,269)
 			.withPosition(0,270)  
-			.getEntry();
+			double FrontRightDriveEncoder = smartDashboard.getEntry("Front Right Drive Encoder").getDouble();
 	private GenericEntry driveEncoderBL = driverDashboard.add("Back Left Drive Encoder")
 			.addPersistent("Back Left Drive Encoder", BACKLEFT_DRIVE_ENCODER)
 			.withSize(495,269)
-			.withPosition(0,540)  
-			.getEntry();
+			.withPosition(0,540) 
+			double backleftDriveEncoder = smartDashboard.getEntry("Back Left Drive Encoder").getDouble(); 
 	private GenericEntry driveEncoderBR = driverDashboard.add("Back Right Drive Encoder")
 			.addPersistent("Back Right Drive Encoder", BACKRIGHT_DRIVE_ENCODER)
 			.withSize(495,269)
 			.withPosition(0,810)  
-			.getEntry(); 
+			double backrightDriveEncoder = smartDashboard.getEntry("Back Left Drive Encoder").getDouble(); 
 
 	private GenericEntry speed = driverDashboard.add("Speed")
 			.addPersistent("Speed", SPEED)
@@ -94,7 +96,20 @@ public class ShuffleboardSubsystem extends SubsystemBase {
 			.withPosition(850,545)  
 			.getEntry();
 
-	/*@Override
+	class VisionCalculator {
+		private ShuffleboardTab tab = Shuffleboard.getTab("Vision");
+		private NetworkTableEntry distanceEntry =
+			tab.add("Distance to target", DistanceFromTarget)
+				.withSize(4,2)
+				.withPosition(1916, 1078)
+				.getEntry();
+			 
+			public void calculate() {
+			double distance = ...;
+			distanceEntry.setDouble(distance);	
+			}
+	}
+	@Override
 	public void periodic() {
 		VerticalLocations currentVerticalLocation = stateHandler.getCurrentVerticalLocation();
 
@@ -116,12 +131,11 @@ public class ShuffleboardSubsystem extends SubsystemBase {
 			hookWithdraw.setBoolean(false);
 		}
 
-		GamePieceMode currentGamePiece = stateHandler.getGamePieceMode();
-		if (currentGamePiece == GamePieceMode.CONE) {
-			desiredGamePiece.setBoolean(true);
-		} else {
-			desiredGamePiece.setBoolean(false);
-		}
+		double leftDriveEncoder = smartDashboard.getEntry("Left Drive Encoder").getDouble();
+        double rightDriveEncoder = smartDashboard.getEntry("Right Drive Encoder").getDouble();
+        
+        System.out.println("Left Drive Encoder: " + leftDriveEncoder);
+        System.out.println("Right Drive Encoder: " + rightDriveEncoder);
 
 		desiredIntakePosition.setString(stateHandler.getDesiredIntakePosition().toString());
 
