@@ -174,8 +174,8 @@ public final class Constants {
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 {
-            public static final int driveMotorID = 8;
-            public static final int angleMotorID = 7;
+            public static final int driveMotorID = 7;
+            public static final int angleMotorID = 8;
             //public static final int canCoderID = 3;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(470.5);
             //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(204.7);
@@ -201,9 +201,9 @@ public final class Constants {
         public static final double kMaxAngularSpeedRadiansPerSecond = 2 * Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = 2 * Math.PI;
 
-        public static final double kPXController = 0.3;
-        public static final double kPYController = 0.3;
-        public static final double kPThetaController = 0.3;
+        public static final double kPXController = 1;
+        public static final double kPYController = 1;
+        public static final double kPThetaController = 1;
 
         // Constraint for the motion profilied robot angle controller
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
