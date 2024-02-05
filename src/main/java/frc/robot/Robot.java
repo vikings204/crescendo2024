@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -17,6 +19,11 @@ public class Robot extends TimedRobot {
     private Command teleopCommand;
     private RobotContainer robotContainer;
 
+    public enum ControlMode {
+        SINGLE, COMPETITION
+    }
+    public static final SendableChooser<ControlMode> ControlModeChooser = new SendableChooser<>();
+
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -29,6 +36,10 @@ public class Robot extends TimedRobot {
         robotContainer = new RobotContainer();
         //CameraServer.startAutomaticCapture(); // use for USB camera
         PortForwarder.add(8888, "10.2.4.69", 80);
+
+        ControlModeChooser.setDefaultOption("Single Controller (Driver:1 Operator:1)", ControlMode.SINGLE);
+        ControlModeChooser.addOption("Competition (Driver:1 Operator:2)", ControlMode.COMPETITION);
+        SmartDashboard.putData("Control Mode", ControlModeChooser);
     }
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics

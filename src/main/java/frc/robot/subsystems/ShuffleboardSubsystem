@@ -1,0 +1,143 @@
+package frc.robot.subsystems;
+
+import java.util.Map;
+
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.StateHandler;
+import frc.robot.util.StateVariables.GamePieceMode;
+import frc.robot.util.StateVariables.IntakePositions;
+import frc.robot.util.StateVariables.VerticalLocations;
+
+import frc.robot.Constants;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
+//importing SUBSYSTEMS
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.HookSubsystem;
+import frc.robot.subsystems.LinearActuatorSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SingleStrafeSubsystem;
+import frc.robot.subsystems.StrafeSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.StrafeModule;
+import frc.robot.subsystems.SwerveModule;
+
+public class ShuffleboardSubsystem extends SubsystemBase {
+	private StateHandler stateHandler = StateHandler.getInstance();
+
+	public ShuffleboardTab driverDashboard = Shuffleboard.getTab("Driver Dashboard")
+        .withSize(20,2)
+        .withPosition(960,0);        
+
+	//Hook
+	private GenericEntry hookLift = driverDashboard.add("LiftingHook", false)
+			.addPersistent("Lifting Height", Constants.Hook.LIFT_HOOK_HEIGHT)
+			.withWidget(BuiltInWidgets.kNumberSlider)
+			.withProperties(Map.of("min", 0, "max", 5))
+			.withSize(330,270)
+			.withPosition(500,0)  
+			.getEntry();
+	private GenericEntry hookExtend = driverDashboard.add("ExtendingHook", false)
+			.addPersistent("Extended Height", Constants.Hook.EXTENDED_HOOK_HEIGHT)
+			.withWidget(BuiltInWidgets.kNumberSlider)
+			.withProperties(Map.of("min", 0, "max", 5))
+			.withSize(330,270)
+			.withPosition(500,275)  
+			.getEntry();
+	private GenericEntry hookWithdraw = driverDashboard.add("WithdrawingHook", false)
+			.addPersistent("Max Depth", Constants.Hook.WITHDRAWN_HOOK_HEIGHT)
+			.withWidget(BuiltInWidgets.kNumberSlider)
+			.withProperties(Map.of("min", 0, "max", -5))
+			.withSize(330,270)
+			.withPosition(500,550)  
+			.getEntry();
+
+	//Drive Encoders
+	private GenericEntry driveEncoderFL = driverDashboard.add("Front Left Drive Encoder")
+			.addPersistent("Front Left Drive Encoder", FRONTLEFT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,0)  
+			double frontleftDriveEncoder = smartDashboard.getEntry("Back Left Drive Encoder").getDouble(); 
+	private GenericEntry driveEncoderFR = driverDashboard.add("Front Right Drive Encoder")
+			.addPersistent("Front Right Drive Encoder", FRONTRIGHT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,270)  
+			double FrontRightDriveEncoder = smartDashboard.getEntry("Front Right Drive Encoder").getDouble();
+	private GenericEntry driveEncoderBL = driverDashboard.add("Back Left Drive Encoder")
+			.addPersistent("Back Left Drive Encoder", BACKLEFT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,540) 
+			double backleftDriveEncoder = smartDashboard.getEntry("Back Left Drive Encoder").getDouble(); 
+	private GenericEntry driveEncoderBR = driverDashboard.add("Back Right Drive Encoder")
+			.addPersistent("Back Right Drive Encoder", BACKRIGHT_DRIVE_ENCODER)
+			.withSize(495,269)
+			.withPosition(0,810)  
+			double backrightDriveEncoder = smartDashboard.getEntry("Back Left Drive Encoder").getDouble(); 
+
+	private GenericEntry speed = driverDashboard.add("Speed")
+			.addPersistent("Speed", SPEED)
+			.withSize(330,270)
+			.withPosition(500,825)  
+			.getEntry();
+
+	private GenericEntry shootAngle	= driverDashBoard.add("Shooter Angle")
+			.addPersistent("Shooter Angle", SHOOTER_ANGLE)
+			.withSize(800,530)
+			.withPosition(850,0)  
+			.getEntry();
+
+	private GenericEntry shootAngle	= driverDashBoard.add("Swerve Angle")
+			.addPersistent("Swerve Angle", SWERVE_ANGLE)
+			.withSize(800,530)
+			.withPosition(850,545)  
+			.getEntry();
+
+	class VisionCalculator {
+		private ShuffleboardTab tab = Shuffleboard.getTab("Vision");
+		private NetworkTableEntry distanceEntry =
+			tab.add("Distance to target", DistanceFromTarget)
+				.withSize(4,2)
+				.withPosition(1916, 1078)
+				.getEntry();
+			 
+			public void calculate() {
+			double distance = ...;
+			distanceEntry.setDouble(distance);	
+			}
+	}
+	@Override
+	public void periodic() {
+		VerticalLocations currentVerticalLocation = stateHandler.getCurrentVerticalLocation();
+
+		if (currentVerticalLocation == VerticalLocations.LiftingHook) {
+			hookLift.setBoolean(true);
+		} else {
+			hookLift.setBoolean(false);
+		}
+
+		if (currentVerticalLocation == VerticalLocations.ExtendingHook) {
+			hookExtend.setBoolean(true);
+		} else {
+			hookExtend.setBoolean(false);
+		}
+
+		if (currentVerticalLocation == VerticalLocations.WithdrawingHook) {
+			hookWithdraw.setBoolean(true);
+		} else {
+			hookWithdraw.setBoolean(false);
+		}
+
+		double leftDriveEncoder = smartDashboard.getEntry("Left Drive Encoder").getDouble();
+        double rightDriveEncoder = smartDashboard.getEntry("Right Drive Encoder").getDouble();
+        
+        System.out.println("Left Drive Encoder: " + leftDriveEncoder);
+        System.out.println("Right Drive Encoder: " + rightDriveEncoder);
+
+		desiredIntakePosition.setString(stateHandler.getDesiredIntakePosition().toString());
+
+	}
+}
