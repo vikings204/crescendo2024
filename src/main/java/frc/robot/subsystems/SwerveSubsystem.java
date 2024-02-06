@@ -15,6 +15,10 @@ import frc.robot.Constants;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.PathPlannerLogging;
+
+
 public class SwerveSubsystem extends SubsystemBase {
     public Pigeon2 gyro = new Pigeon2(Constants.Swerve.PIGEON2_ID, "rio");
     private SwerveDriveOdometry swerveOdometry; // Odometry class helps track where the robot is relative to where it started

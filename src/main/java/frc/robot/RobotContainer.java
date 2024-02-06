@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Robot.ControlMode;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.*;
 import frc.robot.util.*;
@@ -89,8 +90,14 @@ public class RobotContainer {
             new RunCommand(() -> ShooterSubsystem.ampShot(true), ShooterSubsystem));    
             
     }
+        public Command getAutonomousCommand() {
+        // Load the path you want to follow using its name in the GUI
+        PathPlannerPath path = PathPlannerPath.fromPathFile("Path 1");
 
-    public Command getAutonomousCommand() {
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+        return AutoBuilder.followPathWithEvents(path);}
+
+    /*public Command getAutonomousCommand() {
         return AutonomousManager.getCommand();
-    }
+    }*/
 }
