@@ -8,6 +8,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.lib.config.SwerveModuleConstants;
 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 public final class Constants {
 
     public static final class ModuleConstants {
@@ -197,6 +201,14 @@ public final class Constants {
             public static final SwerveModuleConstants constants =
                     new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
+        public static final double maxModuleSpeed = 4.5; // M/S
+        public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
+                new PIDConstants(5.0, 0, 0), // Translation constants 
+                new PIDConstants(5.0, 0, 0), // Rotation constants 
+                maxModuleSpeed, 
+                .6, // Drive base radius (distance from center to furthest module) 
+                new ReplanningConfig()
+              );
     }
 
     public static final class AutoConstants {
