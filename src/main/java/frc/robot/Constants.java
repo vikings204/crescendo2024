@@ -116,8 +116,8 @@ public final class Constants {
         public static final double voltageComp = 12.0;
 
         /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit = 10;
-        public static final int driveContinuousCurrentLimit =410;
+        public static final int angleContinuousCurrentLimit = 5;
+        public static final int driveContinuousCurrentLimit =30;
 
         /* Angle Motor PID Values */
         public static final double angleKP = 0.01;
@@ -143,7 +143,7 @@ public final class Constants {
         public static final double angleConversionFactor = 360.0 / angleGearRatio;
 
         /* Swerve Profiling Values */
-        public static final double maxSpeed = 10.0; // meters per second  //4.5
+        public static final double maxSpeed = 4.5; // meters per second  //4.5
         public static final double maxAngularVelocity = 8; // 11.5 // radians per second
 
         /* Neutral Modes */
@@ -203,10 +203,10 @@ public final class Constants {
         }
         public static final double maxModuleSpeed = 4.5; // M/S
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-                new PIDConstants(5.0, 0, 0), // Translation constants 
-                new PIDConstants(5.0, 0, 0), // Rotation constants 
+                new PIDConstants(2.0, 0, .04), // Translation constants 
+                new PIDConstants(1.0, 0, .07), // Rotation constants 
                 maxModuleSpeed, 
-                .6, // Drive base radius (distance from center to furthest module) 
+                .495, // Drive base radius (distance from center to furthest module) 
                 new ReplanningConfig()
               );
     }
