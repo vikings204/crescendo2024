@@ -7,6 +7,13 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.*;
 import frc.robot.util.*;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import static frc.robot.Robot.ControlModeChooser;
 import static frc.robot.Robot.ControlMode;
 
