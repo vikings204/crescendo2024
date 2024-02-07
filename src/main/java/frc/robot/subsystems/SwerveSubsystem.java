@@ -45,25 +45,25 @@ public class SwerveSubsystem extends SubsystemBase {
 
         //Odomentry with our kinematics object from constants, gyro position and x/y position of each module
 
-         AutoBuilder.configureHolonomic(
-      this::getPose, 
-      this::resetOdometry, 
-      this::getSpeeds, 
-      this::driveRobotRelative, 
-      Constants.Swerve.pathFollowerConfig,
-      () -> {
-          // Boolean supplier that controls when the path will be mirrored for the red alliance
-          // This will flip the path being followed to the red side of the field.
-          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+        AutoBuilder.configureHolonomic(
+                this::getPose,
+                this::resetOdometry,
+                this::getSpeeds,
+                this::driveRobotRelative,
+                Constants.Swerve.pathFollowerConfig,
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-          var alliance = DriverStation.getAlliance();
-          if (alliance.isPresent()) {
-              return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
-      },
-      this
-    );
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this
+        );
 
         field = new Field2d();
         SmartDashboard.putData("Field", field);
@@ -113,20 +113,21 @@ public class SwerveSubsystem extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         swerveOdometry.resetPosition(getYaw(), getPositions(), pose);
     }
+
     public ChassisSpeeds getSpeeds() {
         return Constants.Swerve.swerveKinematics.toChassisSpeeds(getStates());
-      }
+    }
 
-      public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds) {
+    public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds) {
         driveRobotRelative(ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpeeds, getPose().getRotation()));
-      }
-    
-      public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
+    }
+
+    public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
-    
+
         SwerveModuleState[] targetStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates);
-      }
+    }
 
     public SwerveModuleState[] getStates() {
         SwerveModuleState[] states = new SwerveModuleState[4];
@@ -162,11 +163,11 @@ public class SwerveSubsystem extends SubsystemBase {
                 : Rotation2d.fromDegrees(gyro.getAngle());
     }
 
-    public double getYawRate() {
-        //return gyro.getRawGyroZ();
-        //return m_gyro.getRate();
-        return gyro.getRate();
-    }
+//    public double getYawRate() {
+//        //return gyro.getRawGyroZ();
+//        //return m_gyro.getRate();
+//        return gyro.getRate();
+//    }
 
     // public double getXFilteredAccelAngle() {
     //   return gyro.getXFilteredAccelAngle();
@@ -176,38 +177,17 @@ public class SwerveSubsystem extends SubsystemBase {
     //   return gyro.getYFilteredAccelAngle();
     // }
 
-    public double getPitch() {
-        return 0.0;//gyro.getPitch();
-    }
+//    public double getPitch() {
+//        return 0.0;//gyro.getPitch();
+//    }
 
-    public double getPitchRate() {
-        return 0.0;//gyro.getRawGyroY();
-    }
+//    public double getPitchRate() {
+//        return 0.0;//gyro.getRawGyroY();
+//    }
 
-    public double getRoll() {
-        return 0.0;//gyro.getRoll();
-    }
-
-    
-    // SmartDashboard.putNumber("gyro filtered X", gyro.getXFilteredAccelAngle()); // loops between
-    // about 14...0...360...346
-    // SmartDashboard.putNumber("gyro filtered Y", gyro.getYFilteredAccelAngle()); // forward and back
-    // leveling
-    // 0-14, drive forward, 346-360 drive backward
-
-    public void setX() {
-        modules[0].setAngleForX(45);
-        modules[1].setAngleForX(-45);
-        modules[2].setAngleForX(-45);
-        modules[3].setAngleForX(45);
-    }
-
-    public void resetEncoders() {
-        modules[0].resetEncoder();
-        modules[1].resetEncoder();
-        modules[2].resetEncoder();
-        modules[3].resetEncoder();
-    }
+//    public double getRoll() {
+//        return 0.0;//gyro.getRoll();
+//    }
 
     @Override
     public void periodic() {
