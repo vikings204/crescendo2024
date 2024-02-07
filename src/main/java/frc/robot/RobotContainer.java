@@ -20,7 +20,7 @@ public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
-    private final AutonomousManager AutonomousManager = new AutonomousManager(SwerveSubsystem);
+    private final ChoreoManager ChoreoManager = new ChoreoManager(SwerveSubsystem);
     Gamepad DRIVER = new Gamepad(Constants204.Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Constants204.Controller.DRIVER_PORT);
 
@@ -84,6 +84,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return AutonomousManager.getCommand();
+        return ChoreoManager.getCommand();
     }
 }

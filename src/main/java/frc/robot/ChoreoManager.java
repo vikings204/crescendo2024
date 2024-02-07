@@ -17,11 +17,11 @@ import java.util.Optional;
 // it is similar to pathplanner but the splines are automatically
 // configured for the most efficient route while avoiding obstacles
 
-public class AutonomousManager {
+public class ChoreoManager {
     private final SwerveSubsystem SwerveSubsystem;
     private ChoreoTrajectory trajectory;
 
-    public AutonomousManager(SwerveSubsystem subsystem) {
+    public ChoreoManager(SwerveSubsystem subsystem) {
         SwerveSubsystem = subsystem;
     }
 
