@@ -1,8 +1,6 @@
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -25,7 +23,7 @@ public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
-    private final AutonomousManager AutonomousManager = new AutonomousManager(SwerveSubsystem);
+    //private final AutonomousManager AutonomousManager = new AutonomousManager(SwerveSubsystem);
     Gamepad DRIVER = new Gamepad(Constants204.Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Constants204.Controller.DRIVER_PORT);
 
@@ -90,11 +88,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        // Load the path you want to follow using its name in the GUI
-        PathPlannerPath path = PathPlannerPath.fromPathFile("Path 1");
-
-        // Create a path following command using AutoBuilder. This will also trigger event markers.
-        return AutoBuilder.followPathWithEvents(path);
+        return new PathPlannerAuto("Path 1");
     }
 
     /*public Command getAutonomousCommand() {
