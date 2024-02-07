@@ -32,7 +32,7 @@ public class AutonomousManager {
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         SwerveSubsystem.resetOdometry(trajectory.getInitialPose());
-
+        double multiplier = 0.25;
         Command swerveCommand = Choreo.choreoSwerveCommand(
                 trajectory, // Choreo trajectory from above
                 SwerveSubsystem::getPose, // A function that returns the current field-relative pose of the robot: your
@@ -51,8 +51,8 @@ public class AutonomousManager {
                         speeds.omegaRadiansPerSecond,
                         false),*/
                 (ChassisSpeeds speeds) -> SwerveSubsystem.drive(
-                        new Translation2d(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond), // x and y are reversed somewhere else in the code
-                        speeds.omegaRadiansPerSecond,
+                        new Translation2d(speeds.vyMetersPerSecond*multiplier, speeds.vxMetersPerSecond*multiplier), // x and y are reversed somewhere else in the code
+                        speeds.omegaRadiansPerSecond*multiplier,
                         true, // robot oriented swerve
                         true),
                 this::isRedAlliance, // Whether or not to mirror the path based on alliance (this assumes the path is created for the blue alliance)
