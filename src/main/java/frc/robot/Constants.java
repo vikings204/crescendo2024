@@ -204,7 +204,7 @@ public final class Constants {
         public static final double maxModuleSpeed = 4.5; // M/S
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
                 new PIDConstants(2.0, 0, .04), // Translation constants 
-                new PIDConstants(1.0, 0, .07), // Rotation constants 
+                new PIDConstants(3.0, 0, .00), // Rotation constants
                 maxModuleSpeed, 
                 .495, // Drive base radius (distance from center to furthest module) 
                 new ReplanningConfig()

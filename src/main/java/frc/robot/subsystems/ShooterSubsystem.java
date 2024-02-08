@@ -64,7 +64,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_2.setIdleMode(Constants.Shooter.driveNeutralMode);
         // shooterRelativeEncoder_1.setVelocityConversionFactor(Constants.Shooter.driveConversionVelocityFactor);
         // shooterRelativeEncoder_1.setPositionConversionFactor(Constants.Shooter.driveConversionPositionFactor);
-       // shooterPidController_2.setP(Constants.Shooter.shooterKP);
+        // shooterPidController_2.setP(Constants.Shooter.shooterKP);
         //shooterPidController_2.setI(Constants.Shooter.shooterKI);
         //shooterPidController_2.setD(Constants.Shooter.shooterKD);
         //shooterPidController_2.setFF(Constants.Shooter.shooterKFF);
@@ -82,77 +82,28 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void speakerShot(boolean shoot) {
         if (shoot) {
-            
-           /*  shooterPidController_1.setReference(
-                    Constants.Shooter.speakerStrength,
-                    ControlType.kVelocity);
-            shooterPidController_2.setReference(
-                    Constants.Shooter.speakerStrength,
-                    ControlType.kVelocity);*/
-                    shooterMotor_1.set(1.0);
-                    shooterMotor_2.set(1.0);
-                               /*  shooterPidController_1.setReference(
-                    Constants.Shooter.speakerStrength,
-                    ControlType.kVelocity);
-            shooterPidController_2.setReference(
-                    Constants.Shooter.speakerStrength,
-                    ControlType.kVelocity);*/
-                    //Rotation2d r1 = Rotation2d.fromDegrees(720);
-                    //shooterPidController_1.setReference(720.0, ControlType.kPosition);
-                    //shooterMotor_2.set(1.0);
+            shooterMotor_1.set(1);
+            shooterMotor_2.set(1);
         } else {
-            shooterPidController_1.setReference(
-                    0,
-                    ControlType.kVelocity);
             shooterMotor_1.set(0);
-            shooterPidController_2.setReference(
-                    0,
-                    ControlType.kVelocity);
             shooterMotor_2.set(0);
             bumpMotor.set(0);
         }
 
     }
-        public void speakerShot(boolean shoot, int i) {
-        if (shoot) {
-            
-   
-                    //Rotation2d r1 = Rotation2d.fromDegrees(720);
-                    shooterPidController_1.setReference(-1020.0, ControlType.kPosition);
-                    //shooterMotor_2.set(1.0);
-        } else {
-            shooterPidController_1.setReference(
-                    0,
-                    ControlType.kVelocity);
-            shooterMotor_1.set(0);
-            shooterPidController_2.setReference(
-                    0,
-                    ControlType.kVelocity);
-            shooterMotor_2.set(0);
-            bumpMotor.set(0);
-        }
-
-    }
-
-    
 
     public void ampShot(boolean shoot) {
         if (shoot) {
-                   shooterMotor_1.set(Constants.Shooter.ampStrength);
-                    shooterMotor_2.set(Constants.Shooter.ampStrength-.025);
+            shooterMotor_1.set(Constants.Shooter.ampStrength);
+            shooterMotor_2.set(Constants.Shooter.ampStrength - .025);
         } else {
-            shooterPidController_1.setReference(
-                    0,
-                    ControlType.kVelocity);
             shooterMotor_1.set(0);
-            shooterPidController_2.setReference(
-                    0,
-                    ControlType.kVelocity);
             shooterMotor_2.set(0);
             bumpMotor.set(0);
         }
     }
-        public void receive(boolean shoot) {
+
+    public void receive(boolean shoot) {
         if (shoot) {
             shooterMotor_1.set(-.05);
             shooterMotor_2.set(-.05);
@@ -163,20 +114,12 @@ public class ShooterSubsystem extends SubsystemBase {
             bumpMotor.set(0);
         }
     }
-            public void bump(boolean shoot) {
+
+    public void bump(boolean shoot) {
         if (shoot) {
             bumpMotor.set(1);
-            //shooterMotor_2.set(-.15);
-        } 
-        else {
-          //  shooterPidController_1.setReference(
-            //        0,
-              //      ControlType.kVelocity);
-            //shooterMotor_1.set(0);
-            //shooterPidController_2.setReference(
-              //      0,
-                //    ControlType.kVelocity);
-            //shooterMotor_2.set(0);
+        } else {
+            bumpMotor.set(0);
         }
     }
 }

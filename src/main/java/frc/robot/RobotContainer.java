@@ -50,9 +50,12 @@ public class RobotContainer {
         });
 
 
-
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
         NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> ShooterSubsystem.receive(false), ShooterSubsystem));
+        NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> ShooterSubsystem.speakerShot(true), ShooterSubsystem));
+        NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> ShooterSubsystem.speakerShot(false), ShooterSubsystem));
+        NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> ShooterSubsystem.bump(true), ShooterSubsystem));
+        NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> ShooterSubsystem.bump(false), ShooterSubsystem));
 
 
         configureButtonBindings();
@@ -99,6 +102,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+        SwerveSubsystem.gyro.setYaw(-90.0); // temp for auto testing
         return new PathPlannerAuto("Intake Auto");
     }
 
