@@ -189,6 +189,21 @@ public class SwerveSubsystem extends SubsystemBase {
 //        return 0.0;//gyro.getRoll();
 //    }
 
+    public void resetEverything() {
+//        modules[0].setAngleForX(0);
+//        modules[1].setAngleForX(0);
+//        modules[2].setAngleForX(0);
+//        modules[3].setAngleForX(0);
+
+        modules[0].resetEncoder();
+        modules[1].resetEncoder();
+        modules[2].resetEncoder();
+        modules[3].resetEncoder();
+
+        resetOdometry(new Pose2d());
+        gyro.reset();
+    }
+
     @Override
     public void periodic() {
         swerveOdometry.update(getYaw(), getPositions());
