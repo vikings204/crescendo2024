@@ -1,7 +1,13 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.auto.NamedCommands.*;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Robot.ControlMode;
@@ -10,6 +16,8 @@ import frc.robot.subsystems.LinearActuatorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.Gamepad;
+
+import java.util.List;
 
 import static frc.robot.Robot.ControlModeChooser;
 
@@ -41,6 +49,12 @@ public class RobotContainer {
             System.out.println("Switched control mode to " + mode);
         });
 
+
+
+        NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
+        NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> ShooterSubsystem.receive(false), ShooterSubsystem));
+
+
         configureButtonBindings();
         SwerveSubsystem.setDefaultCommand(
                 new TeleopSwerve(
@@ -51,13 +65,6 @@ public class RobotContainer {
                         () -> false,
                         () -> DRIVER.getYButton(),
                         () -> DRIVER.getAButton()));
-
-
-        if (DRIVER.getBButton()) {
-            SwerveSubsystem.gyro.reset();
-            // s_Swerve.m_gyro_P2.calib;
-            System.out.println("you have calibed the gyro");
-        }
 
         ShooterSubsystem.setDefaultCommand(
                 new RunCommand(
@@ -85,11 +92,24 @@ public class RobotContainer {
                 .whileTrue(
                         new RunCommand(() -> ShooterSubsystem.ampShot(true), ShooterSubsystem));
 
+        new JoystickButton(DRIVER, 2)
+                .whileTrue(
+                        new RunCommand(SwerveSubsystem::resetEverything, SwerveSubsystem));
+
     }
 
     public Command getAutonomousCommand() {
-        return new PathPlannerAuto("Path 1");
+        return new PathPlannerAuto("Intake Auto");
     }
+
+//    public Command getAutonomousCommand() {
+//        // Load the path you want to follow using its name in the GUI
+//        PathPlannerPath path = PathPlannerPath.fromPathFile("Path 2");
+//
+//        // Create a path following command using AutoBuilder. This will also trigger event markers.
+//        //noinspection removal
+//        return AutoBuilder.followPathWithEvents(path);
+//    }
 
     /*public Command getAutonomousCommand() {
         return AutonomousManager.getCommand();

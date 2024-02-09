@@ -157,16 +157,10 @@ public class ShooterSubsystem extends SubsystemBase {
             shooterMotor_1.set(-.05);
             shooterMotor_2.set(-.05);
             bumpMotor.set(-.05);
-        } 
-        else {
-          //  shooterPidController_1.setReference(
-            //        0,
-              //      ControlType.kVelocity);
-            //shooterMotor_1.set(0);
-            //shooterPidController_2.setReference(
-              //      0,
-                //    ControlType.kVelocity);
-            //shooterMotor_2.set(0);
+        } else {
+            shooterMotor_1.set(0);
+            shooterMotor_2.set(0);
+            bumpMotor.set(0);
         }
     }
             public void bump(boolean shoot) {
