@@ -24,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.85
+                  "waitTime": 0.75
                 }
               },
               {
@@ -57,7 +57,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "speaker to midnote"
+            "pathName": "speaker to intake"
           }
         },
         {
@@ -73,7 +73,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 3.0
                 }
               },
               {
@@ -83,6 +83,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of speaker to intake"
           }
         },
         {
@@ -96,9 +102,9 @@
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Copy of speaker to midnote"
+                  "waitTime": 0.75
                 }
               },
               {
@@ -131,7 +137,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "speaker to topnote"
+            "pathName": "speaker to intake"
           }
         },
         {
@@ -147,56 +153,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 3.0
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "intakeStop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStart"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Copy of speaker to topnote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "bumpStart"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "bumpStop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStop"
                 }
               }
             ]
@@ -205,32 +168,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "speaker to botnote"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStart"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStop"
-                }
-              }
-            ]
+            "pathName": "Copy of speaker to intake"
           }
         },
         {
@@ -244,9 +182,9 @@
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Copy of speaker to botnote"
+                  "waitTime": 0.75
                 }
               },
               {
