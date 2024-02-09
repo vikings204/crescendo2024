@@ -3,10 +3,12 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.CANSparkMaxUtil;
 import frc.lib.util.CANSparkMaxUtil.Usage;
@@ -24,6 +26,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private final SparkPIDController shooterPidController_1;
     private final SparkPIDController shooterPidController_2;
 
+    private final ColorSensorV3 sensor1;
+
     /*private final SimpleMotorFeedforward feedforward =
       new SimpleMotorFeedforward(
           Constants.Shooter.shooterKS, Constants.Shooter.shooterKV, Constants.Shooter.shooterKA);*/
@@ -38,6 +42,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
         bumpMotor = new CANSparkMax(Constants.Shooter.bumpID, MotorType.kBrushless);
         configShooterMotors();
+
+        sensor1 = new ColorSensorV3(I2C.Port.kOnboard);
+        sensor1.configureProximitySensor(ColorSensorV3.ProximitySensorResolution.kProxRes11bit, ColorSensorV3.ProximitySensorMeasurementRate.kProxRate6ms);
     }
 
     //configDriveMotor();
