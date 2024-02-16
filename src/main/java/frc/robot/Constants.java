@@ -43,11 +43,18 @@ public final class Constants {
         public static final double BACKLEFT_DRIVE_ENCODER = 0;
         public static final double BACKRIGHT_DRIVE_ENCODER = 0;          
     }
-    public static final class Hook {
-        public static final int MOTOR_CAN_ID = 3; // Defines the CAN id of the Spark Max motor controller
-        public static final double EXTENDED_HOOK_HEIGHT = 5; //Defines Extended Height for Hook
-        public static final double WITHDRAWN_HOOK_HEIGHT = 0; //Defines Withdrawn height for Hook
-        public static final double LIFT_HOOK_HEIGHT = 5; //Defines Lifting height for Hook
+    public static final class FourBarLinkage {
+        public static final int LEFT_MOTOR_CAN_ID = 31;
+        public static final int RIGHT_MOTOR_CAN_ID = 32;
+        public static final double PID_P = 1.0;
+        public static final double PID_I = 0.0;
+        public static final double PID_D = 0.0;
+        public static final double PID_FF = 0.0;
+        public static final double ANGLE_CONVERSION = 360.0 / 60;
+        public static final int CURRENT_LIMIT = 20;
+        public static final boolean INVERT = false;
+        public static final double MINIMUM_ANGLE = 0;
+        public static final double MAXIMUM_ANGLE = 360;
     }
     public static final class Shooter {
 
