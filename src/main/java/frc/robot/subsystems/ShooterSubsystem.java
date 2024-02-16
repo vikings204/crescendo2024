@@ -117,7 +117,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void bump(boolean shoot) {
         if (shoot) {
-            bumpMotor.set(-1);
+            bumpMotor.set(-0.5);
         } else {
             bumpMotor.set(0);
         }
