@@ -7,8 +7,8 @@ import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.CANSparkMaxUtil;
-import frc.lib.util.CANSparkMaxUtil.Usage;
+import frc.robot.util.ReduceCANUsage;
+import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
 import frc.robot.Constants;
 
 public class LinearActuatorSubsystem extends SubsystemBase {
@@ -30,7 +30,7 @@ public class LinearActuatorSubsystem extends SubsystemBase {
         controller.setFF(Constants.LinearActuator.PID_FF);
 
         actuatorMotor.restoreFactoryDefaults();
-        CANSparkMaxUtil.setCANSparkMaxBusUsage(actuatorMotor, Usage.kPositionOnly);
+        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(actuatorMotor, Usage.kPositionOnly);
         actuatorMotor.setSmartCurrentLimit(Constants.LinearActuator.CURRENT_LIMIT);
         actuatorMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         actuatorMotor.burnFlash();

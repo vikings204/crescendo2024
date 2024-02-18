@@ -1,27 +1,22 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import com.ctre.phoenix6.hardware.Pigeon2;
-import com.ctre.phoenix6.configs.Pigeon2Configuration;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.PathPlannerLogging;
+import static frc.robot.Constants.Swerve.*;
 
 
 public class SwerveSubsystem extends SubsystemBase {
-    public Pigeon2 gyro = new Pigeon2(Constants.Swerve.PIGEON2_ID, "rio");
+    public Pigeon2 gyro = new Pigeon2(PIGEON2_ID, "rio");
     private SwerveDriveOdometry swerveOdometry; // Odometry class helps track where the robot is relative to where it started
     private SwerveModule[] modules; // Array of the 4 swerve modules
     private Field2d field;
@@ -34,14 +29,14 @@ public class SwerveSubsystem extends SubsystemBase {
         //m_gyro.calibrate();
         modules =
                 new SwerveModule[]{
-                        new SwerveModule(0, Constants.Swerve.Mod0.constants), //Each Constant set is specific to a motor pair
-                        new SwerveModule(1, Constants.Swerve.Mod1.constants),
-                        new SwerveModule(2, Constants.Swerve.Mod2.constants),
-                        new SwerveModule(3, Constants.Swerve.Mod3.constants)
+                        new SwerveModule(0, Mod0.driveMotorID, Mod0.angleMotorID, Mod0.angleOffset), //Each Constant set is specific to a motor pair
+                        new SwerveModule(1, Mod1.driveMotorID, Mod1.angleMotorID, Mod1.angleOffset),
+                        new SwerveModule(2, Mod2.driveMotorID, Mod2.angleMotorID, Mod2.angleOffset),
+                        new SwerveModule(3, Mod3.driveMotorID, Mod3.angleMotorID, Mod3.angleOffset)
                 };
 
         swerveOdometry =
-                new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getPositions());
+                new SwerveDriveOdometry(swerveKinematics, getYaw(), getPositions());
 
         //Odomentry with our kinematics object from constants, gyro position and x/y position of each module
 
@@ -50,7 +45,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 this::resetOdometry,
                 this::getSpeeds,
                 this::driveRobotRelative,
-                Constants.Swerve.pathFollowerConfig,
+                pathFollowerConfig,
                 () -> {
                     // Boolean supplier that controls when the path will be mirrored for the red alliance
                     // This will flip the path being followed to the red side of the field.
@@ -71,11 +66,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
-                Constants.Swerve.swerveKinematics.toSwerveModuleStates(fieldRelative ?
+                swerveKinematics.toSwerveModuleStates(fieldRelative ?
                         ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getYaw()) :
                         new ChassisSpeeds(translation.getX(), translation.getY(), rotation)
                 );
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeed);
 
         for (SwerveModule mod : modules) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
@@ -84,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, maxSpeed);
 
         for (SwerveModule mod : modules) {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false); // false
@@ -115,7 +110,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public ChassisSpeeds getSpeeds() {
-        return Constants.Swerve.swerveKinematics.toChassisSpeeds(getStates());
+        return swerveKinematics.toChassisSpeeds(getStates());
     }
 
     public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds) {
@@ -125,7 +120,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
 
-        SwerveModuleState[] targetStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(targetSpeeds);
+        SwerveModuleState[] targetStates = swerveKinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates);
     }
 
@@ -153,12 +148,12 @@ public class SwerveSubsystem extends SubsystemBase {
         gyro.setYaw(0.0);
     }
 
-    public void zeroGyro(double yaw) {
+    public void setGyro(double yaw) {
         gyro.setYaw(yaw);
     }
 
     public Rotation2d getYaw() {
-        return (Constants.Swerve.invertGyro)
+        return (invertGyro)
                 ? Rotation2d.fromDegrees(360 - gyro.getAngle())
                 : Rotation2d.fromDegrees(gyro.getAngle());
     }

@@ -13,9 +13,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lib.config.SwerveModuleConstants;
-import frc.lib.util.CANSparkMaxUtil;
-import frc.lib.util.CANSparkMaxUtil.Usage;
+import frc.robot.util.ReduceCANUsage;
+import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
 import frc.robot.Constants;
 
 public class SwerveModule {
@@ -42,22 +41,22 @@ public class SwerveModule {
             new SimpleMotorFeedforward(
                     Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
-    public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
+    public SwerveModule(int moduleNumber, int driveMotorID, int angleMotorID, Rotation2d angleOffset) {
         this.moduleNumber = moduleNumber;
-        angleOffset = moduleConstants.angleOffset;
+        this.angleOffset = angleOffset;
 
         /* Angle Encoder Config */
         // angleEncoder = new CANCoder(moduleConstants.cancoderID);
         //configAngleEncoder();
 
-        angleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
+        angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
         integratedAngleEncoder = angleMotor.getEncoder();
         angleController = angleMotor.getPIDController();
         configAngleMotor();
 
 
         /* Drive Motor Config */
-        driveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
+        driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
         driveController = driveMotor.getPIDController();
         configDriveMotor();
@@ -92,7 +91,7 @@ public class SwerveModule {
 
     private void configAngleMotor() {
         angleMotor.restoreFactoryDefaults();
-        CANSparkMaxUtil.setCANSparkMaxBusUsage(angleMotor, Usage.kPositionOnly);
+        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(angleMotor, Usage.kPositionOnly);
         angleMotor.setSmartCurrentLimit(Constants.Swerve.angleContinuousCurrentLimit);
         angleMotor.setInverted(Constants.Swerve.angleInvert);
         angleMotor.setIdleMode(Constants.Swerve.angleNeutralMode);
@@ -110,7 +109,7 @@ public class SwerveModule {
 
     private void configDriveMotor() {
         driveMotor.restoreFactoryDefaults();
-        CANSparkMaxUtil.setCANSparkMaxBusUsage(driveMotor, Usage.kAll);
+        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(driveMotor, Usage.kAll);
         driveMotor.setSmartCurrentLimit(Constants.Swerve.driveContinuousCurrentLimit);
         driveMotor.setInverted(Constants.Swerve.driveInvert);
         driveMotor.setIdleMode(Constants.Swerve.driveNeutralMode);

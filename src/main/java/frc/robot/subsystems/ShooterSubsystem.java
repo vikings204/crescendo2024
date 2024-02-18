@@ -8,8 +8,8 @@ import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.util.CANSparkMaxUtil;
-import frc.lib.util.CANSparkMaxUtil.Usage;
+import frc.robot.util.ReduceCANUsage;
+import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -43,7 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //configDriveMotor();
     private void configShooterMotors() {
         shooterMotor_1.restoreFactoryDefaults();
-        CANSparkMaxUtil.setCANSparkMaxBusUsage(shooterMotor_1, Usage.kAll);
+        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(shooterMotor_1, Usage.kAll);
         shooterMotor_1.setSmartCurrentLimit(Constants.Shooter.driveContinuousCurrentLimit);
         shooterMotor_1.setInverted(Constants.Shooter.driveInvert);
         shooterMotor_1.setIdleMode(Constants.Shooter.driveNeutralMode);
@@ -58,7 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterRelativeEncoder_1.setPosition(0.0);
 
         shooterMotor_2.restoreFactoryDefaults();
-        CANSparkMaxUtil.setCANSparkMaxBusUsage(shooterMotor_2, Usage.kAll);
+        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(shooterMotor_2, Usage.kAll);
         shooterMotor_2.setSmartCurrentLimit(Constants.Shooter.driveContinuousCurrentLimit);
         shooterMotor_2.setInverted(!Constants.Shooter.driveInvert);
         shooterMotor_2.setIdleMode(Constants.Shooter.driveNeutralMode);
@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterRelativeEncoder_2.setPosition(0.0);
 
         bumpMotor.restoreFactoryDefaults();
-        CANSparkMaxUtil.setCANSparkMaxBusUsage(bumpMotor, Usage.kAll);
+        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(bumpMotor, Usage.kAll);
         bumpMotor.setSmartCurrentLimit(Constants.Shooter.driveContinuousCurrentLimit);
         bumpMotor.setInverted(!Constants.Shooter.driveInvert);
         bumpMotor.setIdleMode(Constants.Shooter.driveNeutralMode);

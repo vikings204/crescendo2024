@@ -5,7 +5,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import frc.lib.config.SwerveModuleConstants;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -160,8 +159,6 @@ public final class Constants {
             //public static final int canCoderID = 4;
             //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(42.58);
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(62.99);
-            public static final SwerveModuleConstants constants =
-                    new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
 
         /* Front Right Module - Module 1 */
@@ -171,8 +168,6 @@ public final class Constants {
             //public static final int canCoderID = 1;
             //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(296.67);
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(312.58);
-            public static final SwerveModuleConstants constants =
-                    new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
 
         /* Back Left Module - Module 2 */
@@ -182,8 +177,6 @@ public final class Constants {
             //public static final int canCoderID = 3;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(470.5);
             //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(204.7);
-            public static final SwerveModuleConstants constants =
-                    new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
 
         /* Back Right Module - Module 3 */
@@ -193,8 +186,6 @@ public final class Constants {
             //public static final int canCoderID = 2;
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(296.67);
             //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(9.2);
-            public static final SwerveModuleConstants constants =
-                    new SwerveModuleConstants(driveMotorID, angleMotorID, angleOffset);
         }
         public static final double maxModuleSpeed = 4.5; // M/S
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
