@@ -1,12 +1,8 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ReduceCANUsage;
 import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
@@ -17,66 +13,36 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax shooterMotor_2;
     private final CANSparkMax bumpMotor;
 
-    private final RelativeEncoder shooterRelativeEncoder_1;
-    private final RelativeEncoder shooterRelativeEncoder_2;
-
-
-    private final SparkPIDController shooterPidController_1;
-    private final SparkPIDController shooterPidController_2;
-
-    /*private final SimpleMotorFeedforward feedforward =
-      new SimpleMotorFeedforward(
-          Constants.Shooter.shooterKS, Constants.Shooter.shooterKV, Constants.Shooter.shooterKA);*/
     public ShooterSubsystem() {
-        shooterMotor_1 = new CANSparkMax(Constants.Shooter.shooterID_1, MotorType.kBrushless);
-        shooterRelativeEncoder_1 = shooterMotor_1.getEncoder();
-        shooterPidController_1 = shooterMotor_1.getPIDController();
-
-        shooterMotor_2 = new CANSparkMax(Constants.Shooter.shooterID_2, MotorType.kBrushless);
-        shooterRelativeEncoder_2 = shooterMotor_2.getEncoder();
-        shooterPidController_2 = shooterMotor_2.getPIDController();
-
-        bumpMotor = new CANSparkMax(Constants.Shooter.bumpID, MotorType.kBrushless);
-        configShooterMotors();
+        shooterMotor_1 = new CANSparkMax(Constants.Shooter.SHOOTER_MOTOR1_ID, MotorType.kBrushless);
+        shooterMotor_2 = new CANSparkMax(Constants.Shooter.SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
+        bumpMotor = new CANSparkMax(Constants.Shooter.BUMP_MOTOR_ID, MotorType.kBrushless);
+        configMotors();
     }
 
     //configDriveMotor();
-    private void configShooterMotors() {
+    private void configMotors() {
         shooterMotor_1.restoreFactoryDefaults();
         ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(shooterMotor_1, Usage.kAll);
-        shooterMotor_1.setSmartCurrentLimit(Constants.Shooter.driveContinuousCurrentLimit);
-        shooterMotor_1.setInverted(Constants.Shooter.driveInvert);
-        shooterMotor_1.setIdleMode(Constants.Shooter.driveNeutralMode);
-        // shooterRelativeEncoder_1.setVelocityConversionFactor(Constants.Shooter.driveConversionVelocityFactor);
-        // shooterRelativeEncoder_1.setPositionConversionFactor(Constants.Shooter.driveConversionPositionFactor);
-        shooterPidController_1.setP(Constants.Shooter.shooterKP);
-        shooterPidController_1.setI(Constants.Shooter.shooterKI);
-        shooterPidController_1.setD(Constants.Shooter.shooterKD);
-        shooterPidController_1.setFF(Constants.Shooter.shooterKFF);
+        shooterMotor_1.setSmartCurrentLimit(Constants.Shooter.CURRENT_LIMIT);
+        shooterMotor_1.setInverted(Constants.Shooter.SHOOTER_INVERT);
+        shooterMotor_1.setIdleMode(Constants.Shooter.IDLE_MODE);
         shooterMotor_1.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_1.burnFlash();
-        shooterRelativeEncoder_1.setPosition(0.0);
 
         shooterMotor_2.restoreFactoryDefaults();
         ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(shooterMotor_2, Usage.kAll);
-        shooterMotor_2.setSmartCurrentLimit(Constants.Shooter.driveContinuousCurrentLimit);
-        shooterMotor_2.setInverted(!Constants.Shooter.driveInvert);
-        shooterMotor_2.setIdleMode(Constants.Shooter.driveNeutralMode);
-        // shooterRelativeEncoder_1.setVelocityConversionFactor(Constants.Shooter.driveConversionVelocityFactor);
-        // shooterRelativeEncoder_1.setPositionConversionFactor(Constants.Shooter.driveConversionPositionFactor);
-        // shooterPidController_2.setP(Constants.Shooter.shooterKP);
-        //shooterPidController_2.setI(Constants.Shooter.shooterKI);
-        //shooterPidController_2.setD(Constants.Shooter.shooterKD);
-        //shooterPidController_2.setFF(Constants.Shooter.shooterKFF);
-        //shooterMotor_2.enableVoltageCompensation(Constants.Shooter.voltageComp);
+        shooterMotor_2.setSmartCurrentLimit(Constants.Shooter.CURRENT_LIMIT);
+        shooterMotor_2.setInverted(!Constants.Shooter.SHOOTER_INVERT);
+        shooterMotor_2.setIdleMode(Constants.Shooter.IDLE_MODE);
+        shooterMotor_2.enableVoltageCompensation(Constants.Shooter.voltageComp);
         shooterMotor_2.burnFlash();
-        shooterRelativeEncoder_2.setPosition(0.0);
 
         bumpMotor.restoreFactoryDefaults();
         ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(bumpMotor, Usage.kAll);
-        bumpMotor.setSmartCurrentLimit(Constants.Shooter.driveContinuousCurrentLimit);
-        bumpMotor.setInverted(!Constants.Shooter.driveInvert);
-        bumpMotor.setIdleMode(Constants.Shooter.driveNeutralMode);
+        bumpMotor.setSmartCurrentLimit(Constants.Shooter.CURRENT_LIMIT);
+        bumpMotor.setInverted(!Constants.Shooter.BUMP_INVERT);
+        bumpMotor.setIdleMode(Constants.Shooter.IDLE_MODE);
         bumpMotor.burnFlash();
     }
 
@@ -94,8 +60,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void ampShot(boolean shoot) {
         if (shoot) {
-            shooterMotor_1.set(Constants.Shooter.ampStrength);
-            shooterMotor_2.set(Constants.Shooter.ampStrength - .025);
+            shooterMotor_1.set(Constants.Shooter.AMP_STRENGTH);
+            shooterMotor_2.set(Constants.Shooter.AMP_STRENGTH - .025);
         } else {
             shooterMotor_1.set(0);
             shooterMotor_2.set(0);

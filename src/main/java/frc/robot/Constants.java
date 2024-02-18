@@ -11,66 +11,21 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 public final class Constants {
-
-    public static final class ModuleConstants {
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 2 * Math.PI;
-        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 2 * Math.PI;
-
-        public static final int kEncoderCPR = 1024;
-        public static final double kWheelDiameterMeters = 0.1016;
-        public static final double kDriveEncoderDistancePerPulse =
-                // Assumes the encoders are directly mounted on the wheel shafts
-                (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
-
-        public static final double kTurningEncoderDistancePerPulse =
-                // Assumes the encoders are on a 1:1 reduction with the module shaft.
-                (2 * Math.PI) / (double) kEncoderCPR;
-
-        public static final double kPModuleTurningController = 1;
-
-        public static final double kPModuleDriveController = 1;
-    }
-
-    public static final class DriveEncoders {
-        public static final double FRONTLEFT_DRIVE_ENCODER = 0;
-        public static final double FRONTRIGHT_DRIVE_ENCODER = 0;        
-        public static final double BACKLEFT_DRIVE_ENCODER = 0;
-        public static final double BACKRIGHT_DRIVE_ENCODER = 0;          
-    }
-    public static final class Hook {
-        public static final int MOTOR_CAN_ID = 3; // Defines the CAN id of the Spark Max motor controller
-        public static final double EXTENDED_HOOK_HEIGHT = 5; //Defines Extended Height for Hook
-        public static final double WITHDRAWN_HOOK_HEIGHT = 0; //Defines Withdrawn height for Hook
-        public static final double LIFT_HOOK_HEIGHT = 5; //Defines Lifting height for Hook
-    }
     public static final class Shooter {
+        public static final IdleMode IDLE_MODE = IdleMode.kBrake;
+        public static final boolean SHOOTER_INVERT = true;
+        public static final boolean BUMP_INVERT = false;
 
-        public static final double shooterKS = 0.667;
-        public static final double shooterKV = 2.44;
-        public static final double shooterKA = 0.27;
-        public static final double shooterKP = 2.0;
-        public static final double shooterKI = 0.0;
-        public static final double shooterKD = 0.0;
-        public static final double shooterKFF = 0.0;
+        public static final int SHOOTER_MOTOR1_ID = 22;
+        public static final int SHOOTER_MOTOR_2_ID = 25;
+        public static final int BUMP_MOTOR_ID = 26;
 
-        public static final IdleMode driveNeutralMode = IdleMode.kBrake;
-
-        /* Motor Inverts */
-        public static final boolean driveInvert = true;
-
-        public static final int shooterID_1 = 22;
-        public static final int shooterID_2 = 25;
-        public static final int bumpID = 26;
-
-
-        /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit = 40;
-        public static final int driveContinuousCurrentLimit = 40;
+        public static final int CURRENT_LIMIT = 40;
         public static final double voltageComp = 16.0;
 
-        public static final int speakerStrength = 10000;
-        public static final double ampStrength = .095;
-        public static final int receive = 100;
+        public static final int SPEAKER_STRENGTH = 10000;
+        public static final double AMP_STRENGTH = .095;
+        public static final int RECEIVE_STRENGTH = 100;
 
     }
 
@@ -111,7 +66,7 @@ public final class Constants {
 
         /* Swerve Current Limiting */
         public static final int angleContinuousCurrentLimit = 5;
-        public static final int driveContinuousCurrentLimit =30;
+        public static final int driveContinuousCurrentLimit = 30;
 
         /* Angle Motor PID Values */
         public static final double angleKP = 0.01;
@@ -187,14 +142,15 @@ public final class Constants {
             public static final Rotation2d angleOffset = Rotation2d.fromDegrees(296.67);
             //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(9.2);
         }
+
         public static final double maxModuleSpeed = 4.5; // M/S
         public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
                 new PIDConstants(2.0, 0, .04), // Translation constants 
                 new PIDConstants(3.0, 0, .00), // Rotation constants
-                maxModuleSpeed, 
+                maxModuleSpeed,
                 .495, // Drive base radius (distance from center to furthest module) 
                 new ReplanningConfig()
-              );
+        );
     }
 
     public static final class LinearActuator {
@@ -216,6 +172,7 @@ public final class Constants {
             ANOTHER_EXAMPLE(0.0);
 
             public final double position;
+
             Position(double p) {
                 this.position = p;
             }
