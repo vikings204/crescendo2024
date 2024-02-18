@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -31,10 +30,6 @@ public final class Constants {
         public static final double kPModuleTurningController = 1;
 
         public static final double kPModuleDriveController = 1;
-    }
-    
-    public static final class Vision{
-        public static final double DistanceFromTarget = 0;
     }
 
     public static final class DriveEncoders {
@@ -211,22 +206,30 @@ public final class Constants {
               );
     }
 
-    public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 4; // 4
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3; // 3
-        public static final double kMaxAngularSpeedRadiansPerSecond = 2 * Math.PI;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = 2 * Math.PI;
+    public static final class LinearActuator {
+        public static final int MOTOR_CAN_ID = 27;
+        public static final int CURRENT_LIMIT = 20;
 
-        public static final double kPXController = 1;
-        public static final double kPYController = 1;
-        public static final double kPThetaController = 1;
+        public static final double PID_P = 1.0;
+        public static final double PID_I = 0.0;
+        public static final double PID_D = 0.0;
+        public static final double PID_FF = 0.0;
 
-        // Constraint for the motion profilied robot angle controller
-        public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-                new TrapezoidProfile.Constraints(
-                        kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+        // minimum/maximum of the linear actuator, not the whole mechanism
+        public static final double ABSOLUTE_MINIMUM = 0.0;
+        public static final double ABSOLUTE_MAXIMUM = 0.0;
+
+        // positions are of the entire mechanism
+        public enum Position {
+            EXAMPLE(0.0),
+            ANOTHER_EXAMPLE(0.0);
+
+            public final double position;
+            Position(double p) {
+                this.position = p;
+            }
+        }
     }
-
 }
   
 

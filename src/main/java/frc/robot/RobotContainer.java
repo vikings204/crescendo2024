@@ -31,7 +31,6 @@ public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
-    //private final AutonomousManager AutonomousManager = new AutonomousManager(SwerveSubsystem);
     Gamepad DRIVER = new Gamepad(Constants204.Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Constants204.Controller.DRIVER_PORT);
 
@@ -114,8 +113,4 @@ public class RobotContainer {
 //        //noinspection removal
 //        return AutoBuilder.followPathWithEvents(path);
 //    }
-
-    /*public Command getAutonomousCommand() {
-        return AutonomousManager.getCommand();
-    }*/
 }
