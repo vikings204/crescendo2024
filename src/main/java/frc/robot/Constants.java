@@ -11,6 +11,14 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 public final class Constants {
+    public static final class Controller {
+        public static final int DRIVER_PORT = 1;
+        public static final int OPERATOR_PORT = 2;
+        public static final double DEADBAND = 0.1;
+
+        // will eventually have keybinds and stuff
+    }
+
     public static final class Shooter {
         public static final IdleMode IDLE_MODE = IdleMode.kBrake;
         public static final boolean SHOOTER_INVERT = true;
@@ -30,125 +38,100 @@ public final class Constants {
     }
 
     public static final class Swerve {
-        public static final double fastDriveSpeedMultiplier = .8;
-        public static final double normalDriveSpeedMultiplier = .6;
-        public static final double slowDriveSpeedMultiplier = .4;
-        public static final int PIGEON2_ID = 10;
-        //SET ME Each Run...
-        public static final double robotOffset = 0.0;
+        public static final double FAST_SPEED_MULTIPLIER = .8;
+        public static final double NORMAL_SPEED_MULTIPLIER = .6;
+        public static final double SLOW_SPEED_MULTIPLIER = .4;
 
-        public static final double stickDeadband = 0.1;
-
-        public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
+        public static final double ANGLE_PID_FF = 0.0;
+        public static final double DRIVE_PID_P = 1.0;
+        public static final double DRIVE_PID_I = 0.0;
+        public static final double DRIVE_PID_D = 0.01;
+        public static final double DRIVE_PID_FF = 0.0;
+        public static final double DRIVE_FF_S = 0.667;
+        public static final double DRIVE_FF_V = 2.44;
+        public static final double DRIVE_FF_A = 0.27;
+        public static final double ANGLE_PID_P = 0.01;
+        public static final double ANGLE_PID_I = 0.0;
+        public static final double ANGLE_PID_D = 0.0;
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(26.25);
-        public static final double wheelBase = Units.inchesToMeters(26.25);
-        public static final double wheelDiameter = Units.inchesToMeters(4.0);
-        public static final double wheelCircumference = wheelDiameter * Math.PI;
+        public static final double TRACK_WIDTH = Units.inchesToMeters(26.25); // same as wheelbase because it is a square
+        public static final double WHEEL_BASE = Units.inchesToMeters(26.25);
+        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
+        public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
-        public static final double openLoopRamp = 0.25;
-        public static final double closedLoopRamp = 0.0;
-
-        //public static final double driveGearRatio =
-        //   (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); // 6.75:1
-        public static final double driveGearRatio = 8.14;
-        public static final double angleGearRatio = (150.0 / 7.0); //
-        public static final SwerveDriveKinematics swerveKinematics =
-                new SwerveDriveKinematics(
-                        new Translation2d(-wheelBase / 2.0, trackWidth / 2.0),
-                        new Translation2d(wheelBase / 2.0, trackWidth / 2.0),
-                        new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0),
-                        new Translation2d(wheelBase / 2.0, -trackWidth / 2.0));
-
-        /* Swerve Voltage Compensation */
-        public static final double voltageComp = 12.0;
-
-        /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit = 5;
-        public static final int driveContinuousCurrentLimit = 30;
-
-        /* Angle Motor PID Values */
-        public static final double angleKP = 0.01;
-        public static final double angleKI = 0.0;
-        public static final double angleKD = 0.0;
-        public static final double angleKFF = 0.0;
-
-        /* Drive Motor PID Values */
-        public static final double driveKP = 1.0;
-        public static final double driveKI = 0.0;
-        public static final double driveKD = 0.01;
-        public static final double driveKFF = 0.0;
-
-        /* Drive Motor Characterization Values */
-        public static final double driveKS = 0.667;
-        public static final double driveKV = 2.44;
-        public static final double driveKA = 0.27;
+        public static final double DRIVE_GEAR_RATIO = 8.14;
+        public static final double ANGLE_GEAR_RATIO = (150.0 / 7.0);
+        public static final SwerveDriveKinematics SWERVE_KINEMATICS = new SwerveDriveKinematics(
+                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
+                new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0)
+        );
 
         /* Drive Motor Conversion Factors */
-        public static final double driveConversionPositionFactor =
-                (wheelDiameter * Math.PI) / driveGearRatio;
-        public static final double driveConversionVelocityFactor = driveConversionPositionFactor / 60.0;
-        public static final double angleConversionFactor = 360.0 / angleGearRatio;
+        public static final double DRIVE_POSITION_CONVERSION_FACTOR = (WHEEL_DIAMETER * Math.PI) / DRIVE_GEAR_RATIO;
+        public static final double DRIVE_VELOCITY_CONVERSION_FACTOR = DRIVE_POSITION_CONVERSION_FACTOR / 60.0;
+        public static final double ANGLE_POSITION_CONVERSION_FACTOR = 360.0 / ANGLE_GEAR_RATIO;
+
+        /* Swerve Voltage Compensation */
+        public static final double VOLTAGE_COMPENSATION = 12.0;
+
+        /* Swerve Current Limiting */
+        public static final int DRIVE_CURRENT_LIMIT = 30;
+        public static final int ANGLE_CURRENT_LIMIT = 5;
 
         /* Swerve Profiling Values */
-        public static final double maxSpeed = 4.5; // meters per second  //4.5
-        public static final double maxAngularVelocity = 8; // 11.5 // radians per second
+        public static final double MAX_SPEED = 4.5; // meters per second
+        public static final double MAX_ANGULAR_VELOCITY = 8; // radians per second
 
         /* Neutral Modes */
-        public static final IdleMode angleNeutralMode = IdleMode.kBrake;
-        public static final IdleMode driveNeutralMode = IdleMode.kBrake;
+        public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
+        public static final IdleMode ANGLE_IDLE_MODE = IdleMode.kBrake;
 
         /* Motor Inverts */
-        public static final boolean driveInvert = true;
-        public static final boolean angleInvert = true;
+        public static final boolean DRIVE_INVERT = true;
+        public static final boolean ANGLE_INVERT = true;
 
-        /* Angle Encoder Invert */
-        public static final boolean canCoderInvert = false;
+        public static final boolean GYRO_INVERT = true; // Always ensure Gyro is CCW+ CW-
+        public static final int PIGEON2_ID = 10;
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 {
-            public static final int driveMotorID = 4;
-            public static final int angleMotorID = 3;
-            //public static final int canCoderID = 4;
-            //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(42.58);
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(62.99);
+            public static final int DRIVE_MOTOR_ID = 4;
+            public static final int ANGLE_MOTOR_ID = 3;
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(62.99);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 {
-            public static final int driveMotorID = 6;
-            public static final int angleMotorID = 5;
-            //public static final int canCoderID = 1;
-            //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(296.67);
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(312.58);
+            public static final int DRIVE_MOTOR_ID = 6;
+            public static final int ANGLE_MOTOR_ID = 5;
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(312.58);
         }
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 {
-            public static final int driveMotorID = 2;
-            public static final int angleMotorID = 9;
-            //public static final int canCoderID = 3;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(470.5);
-            //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(204.7);
+            public static final int DRIVE_MOTOR_ID = 2;
+            public static final int ANGLE_MOTOR_ID = 9;
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(470.5);
         }
 
         /* Back Right Module - Module 3 */
         public static final class Mod3 {
-            public static final int driveMotorID = 7;
-            public static final int angleMotorID = 8;
-            //public static final int canCoderID = 2;
-            public static final Rotation2d angleOffset = Rotation2d.fromDegrees(296.67);
-            //public static final Rotation2d angleOffset = Rotation2d.fromDegrees(9.2);
+            public static final int DRIVE_MOTOR_ID = 7;
+            public static final int ANGLE_MOTOR_ID = 8;
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(296.67);
         }
+    }
 
-        public static final double maxModuleSpeed = 4.5; // M/S
-        public static final HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-                new PIDConstants(2.0, 0, .04), // Translation constants 
+    public static final class Auto {
+        public static final HolonomicPathFollowerConfig PATH_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
+                new PIDConstants(2.0, 0, .04), // Translation constants
                 new PIDConstants(3.0, 0, .00), // Rotation constants
-                maxModuleSpeed,
-                .495, // Drive base radius (distance from center to furthest module) 
+                Swerve.MAX_SPEED,
+                .495, // Drive base radius (distance from center to the furthest module)
                 new ReplanningConfig()
         );
     }

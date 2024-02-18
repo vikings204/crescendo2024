@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 import static frc.robot.Constants.Swerve.*;
 
@@ -29,14 +30,14 @@ public class SwerveSubsystem extends SubsystemBase {
         //m_gyro.calibrate();
         modules =
                 new SwerveModule[]{
-                        new SwerveModule(0, Mod0.driveMotorID, Mod0.angleMotorID, Mod0.angleOffset), //Each Constant set is specific to a motor pair
-                        new SwerveModule(1, Mod1.driveMotorID, Mod1.angleMotorID, Mod1.angleOffset),
-                        new SwerveModule(2, Mod2.driveMotorID, Mod2.angleMotorID, Mod2.angleOffset),
-                        new SwerveModule(3, Mod3.driveMotorID, Mod3.angleMotorID, Mod3.angleOffset)
+                        new SwerveModule(0, Mod0.DRIVE_MOTOR_ID, Mod0.ANGLE_MOTOR_ID, Mod0.ANGLE_OFFSET), //Each Constant set is specific to a motor pair
+                        new SwerveModule(1, Mod1.DRIVE_MOTOR_ID, Mod1.ANGLE_MOTOR_ID, Mod1.ANGLE_OFFSET),
+                        new SwerveModule(2, Mod2.DRIVE_MOTOR_ID, Mod2.ANGLE_MOTOR_ID, Mod2.ANGLE_OFFSET),
+                        new SwerveModule(3, Mod3.DRIVE_MOTOR_ID, Mod3.ANGLE_MOTOR_ID, Mod3.ANGLE_OFFSET)
                 };
 
         swerveOdometry =
-                new SwerveDriveOdometry(swerveKinematics, getYaw(), getPositions());
+                new SwerveDriveOdometry(SWERVE_KINEMATICS, getYaw(), getPositions());
 
         //Odomentry with our kinematics object from constants, gyro position and x/y position of each module
 
@@ -45,7 +46,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 this::resetOdometry,
                 this::getSpeeds,
                 this::driveRobotRelative,
-                pathFollowerConfig,
+                Constants.Auto.PATH_FOLLOWER_CONFIG,
                 () -> {
                     // Boolean supplier that controls when the path will be mirrored for the red alliance
                     // This will flip the path being followed to the red side of the field.
@@ -66,11 +67,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
-                swerveKinematics.toSwerveModuleStates(fieldRelative ?
+                SWERVE_KINEMATICS.toSwerveModuleStates(fieldRelative ?
                         ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getYaw()) :
                         new ChassisSpeeds(translation.getX(), translation.getY(), rotation)
                 );
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, MAX_SPEED);
 
         for (SwerveModule mod : modules) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
@@ -79,7 +80,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, MAX_SPEED);
 
         for (SwerveModule mod : modules) {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false); // false
@@ -110,7 +111,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public ChassisSpeeds getSpeeds() {
-        return swerveKinematics.toChassisSpeeds(getStates());
+        return SWERVE_KINEMATICS.toChassisSpeeds(getStates());
     }
 
     public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds) {
@@ -120,7 +121,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
 
-        SwerveModuleState[] targetStates = swerveKinematics.toSwerveModuleStates(targetSpeeds);
+        SwerveModuleState[] targetStates = SWERVE_KINEMATICS.toSwerveModuleStates(targetSpeeds);
         setModuleStates(targetStates);
     }
 
@@ -153,7 +154,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getYaw() {
-        return (invertGyro)
+        return (GYRO_INVERT)
                 ? Rotation2d.fromDegrees(360 - gyro.getAngle())
                 : Rotation2d.fromDegrees(gyro.getAngle());
     }

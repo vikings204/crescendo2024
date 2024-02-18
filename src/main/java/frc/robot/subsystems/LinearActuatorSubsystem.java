@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ReduceCANUsage;
 import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
-import frc.robot.Constants;
+import static frc.robot.Constants.LinearActuator.*;
 
 public class LinearActuatorSubsystem extends SubsystemBase {
     private final CANSparkMax actuatorMotor;
@@ -17,21 +17,21 @@ public class LinearActuatorSubsystem extends SubsystemBase {
     private final SparkPIDController controller;
 
     public LinearActuatorSubsystem() {
-        actuatorMotor = new CANSparkMax(Constants.LinearActuator.MOTOR_CAN_ID, MotorType.kBrushed);
+        actuatorMotor = new CANSparkMax(MOTOR_CAN_ID, MotorType.kBrushed);
         encoder = actuatorMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
         encoder.setPositionConversionFactor(1.0); // need to configure with very low number to ensure pid isnt constantly trying to fix
 
         controller = actuatorMotor.getPIDController();
         controller.setFeedbackDevice(encoder);
-        controller.setP(Constants.LinearActuator.PID_P);
-        controller.setI(Constants.LinearActuator.PID_I);
-        controller.setD(Constants.LinearActuator.PID_D);
-        controller.setFF(Constants.LinearActuator.PID_FF);
+        controller.setP(PID_P);
+        controller.setI(PID_I);
+        controller.setD(PID_D);
+        controller.setFF(PID_FF);
 
         actuatorMotor.restoreFactoryDefaults();
         ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(actuatorMotor, Usage.kPositionOnly);
-        actuatorMotor.setSmartCurrentLimit(Constants.LinearActuator.CURRENT_LIMIT);
+        actuatorMotor.setSmartCurrentLimit(CURRENT_LIMIT);
         actuatorMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         actuatorMotor.burnFlash();
     }
@@ -46,7 +46,7 @@ public class LinearActuatorSubsystem extends SubsystemBase {
         }
     }
 
-    public void goToPosition(Constants.LinearActuator.Position pos) {
+    public void goToPosition(Position pos) {
         controller.setReference(pos.position, CANSparkBase.ControlType.kPosition);
     }
 
@@ -54,7 +54,7 @@ public class LinearActuatorSubsystem extends SubsystemBase {
     public void periodic() {
         // ensure it does not go outside its physical bounds (not sure if this works)
         var p = encoder.getPosition();
-        if (p < Constants.LinearActuator.ABSOLUTE_MINIMUM || p > Constants.LinearActuator.ABSOLUTE_MAXIMUM) {
+        if (p < ABSOLUTE_MINIMUM || p > ABSOLUTE_MAXIMUM) {
             actuatorMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
             controller.setReference(encoder.getPosition(), CANSparkBase.ControlType.kPosition);
             actuatorMotor.set(0);

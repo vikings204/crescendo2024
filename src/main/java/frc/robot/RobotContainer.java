@@ -1,11 +1,7 @@
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.auto.NamedCommands.*;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -16,8 +12,6 @@ import frc.robot.subsystems.LinearActuatorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.Gamepad;
-
-import java.util.List;
 
 import static frc.robot.Robot.ControlModeChooser;
 
@@ -31,8 +25,8 @@ public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
-    Gamepad DRIVER = new Gamepad(Constants204.Controller.DRIVER_PORT);
-    Gamepad OPERATOR = new Gamepad(Constants204.Controller.DRIVER_PORT);
+    Gamepad DRIVER = new Gamepad(Constants.Controller.DRIVER_PORT);
+    Gamepad OPERATOR = new Gamepad(Constants.Controller.DRIVER_PORT);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -40,9 +34,9 @@ public class RobotContainer {
     public RobotContainer() {
         ControlModeChooser.onChange((ControlMode mode) -> {
             if (mode == ControlMode.SINGLE) {
-                OPERATOR = new Gamepad(Constants204.Controller.DRIVER_PORT);
+                OPERATOR = new Gamepad(Constants.Controller.DRIVER_PORT);
             } else {
-                OPERATOR = new Gamepad(Constants204.Controller.OPERATOR_PORT);
+                OPERATOR = new Gamepad(Constants.Controller.OPERATOR_PORT);
             }
             configureButtonBindings();
             System.out.println("Switched control mode to " + mode);

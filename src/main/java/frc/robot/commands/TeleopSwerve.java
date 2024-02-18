@@ -11,17 +11,17 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class TeleopSwerve extends Command {
-    private SwerveSubsystem s_Swerve;
-    private DoubleSupplier translationSup;    //+/- y direction
-    private DoubleSupplier strafeSup;         // +/- x direction
-    private DoubleSupplier rotationSup;       // spin CCW or CW
-    private BooleanSupplier robotCentricSup;  // always false
-    private BooleanSupplier slowSpeedSup;     //make robot go slow
-    private BooleanSupplier highSpeedSup;     // make robot go fast - way too fast for now
+    private final SwerveSubsystem s_Swerve;
+    private final DoubleSupplier translationSup;    //+/- y direction
+    private final DoubleSupplier strafeSup;         // +/- x direction
+    private final DoubleSupplier rotationSup;       // spin CCW or CW
+    private final BooleanSupplier robotCentricSup;  // always false
+    private final BooleanSupplier slowSpeedSup;     //make robot go slow
+    private final BooleanSupplier highSpeedSup;     // make robot go fast - way too fast for now
 
-    private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);  //Limits the rate of change of the voltage output to the motor to some maximum value.  Would change if you wanted the robot to "ramp" faster
-    private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);     // See above
-    private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);   //Not really used with the brushed motors going to a position but could be.  We don't use the trapazoid pid profile suggested only because it hasn't been implemented yet
+    private final SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);  //Limits the rate of change of the voltage output to the motor to some maximum value.  Would change if you wanted the robot to "ramp" faster
+    private final SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);     // See above
+    private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);   //Not really used with the brushed motors going to a position but could be.  We don't use the trapazoid pid profile suggested only because it hasn't been implemented yet
 
     public TeleopSwerve(
             SwerveSubsystem s_Swerve,
@@ -45,22 +45,22 @@ public class TeleopSwerve extends Command {
 
     @Override
     public void execute() {
-        double speedMultiplier = Constants.Swerve.normalDriveSpeedMultiplier;
-        if (highSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.fastDriveSpeedMultiplier;
-        if (slowSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.slowDriveSpeedMultiplier;
+        double speedMultiplier = Constants.Swerve.NORMAL_SPEED_MULTIPLIER;
+        if (highSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.FAST_SPEED_MULTIPLIER;
+        if (slowSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.SLOW_SPEED_MULTIPLIER;
 
         /* Review the x,y and rotate inputs and run them through the rate limiter.  The code also applies a deadband
          * no input will be "Seen" by the robot unless the stick is passed the deadband.
          * Helps with not driving/turning by accident
          */
         double translationVal = translationLimiter.calculate(speedMultiplier
-                                * MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.Swerve.stickDeadband)
+                                * MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.Controller.DEADBAND)
         );
         double strafeVal = strafeLimiter.calculate(speedMultiplier
-                                * MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.Swerve.stickDeadband)
+                                * MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.Controller.DEADBAND)
         );
         double rotationVal = rotationLimiter.calculate(speedMultiplier
-                                * MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Swerve.stickDeadband)
+                                * MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Controller.DEADBAND)
         );
 
         /* Drive
@@ -68,8 +68,8 @@ public class TeleopSwerve extends Command {
          * tell it how much to rotate
          */
         s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
-                rotationVal * Constants.Swerve.maxAngularVelocity,
+                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.MAX_SPEED),
+                rotationVal * Constants.Swerve.MAX_ANGULAR_VELOCITY,
                 !robotCentricSup.getAsBoolean(),
                 true);
     }
