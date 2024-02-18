@@ -35,6 +35,7 @@ public final class Constants {
         public static final double AMP_STRENGTH = .095;
         public static final int RECEIVE_STRENGTH = 100;
 
+        public static final int INTAKE_SENSOR_THRESHOLD = 600;
     }
 
     public static final class Swerve {
@@ -129,7 +130,7 @@ public final class Constants {
     public static final class Auto {
         public static final HolonomicPathFollowerConfig PATH_FOLLOWER_CONFIG = new HolonomicPathFollowerConfig(
                 new PIDConstants(2.0, 0, .04), // Translation constants
-                new PIDConstants(3.0, 0, .00), // Rotation constants
+                new PIDConstants(3.0, 0.1, .00), // Rotation constants
                 Swerve.MAX_SPEED,
                 .495, // Drive base radius (distance from center to the furthest module)
                 new ReplanningConfig()
@@ -155,7 +156,6 @@ public final class Constants {
             ANOTHER_EXAMPLE(0.0);
 
             public final double position;
-
             Position(double p) {
                 this.position = p;
             }

@@ -20,7 +20,7 @@ public class LinearActuatorSubsystem extends SubsystemBase {
         actuatorMotor = new CANSparkMax(MOTOR_CAN_ID, MotorType.kBrushed);
         encoder = actuatorMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-        encoder.setPositionConversionFactor(1.0); // need to configure with very low number to ensure pid isnt constantly trying to fix
+        encoder.setPositionConversionFactor(1.0); // need to configure with very low number to ensure pid isn't constantly trying to fix
 
         controller = actuatorMotor.getPIDController();
         controller.setFeedbackDevice(encoder);
@@ -55,8 +55,7 @@ public class LinearActuatorSubsystem extends SubsystemBase {
         // ensure it does not go outside its physical bounds (not sure if this works)
         var p = encoder.getPosition();
         if (p < ABSOLUTE_MINIMUM || p > ABSOLUTE_MAXIMUM) {
-            actuatorMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
-            controller.setReference(encoder.getPosition(), CANSparkBase.ControlType.kPosition);
+            controller.setReference(0, CANSparkBase.ControlType.kVelocity);
             actuatorMotor.set(0);
         }
 

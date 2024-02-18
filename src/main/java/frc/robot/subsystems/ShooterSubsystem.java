@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ReduceCANUsage;
 import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
@@ -12,12 +15,16 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax shooterMotor_1;
     private final CANSparkMax shooterMotor_2;
     private final CANSparkMax bumpMotor;
+    private final ColorSensorV3 sensor1;
 
     public ShooterSubsystem() {
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);
         shooterMotor_2 = new CANSparkMax(SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
         bumpMotor = new CANSparkMax(BUMP_MOTOR_ID, MotorType.kBrushless);
         configMotors();
+
+        sensor1 = new ColorSensorV3(I2C.Port.kOnboard);
+        sensor1.configureProximitySensor(ColorSensorV3.ProximitySensorResolution.kProxRes11bit, ColorSensorV3.ProximitySensorMeasurementRate.kProxRate6ms);
     }
 
     //configDriveMotor();
@@ -70,7 +77,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void receive(boolean shoot) {
-        if (shoot) {
+        SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
+
+        if (shoot && sensor1.getProximity() < INTAKE_SENSOR_THRESHOLD) {
             shooterMotor_1.set(-.05);
             shooterMotor_2.set(-.05);
             bumpMotor.set(0.8);
