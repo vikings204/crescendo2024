@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
             teleopCommand.cancel();
         }
 
-        autonomousCommand = robotContainer.getAutonomousCommand();
+       // autonomousCommand = robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {
