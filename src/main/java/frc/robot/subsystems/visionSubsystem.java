@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,26 +30,26 @@ public class visionSubsystem extends SubsystemBase {
     public static boolean hasTargets(){
         var result = camera.getLatestResult();
         boolean hasTargets = result.hasTargets();
-        System.out.println(hasTargets);
+        // System.out.println(hasTargets);
         return hasTargets;
     }
      public static List<PhotonTrackedTarget> targets(){
         var result = camera.getLatestResult();
         List<PhotonTrackedTarget> targets = result.getTargets();
-        System.out.println(targets);
+        // System.out.println(targets);
         return targets;
     }
      public static  PhotonTrackedTarget getTarget(){
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
-        System.out.println(target);
+        // System.out.println(target);
         return target;
     }
     public static int getTargetID(){
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         int targetID = target.getFiducialId();
-        System.out.println(targetID);
+        // System.out.println(targetID);
         return targetID = target.getFiducialId();
     }
     public static void getPoseAmbiguity(){
@@ -56,42 +57,42 @@ public class visionSubsystem extends SubsystemBase {
             var result = camera.getLatestResult();
             PhotonTrackedTarget target = result.getBestTarget();
             double poseAmbiguity = target.getPoseAmbiguity();
-            System.out.println(poseAmbiguity);
+            // System.out.println(poseAmbiguity);
         }
     }
     public static Transform3d getBestCameraToTarget(){
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         Transform3d bestCameraToTarget = target.getBestCameraToTarget();
-        System.out.println(bestCameraToTarget);
+        // System.out.println(bestCameraToTarget);
         return bestCameraToTarget;
     }
      public static Transform3d getAlternateCameraToTarget(){
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         Transform3d alternateCameraToTarget = target.getAlternateCameraToTarget();
-        System.out.println(alternateCameraToTarget);
+        // System.out.println(alternateCameraToTarget);
         return alternateCameraToTarget;
     }
     public static double getYaw(){
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         double yaw = target.getYaw();
-        System.out.println(yaw);
+        // System.out.println(yaw);
         return yaw;
     }
     public static double getPitch(){
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         double pitch = target.getPitch();
-        System.out.println(pitch);
+        // System.out.println(pitch);
         return pitch;
     }
     public static double getArea(){
          var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         double area = target.getArea();
-        System.out.println(area);
+        // System.out.println(area);
         return area;
     }
     
@@ -99,14 +100,14 @@ public class visionSubsystem extends SubsystemBase {
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         double skew = target.getSkew();
-        System.out.println(skew);
+        // System.out.println(skew);
         return skew;
     }
     public static List<TargetCorner> getCorners(){
         var result = camera.getLatestResult();
         PhotonTrackedTarget target = result.getBestTarget();
         List<TargetCorner> corners = target.getDetectedCorners();
-        System.out.println(corners);
+        // System.out.println(corners);
         return corners;    }
    // Let the robot find where it is
     public static Pose3d getRobotPose(){
@@ -116,12 +117,11 @@ public class visionSubsystem extends SubsystemBase {
 
         
         Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(),getAprilTagPose(), cameraToRobot);
-        System.out.println(robotPose);
         return robotPose;
     }
     public void returnAll(){
        if(hasTargets()){
-        System.out.println(getRobotPose());
+        System.out.println(getDistanceToTarget());
        }
     }
     public static Pose3d getAprilTagPose(){
@@ -148,42 +148,63 @@ public class visionSubsystem extends SubsystemBase {
                 return 1.22;
             case 10:
                 return 1.22;
+            //SPEAKER apriltags
+                //
+            case 3:
+                return 1.32;
+             case 8:
+                return 1.32;
+            case 4:
+                return 1.32;
+            case 7:
+                return 1.32;
+            //AMP AprilTags
+            case 5:
+                return 1.22;
+            case 6:
+                return 1.22;
+            // STAGE AprilTags
+            case 11:
+                return 1.21;
+            case 12:
+                return 1.21;
+            case 13:
+                return 1.21;
+            case 14:
+                return 1.21;                
+            case 15:
+                return 1.21;
+            case 16:
+                return 1.21;
             default:
-              // code block
+                System.out.println("TAG NOT RECONIZED");
+                return 1.22; //average of previous tag ammounts
+                
           }
 
-
-        return 1.1;
     }
     public static double getDistanceToTarget(){
         double range = 0;
-        if (controller.getAButton()) {
-           
             // Vision-alignment mode
             // Query the latest result from PhotonVision
             var result = camera.getLatestResult();
-
+            PhotonTrackedTarget target = result.getBestTarget();
             if (result.hasTargets()) {
                 // First calculate range
                 range =
                         PhotonUtils.calculateDistanceToTargetMeters(
                                 0.25,// NOTE: MEASURE AND CHANGE FOR ACTUAL RELEASE 
-                                1.2,
-                                bootlegDegreesToRadiansUnilIfigureOutHowUnitsClassWorks(31.5),
-                               
-                                bootlegDegreesToRadiansUnilIfigureOutHowUnitsClassWorks(getPitch())
+                                getTagHeight(target.getFiducialId()), //Function that gets tag height, based on Tag 
+                                Units.degreesToRadians(31.5),
+                                Units.degreesToRadians(getPitch())
                         );
-
+                //below is from PhotonVision:
                 // Use this range as the measurement we give to the PID controller.
                 // -1.0 required to ensure positive PID controller effort _increases_ range
                 //forwardSpeed = -controller.calculate(range, GOAL_RANGE_METERS);
-                
+                return range;                
            }
-        }
-        return range;
-    }
-    public static double bootlegDegreesToRadiansUnilIfigureOutHowUnitsClassWorks(double degrees){
-        return degrees * (Math.PI/180);
-
+        
+        return 0;
     }
 }
