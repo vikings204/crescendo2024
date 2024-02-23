@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
     private Command autonomousCommand;
-    private Command teleopCommand;
     private RobotContainer robotContainer;
 
     public enum ControlMode {
@@ -33,13 +32,22 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
 
-        robotContainer = new RobotContainer();
+        robotContainer = new RobotContainer(ControlMode.SINGLE);
         //CameraServer.startAutomaticCapture(); // use for USB camera
         PortForwarder.add(8888, "10.2.4.69", 80);
 
         ControlModeChooser.setDefaultOption("Single Controller (Driver:1 Operator:1)", ControlMode.SINGLE);
         ControlModeChooser.addOption("Competition (Driver:1 Operator:2)", ControlMode.COMPETITION);
         SmartDashboard.putData("Control Mode", ControlModeChooser);
+
+        ControlModeChooser.onChange((ControlMode mode) -> {
+            var sch = CommandScheduler.getInstance();
+            sch.cancelAll();
+            sch.disable();
+            robotContainer = new RobotContainer(mode);
+            System.out.println("Switched control mode to " + mode);
+            sch.enable();
+        });
     }
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -70,10 +78,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        if (teleopCommand != null) {
-            teleopCommand.cancel();
-        }
-
         autonomousCommand = robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)

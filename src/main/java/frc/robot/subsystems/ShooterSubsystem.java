@@ -16,6 +16,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax shooterMotor_2;
     private final CANSparkMax bumpMotor;
     private final ColorSensorV3 sensor1;
+    private boolean flywheelState = false;
 
     public ShooterSubsystem() {
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);
@@ -53,7 +54,8 @@ public class ShooterSubsystem extends SubsystemBase {
         bumpMotor.burnFlash();
     }
 
-    public void speakerShot(boolean shoot) {
+    public void flywheelSpeaker(boolean shoot) {
+        flywheelState = shoot;
         if (shoot) {
             shooterMotor_1.set(1);
             shooterMotor_2.set(1);
@@ -65,7 +67,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
-    public void ampShot(boolean shoot) {
+    public void flywheelAmp(boolean shoot) {
+        flywheelState = shoot;
         if (shoot) {
             shooterMotor_1.set(AMP_STRENGTH);
             shooterMotor_2.set(AMP_STRENGTH - .025);
@@ -90,8 +93,16 @@ public class ShooterSubsystem extends SubsystemBase {
         }
     }
 
-    public void bump(boolean shoot) {
-        if (shoot) {
+    public void intake(boolean shoot) {
+        SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
+        var detected = sensor1.getProximity() < INTAKE_SENSOR_THRESHOLD;
+
+        // temp for shooting
+        if (flywheelState) {
+            detected = !detected;
+        }
+
+        if (shoot && !detected) {
             bumpMotor.set(-0.5);
         } else {
             bumpMotor.set(0);

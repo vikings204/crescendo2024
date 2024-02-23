@@ -54,7 +54,7 @@ public class LinearActuatorSubsystem extends SubsystemBase {
     public void periodic() {
         // ensure it does not go outside its physical bounds (not sure if this works)
         var p = encoder.getPosition();
-        if (p < ABSOLUTE_MINIMUM || p > ABSOLUTE_MAXIMUM) {
+        if (p < ABSOLUTE_LOWEST || p > ABSOLUTE_HIGHEST) {
             controller.setReference(0, CANSparkBase.ControlType.kVelocity);
             actuatorMotor.set(0);
         }

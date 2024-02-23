@@ -56,8 +56,8 @@ public final class Constants {
         public static final double ANGLE_PID_D = 0.0;
 
         /* Drivetrain Constants */
-        public static final double TRACK_WIDTH = Units.inchesToMeters(26.25); // same as wheelbase because it is a square
-        public static final double WHEEL_BASE = Units.inchesToMeters(26.25);
+        public static final double TRACK_WIDTH = Units.inchesToMeters(23); // same as wheelbase because it is a square
+        public static final double WHEEL_BASE = Units.inchesToMeters(23);
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
@@ -95,34 +95,34 @@ public final class Constants {
         public static final boolean ANGLE_INVERT = true;
 
         public static final boolean GYRO_INVERT = true; // Always ensure Gyro is CCW+ CW-
-        public static final int PIGEON2_ID = 10;
+        public static final int PIGEON2_ID = 9;
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 {
-            public static final int DRIVE_MOTOR_ID = 4;
-            public static final int ANGLE_MOTOR_ID = 3;
+            public static final int DRIVE_MOTOR_ID = 13;
+            public static final int ANGLE_MOTOR_ID = 23;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(62.99);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 {
-            public static final int DRIVE_MOTOR_ID = 6;
-            public static final int ANGLE_MOTOR_ID = 5;
+            public static final int DRIVE_MOTOR_ID = 12;
+            public static final int ANGLE_MOTOR_ID = 22;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(312.58);
         }
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 {
-            public static final int DRIVE_MOTOR_ID = 2;
-            public static final int ANGLE_MOTOR_ID = 9;
+            public static final int DRIVE_MOTOR_ID = 11;
+            public static final int ANGLE_MOTOR_ID = 21;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(470.5);
         }
 
         /* Back Right Module - Module 3 */
         public static final class Mod3 {
-            public static final int DRIVE_MOTOR_ID = 7;
-            public static final int ANGLE_MOTOR_ID = 8;
+            public static final int DRIVE_MOTOR_ID = 10;
+            public static final int ANGLE_MOTOR_ID = 20;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(296.67);
         }
     }
@@ -138,7 +138,7 @@ public final class Constants {
     }
 
     public static final class LinearActuator {
-        public static final int MOTOR_CAN_ID = 27;
+        public static final int MOTOR_CAN_ID = 31;
         public static final int CURRENT_LIMIT = 20;
 
         public static final double PID_P = 1.0;
@@ -147,8 +147,8 @@ public final class Constants {
         public static final double PID_FF = 0.0;
 
         // minimum/maximum of the linear actuator, not the whole mechanism
-        public static final double ABSOLUTE_MINIMUM = 0.0;
-        public static final double ABSOLUTE_MAXIMUM = 0.0;
+        public static final double ABSOLUTE_LOWEST = 0.0;
+        public static final double ABSOLUTE_HIGHEST = 0.0;
 
         // positions are of the entire mechanism
         public enum Position {

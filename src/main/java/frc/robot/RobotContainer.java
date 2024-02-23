@@ -13,42 +13,41 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.Gamepad;
 
-import static frc.robot.Robot.ControlModeChooser;
+import static frc.robot.Constants.*;
 
-/*
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
-    Gamepad DRIVER = new Gamepad(Constants.Controller.DRIVER_PORT);
-    Gamepad OPERATOR = new Gamepad(Constants.Controller.DRIVER_PORT);
+    Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
+    Gamepad OPERATOR;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
-    public RobotContainer() {
-        ControlModeChooser.onChange((ControlMode mode) -> {
-            if (mode == ControlMode.SINGLE) {
-                OPERATOR = new Gamepad(Constants.Controller.DRIVER_PORT);
-            } else {
-                OPERATOR = new Gamepad(Constants.Controller.OPERATOR_PORT);
-            }
-            configureButtonBindings();
-            System.out.println("Switched control mode to " + mode);
-        });
-
+//    public RobotContainer() {
+//        ControlModeChooser.onChange((ControlMode mode) -> {
+//            if (mode == ControlMode.SINGLE) {
+//                OPERATOR = new Gamepad(Controller.DRIVER_PORT);
+//            } else {
+//                OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
+//            }
+//            configureButtonBindings();
+//            System.out.println("Switched control mode to " + mode);
+//        });
+    public RobotContainer(ControlMode mode) {
+        if (mode == ControlMode.COMPETITION) {
+            OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
+        } else {
+            OPERATOR = new Gamepad(Controller.DRIVER_PORT);
+        }
 
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
         NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> ShooterSubsystem.receive(false), ShooterSubsystem));
-        NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> ShooterSubsystem.speakerShot(true), ShooterSubsystem));
-        NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> ShooterSubsystem.speakerShot(false), ShooterSubsystem));
-        NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> ShooterSubsystem.bump(true), ShooterSubsystem));
-        NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> ShooterSubsystem.bump(false), ShooterSubsystem));
+        NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> ShooterSubsystem.flywheelSpeaker(true), ShooterSubsystem));
+        NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> ShooterSubsystem.flywheelSpeaker(false), ShooterSubsystem));
+        NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> ShooterSubsystem.intake(true), ShooterSubsystem));
+        NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> ShooterSubsystem.intake(false), ShooterSubsystem));
 
 
         configureButtonBindings();
@@ -64,7 +63,7 @@ public class RobotContainer {
 
         ShooterSubsystem.setDefaultCommand(
                 new RunCommand(
-                        () -> ShooterSubsystem.speakerShot(OPERATOR.getXButton()),
+                        () -> ShooterSubsystem.flywheelSpeaker(OPERATOR.getXButton()),
                         ShooterSubsystem));
 
         LinearActuatorSubsystem.setDefaultCommand(
@@ -82,11 +81,11 @@ public class RobotContainer {
 
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
-                        new RunCommand(() -> ShooterSubsystem.bump(true), ShooterSubsystem));
+                        new RunCommand(() -> ShooterSubsystem.intake(true), ShooterSubsystem));
 
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
-                        new RunCommand(() -> ShooterSubsystem.ampShot(true), ShooterSubsystem));
+                        new RunCommand(() -> ShooterSubsystem.flywheelAmp(true), ShooterSubsystem));
 
         new JoystickButton(DRIVER, 2)
                 .whileTrue(
