@@ -38,9 +38,9 @@ public class LinearActuatorSubsystem extends SubsystemBase {
 
     public void shift(boolean up, boolean down) {
         if (up && !down) {
-            actuatorMotor.set(-1.0);
-        } else if (!up && down) {
             actuatorMotor.set(1.0);
+        } else if (!up && down) {
+            actuatorMotor.set(-1.0);
         } else {
             actuatorMotor.set(0);
         }

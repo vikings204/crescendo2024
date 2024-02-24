@@ -21,7 +21,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public ShooterSubsystem() {
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);
         shooterMotor_2 = new CANSparkMax(SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
-        bumpMotor = new CANSparkMax(BUMP_MOTOR_ID, MotorType.kBrushless);
+        bumpMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
         configMotors();
 
         sensor1 = new ColorSensorV3(I2C.Port.kOnboard);
@@ -95,15 +95,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void intake(boolean shoot) {
         SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
-        var detected = sensor1.getProximity() < INTAKE_SENSOR_THRESHOLD;
+        var detected = sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD;
 
-        // temp for shooting
         if (flywheelState) {
             detected = !detected;
         }
 
         if (shoot && !detected) {
-            bumpMotor.set(-0.5);
+            bumpMotor.set(0.5);
         } else {
             bumpMotor.set(0);
         }

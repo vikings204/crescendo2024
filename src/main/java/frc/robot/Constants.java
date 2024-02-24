@@ -24,9 +24,9 @@ public final class Constants {
         public static final boolean SHOOTER_INVERT = true;
         public static final boolean BUMP_INVERT = false;
 
-        public static final int SHOOTER_MOTOR1_ID = 22;
-        public static final int SHOOTER_MOTOR_2_ID = 25;
-        public static final int BUMP_MOTOR_ID = 26;
+        public static final int SHOOTER_MOTOR1_ID = 41;
+        public static final int SHOOTER_MOTOR_2_ID = 42;
+        public static final int INTAKE_MOTOR_ID = 43;
 
         public static final int CURRENT_LIMIT = 40;
         public static final double voltageComp = 16.0;

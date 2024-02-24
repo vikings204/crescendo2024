@@ -14,33 +14,29 @@ import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.Gamepad;
 
 import static frc.robot.Constants.*;
+import static frc.robot.Robot.ControlModeChooser;
 
 public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
-    Gamepad OPERATOR;
+    Gamepad OPERATOR = new Gamepad(Controller.DRIVER_PORT);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
-//    public RobotContainer() {
-//        ControlModeChooser.onChange((ControlMode mode) -> {
-//            if (mode == ControlMode.SINGLE) {
-//                OPERATOR = new Gamepad(Controller.DRIVER_PORT);
-//            } else {
-//                OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
-//            }
-//            configureButtonBindings();
-//            System.out.println("Switched control mode to " + mode);
-//        });
-    public RobotContainer(ControlMode mode) {
-        if (mode == ControlMode.COMPETITION) {
-            OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
-        } else {
-            OPERATOR = new Gamepad(Controller.DRIVER_PORT);
-        }
+    public RobotContainer() {
+        ControlModeChooser.onChange((ControlMode mode) -> {
+            if (mode == ControlMode.SINGLE) {
+                OPERATOR = new Gamepad(Controller.DRIVER_PORT);
+            } else {
+                OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
+            }
+            configureDefaultCommands();
+            configureButtonBindings();
+            System.out.println("Switched control mode to " + mode);
+        });
 
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
         NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> ShooterSubsystem.receive(false), ShooterSubsystem));
@@ -50,7 +46,11 @@ public class RobotContainer {
         NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> ShooterSubsystem.intake(false), ShooterSubsystem));
 
 
+        configureDefaultCommands();
         configureButtonBindings();
+    }
+
+    private void configureDefaultCommands() {
         SwerveSubsystem.setDefaultCommand(
                 new TeleopSwerve(
                         SwerveSubsystem,
@@ -75,22 +75,18 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(OPERATOR, 5)
-                .whileTrue(
-                        new RunCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
-
+//        new JoystickButton(OPERATOR, 5)
+//                .whileTrue(
+//                        new RunCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
                         new RunCommand(() -> ShooterSubsystem.intake(true), ShooterSubsystem));
-
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> ShooterSubsystem.flywheelAmp(true), ShooterSubsystem));
-
         new JoystickButton(DRIVER, 2)
                 .whileTrue(
                         new RunCommand(SwerveSubsystem::resetEverything, SwerveSubsystem));
-
     }
 
     public Command getAutonomousCommand() {
