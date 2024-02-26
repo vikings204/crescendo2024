@@ -1,10 +1,12 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.Spark;
-public class RevBlinkin extends SubsystemBase {
-    public RevBlinkin() {
-        Spark revblinkin = new Spark(2);
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+
+public class RevBlinkinSystem {
+    public class RevBlinkin extends SubsystemBase {
+        public RevBlinkin() {
+            Spark revblinkin = Spark(2);
     }
 
     //MODES
@@ -41,4 +43,6 @@ public class RevBlinkin extends SubsystemBase {
     public void IntakeLight(){
         revblinkin.set(0.81);
     }
+}
+
 }
