@@ -31,9 +31,9 @@ public final class Constants {
         public static final int CURRENT_LIMIT = 40;
         public static final double voltageComp = 16.0;
 
-        public static final int SPEAKER_STRENGTH = 10000;
-        public static final double AMP_STRENGTH = .095;
-        public static final int RECEIVE_STRENGTH = 100;
+        public static final double SPEAKER_SPEED = 1.0;
+        public static final double AMP_SPEED = .040;
+        public static final double INTAKE_SPEED = 1.0;
 
         public static final int INTAKE_SENSOR_THRESHOLD = 600;
     }

@@ -42,8 +42,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> ShooterSubsystem.receive(false), ShooterSubsystem));
         NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> ShooterSubsystem.flywheelSpeaker(true), ShooterSubsystem));
         NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> ShooterSubsystem.flywheelSpeaker(false), ShooterSubsystem));
-        NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> ShooterSubsystem.intake(true), ShooterSubsystem));
-        NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> ShooterSubsystem.intake(false), ShooterSubsystem));
+        NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> ShooterSubsystem.intake(true, false), ShooterSubsystem));
+        NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> ShooterSubsystem.intake(false, false), ShooterSubsystem));
 
 
         configureDefaultCommands();
@@ -75,12 +75,12 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-//        new JoystickButton(OPERATOR, 5)
-//                .whileTrue(
-//                        new RunCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
+        new JoystickButton(OPERATOR, 5)
+                .whileTrue(
+                        new RunCommand(() -> ShooterSubsystem.intake(true, true), ShooterSubsystem));
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
-                        new RunCommand(() -> ShooterSubsystem.intake(true), ShooterSubsystem));
+                        new RunCommand(() -> ShooterSubsystem.intake(true, false), ShooterSubsystem));
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> ShooterSubsystem.flywheelAmp(true), ShooterSubsystem));

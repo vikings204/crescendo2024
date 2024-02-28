@@ -14,14 +14,14 @@ import static frc.robot.Constants.Shooter.*;
 public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax shooterMotor_1;
     private final CANSparkMax shooterMotor_2;
-    private final CANSparkMax bumpMotor;
+    private final CANSparkMax intakeMotor;
     private final ColorSensorV3 sensor1;
     private boolean flywheelState = false;
 
     public ShooterSubsystem() {
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);
         shooterMotor_2 = new CANSparkMax(SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
-        bumpMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
         configMotors();
 
         sensor1 = new ColorSensorV3(I2C.Port.kOnboard);
@@ -46,23 +46,23 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_2.enableVoltageCompensation(voltageComp);
         shooterMotor_2.burnFlash();
 
-        bumpMotor.restoreFactoryDefaults();
-        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(bumpMotor, Usage.kAll);
-        bumpMotor.setSmartCurrentLimit(CURRENT_LIMIT);
-        bumpMotor.setInverted(!BUMP_INVERT);
-        bumpMotor.setIdleMode(IDLE_MODE);
-        bumpMotor.burnFlash();
+        intakeMotor.restoreFactoryDefaults();
+        ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(intakeMotor, Usage.kAll);
+        intakeMotor.setSmartCurrentLimit(CURRENT_LIMIT);
+        intakeMotor.setInverted(!BUMP_INVERT);
+        intakeMotor.setIdleMode(IDLE_MODE);
+        intakeMotor.burnFlash();
     }
 
     public void flywheelSpeaker(boolean shoot) {
         flywheelState = shoot;
         if (shoot) {
-            shooterMotor_1.set(1);
-            shooterMotor_2.set(1);
+            shooterMotor_1.set(SPEAKER_SPEED);
+            shooterMotor_2.set(SPEAKER_SPEED);
         } else {
             shooterMotor_1.set(0);
             shooterMotor_2.set(0);
-            bumpMotor.set(0);
+            intakeMotor.set(0);
         }
 
     }
@@ -70,12 +70,13 @@ public class ShooterSubsystem extends SubsystemBase {
     public void flywheelAmp(boolean shoot) {
         flywheelState = shoot;
         if (shoot) {
-            shooterMotor_1.set(AMP_STRENGTH);
-            shooterMotor_2.set(AMP_STRENGTH - .025);
+            shooterMotor_1.set(AMP_SPEED);
+//            shooterMotor_2.set(AMP_SPEED - .025);
+            shooterMotor_2.set(AMP_SPEED);
         } else {
             shooterMotor_1.set(0);
             shooterMotor_2.set(0);
-            bumpMotor.set(0);
+            intakeMotor.set(0);
         }
     }
 
@@ -85,26 +86,26 @@ public class ShooterSubsystem extends SubsystemBase {
         if (shoot && sensor1.getProximity() < INTAKE_SENSOR_THRESHOLD) {
             shooterMotor_1.set(-.05);
             shooterMotor_2.set(-.05);
-            bumpMotor.set(0.8);
+            intakeMotor.set(0.8);
         } else {
             shooterMotor_1.set(0);
             shooterMotor_2.set(0);
-            bumpMotor.set(0);
+            intakeMotor.set(0);
         }
     }
 
-    public void intake(boolean shoot) {
+    public void intake(boolean shoot, boolean reverse) {
         SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
         var detected = sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD;
 
         if (flywheelState) {
-            detected = !detected;
+            detected = false;
         }
 
         if (shoot && !detected) {
-            bumpMotor.set(0.5);
+            intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
         } else {
-            bumpMotor.set(0);
+            intakeMotor.set(0);
         }
     }
 }
