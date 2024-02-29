@@ -1,0 +1,285 @@
+package frc.robot;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI;
+
+import edu.wpi.first.wpilibj.Spark;
+
+import edu.wpi.first.wpilibj.Encoder;
+
+import edu.wpi.first.wpilibj.Joystick;
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+
+import edu.wpi.first.wpilibj.TimedRobot;
+
+import edu.wpi.first.wpilibj.Timer;
+
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+
+import edu.wpi.first.wpilibj.controller.PIDController;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+public class Robot extends TimedRobot {
+
+  
+
+  WPI_VictorSPX leftMotorFront, leftMotorBack, rightMotorFront, rightMotorBack;
+
+  SpeedControllerGroup leftSpeedGroup, rightSpeedGroup;
+
+  Encoder leftEncoder, rightEncoder;
+
+  DifferentialDrive drivetrain;
+
+  Joystick stick;
+
+  AHRS ahrs;
+
+  Spark led;
+
+  private static final String slow = "Slow";
+
+  private static final String fast = "Fast";
+
+  private String speedMode;
+
+  double wheelPerimeter = 15.24 * Math.PI;
+
+  @Override
+
+  public void robotInit() {
+
+    leftMotorFront = new WPI_VictorSPX(2);
+
+    leftMotorFront.setNeutralMode(NeutralMode.Brake);
+
+    leftMotorBack = new WPI_VictorSPX(1);
+
+    leftMotorBack.setNeutralMode(NeutralMode.Brake);
+
+    leftSpeedGroup = new SpeedControllerGroup(leftMotorFront, leftMotorBack);
+
+    rightMotorFront = new WPI_VictorSPX(3);
+
+    rightMotorFront.setNeutralMode(NeutralMode.Brake);
+
+    rightMotorBack = new WPI_VictorSPX(4);
+
+    rightMotorBack.setNeutralMode(NeutralMode.Brake);
+
+    rightSpeedGroup = new SpeedControllerGroup(rightMotorFront, rightMotorBack);
+
+    drivetrain = new DifferentialDrive(leftSpeedGroup, rightSpeedGroup);
+
+    stick = new Joystick(0);
+
+    ahrs = new AHRS(SPI.Port.kMXP);
+
+    leftEncoder = new Encoder(0, 1, false, EncodingType.k4X);
+
+    rightEncoder = new Encoder(2, 3, true, EncodingType.k4X);
+
+    leftEncoder.setDistancePerPulse(1./360);
+
+    rightEncoder.setDistancePerPulse(1./360);
+
+    led = new Spark(9);
+
+  
+
+  }
+
+  @Override
+
+  public void robotPeriodic() {
+
+    led.set(0.61);
+
+  }
+
+  @Override
+
+  public void autonomousInit() {
+
+    
+
+    ahrsCalibrate();
+
+    startTime = Timer.getFPGATimestamp();
+
+    lastTime = Timer.getFPGATimestamp();
+
+    
+
+  }
+
+  double setPoint = 0;
+
+  double errorSum = 0;
+
+  double lastTime = 0;
+
+  double startTime = 0;
+
+  double lastError = 0;
+
+  @Override
+
+  public void autonomousPeriodic() {
+
+    double Time = Timer.getFPGATimestamp();
+
+    if (Time - startTime <= 0.5) {
+
+      drivetrain.curvatureDrive(-1, pidController(0.0, 0.015), true);
+
+    }
+
+    
+
+  }
+
+  @Override
+
+  public void teleopInit() {
+
+    ahrsCalibrate();
+
+    resetEncoders();
+
+    speedMode = slow;
+
+    
+
+  }
+
+  @Override
+
+  public void teleopPeriodic() {
+
+    if (stick.getRawButtonPressed(5)) {
+
+      switch (speedMode) {
+
+        case slow:
+
+          speedMode = fast;
+
+          break;
+
+        case fast:
+
+          speedMode = slow;
+
+          break;
+
+      }
+
+    }
+
+    switch (speedMode) {
+
+      case slow:
+
+        changeSpeed(3.0, 4.0);
+
+        break;           
+
+      case fast:
+
+        changeSpeed(1.0, 2.8);
+
+        break;
+
+    }
+
+    
+
+  }
+
+  public void changeSpeed(double divider_axis_Y, double divider_axis_X) {
+
+    if (stick.getRawAxis(2) > 0) {
+
+      drivetrain.curvatureDrive(stick.getRawAxis(2)/divider_axis_Y, stick.getRawAxis(0)/(divider_axis_X), true);
+
+    } else if (stick.getRawAxis(3) > 0) {
+
+      drivetrain.curvatureDrive(-stick.getRawAxis(3)/divider_axis_Y, stick.getRawAxis(0)/(divider_axis_X), true);
+
+    } else {
+
+      drivetrain.curvatureDrive(0, stick.getRawAxis(0)/(divider_axis_X), true);
+
+    }  
+
+  }
+
+  @Override
+
+  public void disabledInit() {}
+
+  @Override
+
+  public void disabledPeriodic() {}
+
+  @Override
+
+  public void testInit() {}
+
+  @Override
+
+  public void testPeriodic() {}
+
+  public void resetEncoders() {
+
+    leftEncoder.reset();
+
+    rightEncoder.reset();
+
+  }
+
+  public void ahrsCalibrate() {
+
+    ahrs.reset();
+
+    ahrs.calibrate();
+
+  }
+
+  public double getEncoderDistance(boolean getLeftDistance) {
+
+    double distance = 0.0;
+
+    if (getLeftDistance) {
+
+      distance = leftEncoder.getDistance() * wheelPerimeter;
+
+    } else {
+
+      distance = rightEncoder.getDistance() * wheelPerimeter;
+
+    }
+
+    return distance;
+
+  }
+
+  public double pidController(double setpoint, double kP) {
+
+    PIDController PID = new PIDController(kP, Constants.kI, Constants.kD);
+
+    double pidOutput = PID.calculate(ahrs.getAngle(), setpoint);
+
+    return pidOutput;
+
+  }
+
+}
