@@ -2,23 +2,22 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.*;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 import static frc.robot.Constants.Swerve.*;
 
 
 public class SwerveSubsystem extends SubsystemBase {
     public Pigeon2 gyro = new Pigeon2(PIGEON2_ID, "rio");
-    private final SwerveDriveOdometry swerveOdometry; // Odometry class helps track where the robot is relative to where it started
+    //private final SwerveDriveOdometry swerveOdometry; // Odometry class helps track where the robot is relative to where it started
     private final SwerveModule[] modules; // Array of the 4 swerve modules
     private final Field2d field;
 
@@ -35,30 +34,29 @@ public class SwerveSubsystem extends SubsystemBase {
                         new SwerveModule(3, Mod3.DRIVE_MOTOR_ID, Mod3.ANGLE_MOTOR_ID, Mod3.ANGLE_OFFSET)
                 };
 
-        swerveOdometry = new SwerveDriveOdometry(SWERVE_KINEMATICS, getYaw(), getPositions());
-
         //Odomentry with our kinematics object from constants, gyro position and x/y position of each module
+        //swerveOdometry = new SwerveDriveOdometry(SWERVE_KINEMATICS, getYaw(), getPositions());
 
-        AutoBuilder.configureHolonomic(
-                this::getPose,
-                this::resetOdometry,
-                this::getSpeeds,
-                this::driveRobotRelative,
-                Constants.Auto.PATH_FOLLOWER_CONFIG,
-                () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red alliance
-                    // This will flip the path being followed to the red side of the field.
-                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                    var alliance = DriverStation.getAlliance();
-                    //noinspection OptionalIsPresent
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                this
-        );
+//        AutoBuilder.configureHolonomic(
+//                poseEstimator::getCurrentPose,//this::getPose,
+//                this::resetOdometry,
+//                this::getSpeeds,
+//                this::driveRobotRelative,
+//                Constants.Auto.PATH_FOLLOWER_CONFIG,
+//                () -> {
+//                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+//                    // This will flip the path being followed to the red side of the field.
+//                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+//
+//                    var alliance = DriverStation.getAlliance();
+//                    //noinspection OptionalIsPresent
+//                    if (alliance.isPresent()) {
+//                        return alliance.get() == DriverStation.Alliance.Red;
+//                    }
+//                    return false;
+//                },
+//                this
+//        );
 
         field = new Field2d();
         SmartDashboard.putData("Field", field);
@@ -86,36 +84,37 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-    public Pose2d getPose() {
-        SmartDashboard.putNumber("pose X", swerveOdometry.getPoseMeters().getX());
-        SmartDashboard.putNumber("pose Y", swerveOdometry.getPoseMeters().getY());
+//    public Pose2d getPose() {
+//        SmartDashboard.putNumber("pose X", swerveOdometry.getPoseMeters().getX());
+//        SmartDashboard.putNumber("pose Y", swerveOdometry.getPoseMeters().getY());
+//
+//        SmartDashboard.putNumber("gyro angle", gyro.getAngle());
+//
+//        // SmartDashboard.putNumber("gyro filtered X", gyro.getXFilteredAccelAngle()); // loops between
+//        // about 14...0...360...346
+//        // SmartDashboard.putNumber("gyro filtered Y", gyro.getYFilteredAccelAngle()); // forward and
+//        // back leveling
+//        // 0-14, drive forward, 346-360 drive backward
+//
+//        // SmartDashboard.putNumber("gyro pitch", gyro.getPitch());
+//        //SmartDashboard.putNumber("gyro roll", gyro.getRoll());
+//        //SmartDashboard.putNumber("pitch rate", getPitchRate());
+//
+//        return swerveOdometry.getPoseMeters();
+//    }
 
-        SmartDashboard.putNumber("gyro angle", gyro.getAngle());
-
-        // SmartDashboard.putNumber("gyro filtered X", gyro.getXFilteredAccelAngle()); // loops between
-        // about 14...0...360...346
-        // SmartDashboard.putNumber("gyro filtered Y", gyro.getYFilteredAccelAngle()); // forward and
-        // back leveling
-        // 0-14, drive forward, 346-360 drive backward
-
-        // SmartDashboard.putNumber("gyro pitch", gyro.getPitch());
-        //SmartDashboard.putNumber("gyro roll", gyro.getRoll());
-        //SmartDashboard.putNumber("pitch rate", getPitchRate());
-
-        return swerveOdometry.getPoseMeters();
-    }
-
-    public void resetOdometry(Pose2d pose) {
-        swerveOdometry.resetPosition(getYaw(), getPositions(), pose);
-    }
+//    public void resetOdometry(Pose2d pose) {
+//        swerveOdometry.resetPosition(getYaw(), getPositions(), pose);
+//    }
 
     public ChassisSpeeds getSpeeds() {
         return SWERVE_KINEMATICS.toChassisSpeeds(getStates());
     }
 
-    public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds) {
-        driveRobotRelative(ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpeeds, getPose().getRotation()));
-    }
+//    public void driveFieldRelative(ChassisSpeeds fieldRelativeSpeeds) {
+//        //driveRobotRelative(ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpeeds, getPose().getRotation()));
+//        driveRobotRelative(ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpeeds, poseEstimator.getCurrentPose().getRotation()));
+//    }
 
     public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
         ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
@@ -184,25 +183,25 @@ public class SwerveSubsystem extends SubsystemBase {
 //        return 0.0;//gyro.getRoll();
 //    }
 
-    public void resetEverything() {
-//        modules[0].setAngleForX(0);
-//        modules[1].setAngleForX(0);
-//        modules[2].setAngleForX(0);
-//        modules[3].setAngleForX(0);
-
-        modules[0].resetEncoder();
-        modules[1].resetEncoder();
-        modules[2].resetEncoder();
-        modules[3].resetEncoder();
-
-        resetOdometry(new Pose2d());
-        gyro.reset();
-    }
+//    public void resetEverything() {
+////        modules[0].setAngleForX(0);
+////        modules[1].setAngleForX(0);
+////        modules[2].setAngleForX(0);
+////        modules[3].setAngleForX(0);
+//
+//        modules[0].resetEncoder();
+//        modules[1].resetEncoder();
+//        modules[2].resetEncoder();
+//        modules[3].resetEncoder();
+//
+//        resetOdometry(new Pose2d());
+//        gyro.reset();
+//    }
 
     @Override
     public void periodic() {
-        swerveOdometry.update(getYaw(), getPositions());
-        field.setRobotPose(getPose());
+        //swerveOdometry.update(getYaw(), getPositions());
+        //field.setRobotPose(getPose());
 
         for (SwerveModule mod : modules) {
             //  SmartDashboard.putNumber(

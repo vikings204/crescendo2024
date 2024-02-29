@@ -1,7 +1,9 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -9,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Robot.ControlMode;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.LinearActuatorSubsystem;
+import frc.robot.subsystems.PoseEstimationSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.util.Gamepad;
@@ -20,6 +23,7 @@ public class RobotContainer {
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
     public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
+    public final PoseEstimationSubsystem PoseEstimationSubsystem = new PoseEstimationSubsystem(SwerveSubsystem::getYaw, SwerveSubsystem::getPositions);
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.DRIVER_PORT);
 
@@ -48,6 +52,16 @@ public class RobotContainer {
 
         configureDefaultCommands();
         configureButtonBindings();
+
+        AutoBuilder.configureHolonomic(
+                PoseEstimationSubsystem::getCurrentPose,
+                PoseEstimationSubsystem::setCurrentPose,
+                SwerveSubsystem::getSpeeds,
+                SwerveSubsystem::driveRobotRelative,
+                Constants.Auto.PATH_FOLLOWER_CONFIG,
+                () -> Robot.alliance == DriverStation.Alliance.Red,
+                SwerveSubsystem
+        );
     }
 
     private void configureDefaultCommands() {
@@ -84,9 +98,9 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> ShooterSubsystem.flywheelAmp(true), ShooterSubsystem));
-        new JoystickButton(DRIVER, 2)
-                .whileTrue(
-                        new RunCommand(SwerveSubsystem::resetEverything, SwerveSubsystem));
+//        new JoystickButton(DRIVER, 2)
+//                .whileTrue(
+//                        new RunCommand(SwerveSubsystem::resetEverything, SwerveSubsystem));
     }
 
     public Command getAutonomousCommand() {

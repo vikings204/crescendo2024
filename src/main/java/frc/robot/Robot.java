@@ -1,11 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import java.util.Optional;
 
 
 /**
@@ -91,6 +94,8 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        checkDriverStationUpdate();
+
     }
     @Override
     public void teleopPeriodic() {
@@ -106,5 +111,24 @@ public class Robot extends TimedRobot {
     }
     @Override
     public void testPeriodic() {
+    }
+
+    public static DriverStation.Alliance alliance;
+    /**
+     * Checks the driverstation alliance. We have have to check repeatedly because we don't know when the
+     * driverstation/FMS will connect, and the alliance can change at any time in the shop.
+     */
+    private void checkDriverStationUpdate() {
+        // https://www.chiefdelphi.com/t/getalliance-always-returning-red/425782/27
+        Optional<DriverStation.Alliance> allianceOpt = DriverStation.getAlliance();
+
+        if (allianceOpt.isPresent()) {
+            DriverStation.Alliance newAlliance = allianceOpt.get();
+            // If we have data, and have a new alliance from last time
+            if (DriverStation.isDSAttached() && newAlliance != alliance) {
+                robotContainer.PoseEstimationSubsystem.setAlliance(newAlliance);
+                alliance = newAlliance;
+            }
+        }
     }
 }

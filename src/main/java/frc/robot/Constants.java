@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -160,6 +162,20 @@ public final class Constants {
                 this.position = p;
             }
         }
+    }
+
+    public static final class Vision {
+        public static final String PHOTONVISION_NAME = "pv204";
+        public static final boolean VISION_ENABLED = false;
+
+        public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.2;
+        public static final Transform3d APRILTAG_CAMERA_TO_ROBOT = new Transform3d();
+        public static final double FIELD_LENGTH_METERS = 16.54175;
+        public static final double FIELD_WIDTH_METERS = 8.0137;
+        public static final Pose2d FLIPPING_POSE = new Pose2d(
+                new Translation2d(FIELD_LENGTH_METERS, FIELD_WIDTH_METERS),
+                new Rotation2d(Math.PI)
+        );
     }
 }
   
