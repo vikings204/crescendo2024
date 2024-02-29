@@ -29,7 +29,7 @@ public final class Constants {
         public static final int INTAKE_MOTOR_ID = 43;
 
         public static final int CURRENT_LIMIT = 40;
-        public static final double voltageComp = 16.0;
+        public static final double VOLTAGE_COMP = 16.0;
 
         public static final double SPEAKER_SPEED = 1.0;
         public static final double AMP_SPEED = .040;

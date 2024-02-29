@@ -18,9 +18,9 @@ import static frc.robot.Constants.Swerve.*;
 
 public class SwerveSubsystem extends SubsystemBase {
     public Pigeon2 gyro = new Pigeon2(PIGEON2_ID, "rio");
-    private SwerveDriveOdometry swerveOdometry; // Odometry class helps track where the robot is relative to where it started
-    private SwerveModule[] modules; // Array of the 4 swerve modules
-    private Field2d field;
+    private final SwerveDriveOdometry swerveOdometry; // Odometry class helps track where the robot is relative to where it started
+    private final SwerveModule[] modules; // Array of the 4 swerve modules
+    private final Field2d field;
 
     public SwerveSubsystem() {
         var toApply = new Pigeon2Configuration();
@@ -28,16 +28,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
         zeroGyro();
         //m_gyro.calibrate();
-        modules =
-                new SwerveModule[]{
+        modules = new SwerveModule[]{
                         new SwerveModule(0, Mod0.DRIVE_MOTOR_ID, Mod0.ANGLE_MOTOR_ID, Mod0.ANGLE_OFFSET), //Each Constant set is specific to a motor pair
                         new SwerveModule(1, Mod1.DRIVE_MOTOR_ID, Mod1.ANGLE_MOTOR_ID, Mod1.ANGLE_OFFSET),
                         new SwerveModule(2, Mod2.DRIVE_MOTOR_ID, Mod2.ANGLE_MOTOR_ID, Mod2.ANGLE_OFFSET),
                         new SwerveModule(3, Mod3.DRIVE_MOTOR_ID, Mod3.ANGLE_MOTOR_ID, Mod3.ANGLE_OFFSET)
                 };
 
-        swerveOdometry =
-                new SwerveDriveOdometry(SWERVE_KINEMATICS, getYaw(), getPositions());
+        swerveOdometry = new SwerveDriveOdometry(SWERVE_KINEMATICS, getYaw(), getPositions());
 
         //Odomentry with our kinematics object from constants, gyro position and x/y position of each module
 
@@ -53,6 +51,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
                     var alliance = DriverStation.getAlliance();
+                    //noinspection OptionalIsPresent
                     if (alliance.isPresent()) {
                         return alliance.get() == DriverStation.Alliance.Red;
                     }

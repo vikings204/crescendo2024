@@ -35,7 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_1.setSmartCurrentLimit(CURRENT_LIMIT);
         shooterMotor_1.setInverted(SHOOTER_INVERT);
         shooterMotor_1.setIdleMode(IDLE_MODE);
-        shooterMotor_1.enableVoltageCompensation(voltageComp);
+        shooterMotor_1.enableVoltageCompensation(VOLTAGE_COMP);
         shooterMotor_1.burnFlash();
 
         shooterMotor_2.restoreFactoryDefaults();
@@ -43,7 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor_2.setSmartCurrentLimit(CURRENT_LIMIT);
         shooterMotor_2.setInverted(!SHOOTER_INVERT);
         shooterMotor_2.setIdleMode(IDLE_MODE);
-        shooterMotor_2.enableVoltageCompensation(voltageComp);
+        shooterMotor_2.enableVoltageCompensation(VOLTAGE_COMP);
         shooterMotor_2.burnFlash();
 
         intakeMotor.restoreFactoryDefaults();
