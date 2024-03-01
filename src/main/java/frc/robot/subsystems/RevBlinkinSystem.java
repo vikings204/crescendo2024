@@ -6,11 +6,20 @@ import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.PWM;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import srcrobot.subsystems.revcolormodule;
 
 public class RevBlinkinSystem extends SubsystemBase{
-    Spark led;
+    Spark blinkin;
+    public RevBlinkinSystem() {
+        blinkin = new Spark(9);
+    }   
+
+
+    public void LightsIntake() {
+        blinkin.setColor(0.65);
+    } 
+
+
     public class Spark extends PWMMotorController {
         
         @SuppressWarnings("this-escape")
@@ -24,29 +33,5 @@ public class RevBlinkinSystem extends SubsystemBase{
 
             HAL.report(tResourceType.kResourceType_RevSPARK, getChannel() + 1);
         }
-    }
-    public class Robot extends TimedRobot {
-        private DifferentialDrive m_robotDrive;
-        private final PWMSparkMax m_leftMotor = new PWMSparkMax(0);
-        private final PWMSparkMax m_rightMotor = new PWMSparkMax(1);
-
-        @Override
-        public void robotInit() {
-    // We need to invert one side of the drivetrain so that positive voltages
-    // result in both sides moving forward. Depending on how your robot's
-    // gearbox is constructed, you might have to invert the left side instead.
-            m_rightMotor.setInverted(true);
-
-            m_robotDrive = new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
-
-            led = new Spark(9);
-        }
-
-        //MODES
-        public void teleopInit() {
-            led = new Spark(9);
-            led.set(0.73);
-        }
-
     }
 }
