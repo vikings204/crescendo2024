@@ -37,13 +37,13 @@ public final class Constants {
         public static final double AMP_SPEED = .040;
         public static final double INTAKE_SPEED = 1.0;
 
-        public static final int INTAKE_SENSOR_THRESHOLD = 600;
+        public static final int INTAKE_SENSOR_THRESHOLD = 200;
     }
 
     public static final class Swerve {
-        public static final double FAST_SPEED_MULTIPLIER = .8;
-        public static final double NORMAL_SPEED_MULTIPLIER = .6;
-        public static final double SLOW_SPEED_MULTIPLIER = .4;
+        public static final double FAST_SPEED_MULTIPLIER = 1;
+        public static final double NORMAL_SPEED_MULTIPLIER = .8;
+        public static final double SLOW_SPEED_MULTIPLIER = .6;
 
         public static final double ANGLE_PID_FF = 0.0;
         public static final double DRIVE_PID_P = 1.0;
@@ -102,29 +102,29 @@ public final class Constants {
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 {
-            public static final int DRIVE_MOTOR_ID = 13;
-            public static final int ANGLE_MOTOR_ID = 23;
+            public static final int DRIVE_MOTOR_ID = 10;
+            public static final int ANGLE_MOTOR_ID = 20;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(62.99);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 {
-            public static final int DRIVE_MOTOR_ID = 12;
-            public static final int ANGLE_MOTOR_ID = 22;
+            public static final int DRIVE_MOTOR_ID = 11;
+            public static final int ANGLE_MOTOR_ID = 21;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(312.58);
         }
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 {
-            public static final int DRIVE_MOTOR_ID = 11;
-            public static final int ANGLE_MOTOR_ID = 21;
+            public static final int DRIVE_MOTOR_ID = 13;
+            public static final int ANGLE_MOTOR_ID = 23;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(470.5);
         }
 
         /* Back Right Module - Module 3 */
         public static final class Mod3 {
-            public static final int DRIVE_MOTOR_ID = 10;
-            public static final int ANGLE_MOTOR_ID = 20;
+            public static final int DRIVE_MOTOR_ID = 12;
+            public static final int ANGLE_MOTOR_ID = 22;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(296.67);
         }
     }

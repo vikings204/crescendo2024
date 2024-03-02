@@ -10,18 +10,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Robot.ControlMode;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.LinearActuatorSubsystem;
-import frc.robot.subsystems.PoseEstimationSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.*;
 import frc.robot.util.Gamepad;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Robot.ControlModeChooser;
 
 public class RobotContainer {
+    public final LEDSubsystem LED = new LEDSubsystem();
     public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
-    public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem();
+    public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem(LED);
     public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
     public final PoseEstimationSubsystem PoseEstimationSubsystem = new PoseEstimationSubsystem(SwerveSubsystem::getYaw, SwerveSubsystem::getPositions);
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);

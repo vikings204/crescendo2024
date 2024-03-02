@@ -11,6 +11,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -126,6 +127,10 @@ public class PoseEstimationSubsystem extends SubsystemBase {
             dashboardPose = flipAlliance(dashboardPose);
         }
         field.setRobotPose(dashboardPose);
+
+        SmartDashboard.putNumber("pose X", poseEstimator.getEstimatedPosition().getX());
+        SmartDashboard.putNumber("pose Y", poseEstimator.getEstimatedPosition().getY());
+        SmartDashboard.putNumber("gyro angle", poseEstimator.getEstimatedPosition().getRotation().getDegrees());
     }
 
     public Pose2d getCurrentPose() {

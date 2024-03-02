@@ -17,8 +17,11 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax intakeMotor;
     private final ColorSensorV3 sensor1;
     private boolean flywheelState = false;
+    private final LEDSubsystem led;
 
-    public ShooterSubsystem() {
+    public ShooterSubsystem(LEDSubsystem led) {
+        this.led = led;
+
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);
         shooterMotor_2 = new CANSparkMax(SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
         intakeMotor = new CANSparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
@@ -103,9 +106,19 @@ public class ShooterSubsystem extends SubsystemBase {
         }
 
         if (shoot && !detected) {
+        //if (shoot) {
             intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
         } else {
             intakeMotor.set(0);
+        }
+    }
+
+    @Override
+    public void periodic() {
+        if (sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD) {
+            led.setPattern(LEDSubsystem.BlinkinPattern.DARK_RED);
+        } else {
+            led.setPattern(LEDSubsystem.BlinkinPattern.ORANGE);
         }
     }
 }
