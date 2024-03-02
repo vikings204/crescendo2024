@@ -1,9 +1,7 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.PWMMotorController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.PWM;
 
@@ -13,41 +11,40 @@ public class RevBlinkinSystem extends SubsystemBase{
         blinkin = new Spark(9);
     }   
     
-    public void SuccessfulIntakeLight() {
-        blinkin.set(0.71); //sets color to Lawn Green if the robot successfully intakes the ring
-    }
-
-    public void AboutToShootLight() {
-        blinkin.set(0.65); //sets color to Orange when the robot is about to shoot
-    }    
-
-    public void SuccessfulShot() {
-        blinkin.set(0.73); //sets color to Lime when the robot makes it into the Speaker
-    } 
-
     public void AutonomousModeLight() {
-        blinkin.set(0.63); //sets color to Red Orange when the robot is autonomous
-    } 
-
-    public void StartHookLight() {
-        blinkin.set(0.89); //sets color to Blue Violet when the robot's about to latch its hook on the chain
-    } 
-
-    public void HookLight() {
-        blinkin.set(0.91); //sets color to  Violet when the robot latches its hook on the chain
+        blinkin.set(0.65); //sets color to Orange when the robot is autonomous
     } 
 
     public void TeleopLight() {
         blinkin.set(0.75); //sets color to Dark Green when the robot is in teleop mode
     } 
 
-    public void PreAmpLight() {
-        blinkin.set(0.59); //sets color to Dark Red when the robot is about to shoot the note into the amp
-    } 
-    
-    public void AmpLight() {
-        blinkin.set(0.61); //sets color to Red when the robot is about to shoot the note into the amp
-    } 
+    public void SuccessfulIntakeLight() {
+        blinkin.set(0.71); //sets color to Lawn Green if the robot successfully intakes the ring
+    }
+
+    public void PreLight() {
+        blinkin.set(0.67); /*sets color to Gold if robot is about to do the following:
+        about to shoot into the Speaker
+        about to shoot into Amp
+        about to attach to Hook
+        */
+    }
+
+    public void SuccessfulPointLight() {
+        blinkin.set(0.73); /*sets color to Lime if robot:
+            successfully shoots the note into the speaker
+            successfully makes it into the Amp
+        */
+    }
+
+    public void HookLight() {
+        blinkin.set(0.79); //sets color to Blue Green if the robot successfully attaches to chain with Hook
+    }
+
+    public void FailLight(){
+        blinkin.set(0.95); //sets color to Gray if the robot fails to intake, misses Speaker shot, misses Amp shot, basically fails at task
+    }
 
     public class Spark extends PWMMotorController {
         
