@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ReduceCANUsage;
@@ -17,10 +18,14 @@ public class ShooterSubsystem extends SubsystemBase {
     private final CANSparkMax intakeMotor;
     private final ColorSensorV3 sensor1;
     private boolean flywheelState = false;
-    private final LEDSubsystem led;
+    private boolean ignoreSensor = false;
+    private final SendableChooser<Boolean> ignoreSensorChooser = new SendableChooser<>();
+    private final Runnable ledHasNote;
+    private final Runnable ledEmpty;
 
-    public ShooterSubsystem(LEDSubsystem led) {
-        this.led = led;
+    public ShooterSubsystem(Runnable hasNote, Runnable empty) {
+        ledHasNote = hasNote;
+        ledEmpty = empty;
 
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);
         shooterMotor_2 = new CANSparkMax(SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
@@ -29,6 +34,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
         sensor1 = new ColorSensorV3(I2C.Port.kOnboard);
         sensor1.configureProximitySensor(ColorSensorV3.ProximitySensorResolution.kProxRes11bit, ColorSensorV3.ProximitySensorMeasurementRate.kProxRate6ms);
+
+        ignoreSensorChooser.setDefaultOption("sensor is active", true);
+        ignoreSensorChooser.addOption("deactivate sensor", false);
+        ignoreSensorChooser.onChange((Boolean val) -> ignoreSensor = val);
     }
 
     //configDriveMotor();
@@ -98,27 +107,34 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void intake(boolean shoot, boolean reverse) {
-        SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
-        var detected = sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD;
-
-        if (flywheelState) {
-            detected = false;
-        }
-
-        if (shoot && !detected) {
-        //if (shoot) {
-            intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
+        if (ignoreSensor) {
+            if (shoot) {
+                intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
+            } else {
+                intakeMotor.set(0);
+            }
         } else {
-            intakeMotor.set(0);
+            SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
+            var detected = sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD;
+
+            if (flywheelState || reverse) {
+                detected = false;
+            }
+
+            if (shoot && !detected) {
+                intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
+            } else {
+                intakeMotor.set(0);
+            }
         }
     }
 
     @Override
     public void periodic() {
         if (sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD) {
-            led.setPattern(LEDSubsystem.BlinkinPattern.DARK_RED);
+            ledHasNote.run();
         } else {
-            led.setPattern(LEDSubsystem.BlinkinPattern.ORANGE);
+            ledEmpty.run();
         }
     }
 }

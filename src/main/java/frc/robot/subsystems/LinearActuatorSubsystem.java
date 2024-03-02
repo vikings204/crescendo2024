@@ -1,10 +1,7 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase;
+import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ReduceCANUsage;
@@ -13,14 +10,16 @@ import static frc.robot.Constants.LinearActuator.*;
 
 public class LinearActuatorSubsystem extends SubsystemBase {
     private final CANSparkMax actuatorMotor;
-    private final SparkAbsoluteEncoder encoder;
+    private final RelativeEncoder encoder;
     private final SparkPIDController controller;
 
     public LinearActuatorSubsystem() {
         actuatorMotor = new CANSparkMax(MOTOR_CAN_ID, MotorType.kBrushed);
-        encoder = actuatorMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
 
-        encoder.setPositionConversionFactor(1.0); // need to configure with very low number to ensure pid isn't constantly trying to fix
+        encoder = actuatorMotor.getEncoder(SparkRelativeEncoder.Type.kQuadrature, 8192); // 2048 or 8192
+        encoder.setPositionConversionFactor(1.0);
+        encoder.setInverted(true);
+        encoder.setPosition(0.0);
 
         controller = actuatorMotor.getPIDController();
         controller.setFeedbackDevice(encoder);

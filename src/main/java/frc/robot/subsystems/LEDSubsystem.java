@@ -3,14 +3,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class LEDSubsystem {
-    private static Spark blinkin;
-    private static BlinkinPattern currentPattern;
+    private final Spark blinkin;
+    private BlinkinPattern currentPattern;
+    public presetSettings Presets;
 
     public LEDSubsystem() {
         blinkin = new Spark(0);
 
-        currentPattern = BlinkinPattern.DARK_RED;
-        blinkin.set(currentPattern.value);
+        Presets = new presetSettings();
+        Presets.Default();
     }
 
     // https://www.chiefdelphi.com/t/rev-blinkin-example-code/452871/4
@@ -142,6 +143,15 @@ public class LEDSubsystem {
         if (currentPattern != pat) {
             currentPattern = pat;
             blinkin.set(pat.value);
+        }
+    }
+
+    public class presetSettings {
+        public void Default() {
+            setPattern(BlinkinPattern.DARK_RED);
+        }
+        public void HasNote() {
+            setPattern(BlinkinPattern.COLOR_WAVES_LAVA_PALETTE);
         }
     }
 }

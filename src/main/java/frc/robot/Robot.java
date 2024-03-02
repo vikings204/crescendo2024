@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
             DriverStation.Alliance newAlliance = allianceOpt.get();
             // If we have data, and have a new alliance from last time
             if (DriverStation.isDSAttached() && newAlliance != alliance) {
-                robotContainer.PoseEstimationSubsystem.setAlliance(newAlliance);
+                robotContainer.PoseEstimation.setAlliance(newAlliance);
                 alliance = newAlliance;
             }
         }

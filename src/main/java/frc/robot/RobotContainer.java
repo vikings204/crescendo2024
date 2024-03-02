@@ -17,11 +17,11 @@ import static frc.robot.Constants.*;
 import static frc.robot.Robot.ControlModeChooser;
 
 public class RobotContainer {
+    public final SwerveSubsystem Swerve = new SwerveSubsystem();
     public final LEDSubsystem LED = new LEDSubsystem();
-    public final SwerveSubsystem SwerveSubsystem = new SwerveSubsystem();
-    public final ShooterSubsystem ShooterSubsystem = new ShooterSubsystem(LED);
-    public final LinearActuatorSubsystem LinearActuatorSubsystem = new LinearActuatorSubsystem();
-    public final PoseEstimationSubsystem PoseEstimationSubsystem = new PoseEstimationSubsystem(SwerveSubsystem::getYaw, SwerveSubsystem::getPositions);
+    public final ShooterSubsystem Shooter = new ShooterSubsystem(LED.Presets::HasNote, LED.Presets::Default);
+    public final LinearActuatorSubsystem LinearActuator = new LinearActuatorSubsystem();
+    public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.DRIVER_PORT);
 
@@ -40,32 +40,32 @@ public class RobotContainer {
             System.out.println("Switched control mode to " + mode);
         });
 
-        NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> ShooterSubsystem.receive(true), ShooterSubsystem));
-        NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> ShooterSubsystem.receive(false), ShooterSubsystem));
-        NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> ShooterSubsystem.flywheelSpeaker(true), ShooterSubsystem));
-        NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> ShooterSubsystem.flywheelSpeaker(false), ShooterSubsystem));
-        NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> ShooterSubsystem.intake(true, false), ShooterSubsystem));
-        NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> ShooterSubsystem.intake(false, false), ShooterSubsystem));
+        NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> Shooter.receive(true), Shooter));
+        NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> Shooter.receive(false), Shooter));
+        NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> Shooter.flywheelSpeaker(true), Shooter));
+        NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> Shooter.flywheelSpeaker(false), Shooter));
+        NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> Shooter.intake(true, false), Shooter));
+        NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> Shooter.intake(false, false), Shooter));
 
 
         configureDefaultCommands();
         configureButtonBindings();
 
         AutoBuilder.configureHolonomic(
-                PoseEstimationSubsystem::getCurrentPose,
-                PoseEstimationSubsystem::setCurrentPose,
-                SwerveSubsystem::getSpeeds,
-                SwerveSubsystem::driveRobotRelative,
+                PoseEstimation::getCurrentPose,
+                PoseEstimation::setCurrentPose,
+                Swerve::getSpeeds,
+                Swerve::driveRobotRelative,
                 Constants.Auto.PATH_FOLLOWER_CONFIG,
                 () -> Robot.alliance == DriverStation.Alliance.Red,
-                SwerveSubsystem
+                Swerve
         );
     }
 
     private void configureDefaultCommands() {
-        SwerveSubsystem.setDefaultCommand(
+        Swerve.setDefaultCommand(
                 new TeleopSwerve(
-                        SwerveSubsystem,
+                        Swerve,
                         () -> DRIVER.getLeftX(),
                         () -> -1 * DRIVER.getLeftY(),
                         () -> -1 * DRIVER.getRightX(),
@@ -73,15 +73,15 @@ public class RobotContainer {
                         () -> DRIVER.getYButton(),
                         () -> DRIVER.getAButton()));
 
-        ShooterSubsystem.setDefaultCommand(
+        Shooter.setDefaultCommand(
                 new RunCommand(
-                        () -> ShooterSubsystem.flywheelSpeaker(OPERATOR.getXButton()),
-                        ShooterSubsystem));
+                        () -> Shooter.flywheelSpeaker(OPERATOR.getXButton()),
+                        Shooter));
 
-        LinearActuatorSubsystem.setDefaultCommand(
+        LinearActuator.setDefaultCommand(
                 new RunCommand(
-                        () -> LinearActuatorSubsystem.shift(OPERATOR.getPOV() == 0, OPERATOR.getPOV() == 180),
-                        LinearActuatorSubsystem
+                        () -> LinearActuator.shift(OPERATOR.getPOV() == 0, OPERATOR.getPOV() == 180),
+                        LinearActuator
                 )
         );
     }
@@ -89,20 +89,17 @@ public class RobotContainer {
     private void configureButtonBindings() {
         new JoystickButton(OPERATOR, 5)
                 .whileTrue(
-                        new RunCommand(() -> ShooterSubsystem.intake(true, true), ShooterSubsystem));
+                        new RunCommand(() -> Shooter.intake(true, true), Shooter));
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
-                        new RunCommand(() -> ShooterSubsystem.intake(true, false), ShooterSubsystem));
+                        new RunCommand(() -> Shooter.intake(true, false), Shooter));
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
-                        new RunCommand(() -> ShooterSubsystem.flywheelAmp(true), ShooterSubsystem));
-//        new JoystickButton(DRIVER, 2)
-//                .whileTrue(
-//                        new RunCommand(SwerveSubsystem::resetEverything, SwerveSubsystem));
+                        new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
     }
 
     public Command getAutonomousCommand() {
-        SwerveSubsystem.gyro.setYaw(-90.0); // temp for auto testing
+        Swerve.gyro.setYaw(-90.0); // temp for auto testing
         return new PathPlannerAuto("Intake Auto");
     }
 
