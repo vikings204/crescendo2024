@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Robot.ControlMode;
-import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.ShootSpeakerCommand;
+import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
 import frc.robot.util.Gamepad;
 
@@ -64,14 +65,14 @@ public class RobotContainer {
 
     private void configureDefaultCommands() {
         Swerve.setDefaultCommand(
-                new TeleopSwerve(
+                new TeleopSwerveCommand(
                         Swerve,
                         () -> DRIVER.getLeftX(),
                         () -> -1 * DRIVER.getLeftY(),
                         () -> -1 * DRIVER.getRightX(),
                         () -> false,
-                        () -> DRIVER.getYButton(),
-                        () -> DRIVER.getAButton()));
+                        () -> DRIVER.getLeftStickButton(), // slow mode
+                        () -> DRIVER.getAButton())); // fast mode
 
         Shooter.setDefaultCommand(
                 new RunCommand(
@@ -96,6 +97,8 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
+        new JoystickButton(OPERATOR, 11)
+                .whileTrue(new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter));
     }
 
     public Command getAutonomousCommand() {

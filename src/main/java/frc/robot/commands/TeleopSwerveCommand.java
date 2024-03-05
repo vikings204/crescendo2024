@@ -10,7 +10,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-public class TeleopSwerve extends Command {
+public class TeleopSwerveCommand extends Command {
     private final SwerveSubsystem s_Swerve;
     private final DoubleSupplier translationSup;    //+/- y direction
     private final DoubleSupplier strafeSup;         // +/- x direction
@@ -23,7 +23,7 @@ public class TeleopSwerve extends Command {
     private final SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);     // See above
     private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);   //Not really used with the brushed motors going to a position but could be.  We don't use the trapazoid pid profile suggested only because it hasn't been implemented yet
 
-    public TeleopSwerve(
+    public TeleopSwerveCommand(
             SwerveSubsystem s_Swerve,
             DoubleSupplier translationSup,
             DoubleSupplier strafeSup,

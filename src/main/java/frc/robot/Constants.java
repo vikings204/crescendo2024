@@ -6,11 +6,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import static edu.wpi.first.math.util.Units.inchesToMeters;
 
 public final class Constants {
     public static final class Controller {
@@ -58,9 +59,9 @@ public final class Constants {
         public static final double ANGLE_PID_D = 0.0;
 
         /* Drivetrain Constants */
-        public static final double TRACK_WIDTH = Units.inchesToMeters(23); // same as wheelbase because it is a square
-        public static final double WHEEL_BASE = Units.inchesToMeters(23);
-        public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);
+        public static final double TRACK_WIDTH = inchesToMeters(23); // same as wheelbase because it is a square
+        public static final double WHEEL_BASE = inchesToMeters(23);
+        public static final double WHEEL_DIAMETER = inchesToMeters(4.0);
         public static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 
         public static final double DRIVE_GEAR_RATIO = 8.14;
@@ -176,6 +177,11 @@ public final class Constants {
                 new Translation2d(FIELD_LENGTH_METERS, FIELD_WIDTH_METERS),
                 new Rotation2d(Math.PI)
         );
+
+        public static final double TARGET_OFFSET = inchesToMeters(50);//inchesToMeters(4);
+        public static final Translation2d SPEAKER_RED = new Translation2d(inchesToMeters(652.73) - TARGET_OFFSET, inchesToMeters(218.42));
+        public static final Translation2d SPEAKER_BLUE = new Translation2d(TARGET_OFFSET, inchesToMeters(218.42));
+        public static final double SECONDS_TO_SPIN_UP = 1.0;
     }
 }
   
