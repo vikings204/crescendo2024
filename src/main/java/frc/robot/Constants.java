@@ -35,7 +35,7 @@ public final class Constants {
         public static final double VOLTAGE_COMP = 16.0;
 
         public static final double SPEAKER_SPEED = 1.0;
-        public static final double AMP_SPEED = .040;
+        public static final double AMP_SPEED = .057;
         public static final double INTAKE_SPEED = 1.0;
 
         public static final int INTAKE_SENSOR_THRESHOLD = 200;
@@ -150,8 +150,8 @@ public final class Constants {
         public static final double PID_FF = 0.0;
 
         // minimum/maximum of the linear actuator, not the whole mechanism
-        public static final double ABSOLUTE_LOWEST = 0.0;
-        public static final double ABSOLUTE_HIGHEST = 0.0;
+        public static final double ABSOLUTE_LOWEST = -100000.0;
+        public static final double ABSOLUTE_HIGHEST = 10000.0;
 
         // positions are of the entire mechanism
         public enum Position {

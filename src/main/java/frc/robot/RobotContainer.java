@@ -47,7 +47,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> Shooter.flywheelSpeaker(false), Shooter));
         NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> Shooter.intake(true, false), Shooter));
         NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> Shooter.intake(false, false), Shooter));
-
+        NamedCommands.registerCommand("lowerIntake", new InstantCommand(() -> LinearActuator.shift(false,true), LinearActuator));
 
         configureDefaultCommands();
         configureButtonBindings();
@@ -103,7 +103,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         Swerve.gyro.setYaw(-90.0); // temp for auto testing
-        return new PathPlannerAuto("Intake Auto");
+        return new PathPlannerAuto("Comp Auto 1");
     }
 
 //    public Command getAutonomousCommand() {
