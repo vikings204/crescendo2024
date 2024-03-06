@@ -22,9 +22,9 @@ public class ShootSpeakerCommand extends Command {
     private final ShooterSubsystem Shooter;
     private double initialTimestamp;
 
-    private final ProfiledPIDController xPID = new ProfiledPIDController(1, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 2));
-    private final ProfiledPIDController yPID = new ProfiledPIDController(1, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 2));
-    private final ProfiledPIDController thetaPID = new ProfiledPIDController(1, 0, 0, new Constraints(Constants.Swerve.MAX_ANGULAR_VELOCITY, 2));
+    private final ProfiledPIDController xPID = new ProfiledPIDController(3, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 4));
+    private final ProfiledPIDController yPID = new ProfiledPIDController(3, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 4));
+    private final ProfiledPIDController thetaPID = new ProfiledPIDController(2, 0, 0, new Constraints(Constants.Swerve.MAX_ANGULAR_VELOCITY, 4));
 
 
     public ShootSpeakerCommand(
@@ -64,7 +64,7 @@ public class ShootSpeakerCommand extends Command {
 //        }
 
         Swerve.drive(new Translation2d(xPID.calculate(robotPose.getX()), yPID.calculate(robotPose.getY())), thetaPID.calculate(robotPose.getRotation().getRadians()), true, false); // isOpenLoop differs from teleop
-        if (getFPGATimestamp() > initialTimestamp+SECONDS_TO_SPIN_UP && xPID.atGoal() && yPID.atGoal() && thetaPID.atGoal()) { // need to also check if close enough
+        if (getFPGATimestamp() > initialTimestamp+SECONDS_TO_SPIN_UP && xPID.atGoal() && yPID.atGoal() && thetaPID.atGoal()) {
             Shooter.intake(true, false);
         }
     }

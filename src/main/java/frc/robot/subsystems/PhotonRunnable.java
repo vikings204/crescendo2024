@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.RobotState;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -22,16 +21,17 @@ public class PhotonRunnable implements Runnable {
     private final AtomicReference<EstimatedRobotPose> atomicEstimatedRobotPose = new AtomicReference<>();
 
     public PhotonRunnable() {
-        this.photonCamera = new PhotonCamera(PHOTONVISION_NAME);
+        this.photonCamera = new PhotonCamera(CAMERA_NAME);
 
         PhotonPoseEstimator photonPoseEstimator = null;
 
         var layout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
         // PV estimates will always be blue, they'll get flipped by robot thread
         layout.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+        //noinspection ConstantValue
         if (photonCamera != null) {
             photonPoseEstimator = new PhotonPoseEstimator(
-                    layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, photonCamera, APRILTAG_CAMERA_TO_ROBOT.inverse());
+                    layout, POSE_STRATEGY, photonCamera, CAMERA_TO_ROBOT.inverse());
         }
 
         this.photonPoseEstimator = photonPoseEstimator;
@@ -47,8 +47,8 @@ public class PhotonRunnable implements Runnable {
                 photonPoseEstimator.update(photonResults).ifPresent(estimatedRobotPose -> {
                     var estimatedPose = estimatedRobotPose.estimatedPose;
                     // Make sure the measurement is on the field
-                    if (estimatedPose.getX() > 0.0 && estimatedPose.getX() <= FIELD_LENGTH_METERS
-                            && estimatedPose.getY() > 0.0 && estimatedPose.getY() <= FIELD_WIDTH_METERS) {
+                    if (estimatedPose.getX() > 0.0 && estimatedPose.getX() <= FIELD_LENGTH_METERS_X
+                            && estimatedPose.getY() > 0.0 && estimatedPose.getY() <= FIELD_WIDTH_METERS_Y) {
                         atomicEstimatedRobotPose.set(estimatedRobotPose);
                     }
                 });
