@@ -170,7 +170,7 @@ public final class Constants {
 
         public static final PhotonPoseEstimator.PoseStrategy POSE_STRATEGY = PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR;
         public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.2;
-        public static final Transform3d APRILTAG_CAMERA_TO_ROBOT = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
+        public static final Transform3d CAMERA_TO_ROBOT = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
         public static final double FIELD_LENGTH_METERS_X = 16.54175;
         public static final double FIELD_WIDTH_METERS_Y = 8.0137;
         public static final Pose2d FLIPPING_POSE = new Pose2d(

@@ -31,7 +31,7 @@ public class PhotonRunnable implements Runnable {
         //noinspection ConstantValue
         if (photonCamera != null) {
             photonPoseEstimator = new PhotonPoseEstimator(
-                    layout, POSE_STRATEGY, photonCamera, APRILTAG_CAMERA_TO_ROBOT.inverse());
+                    layout, POSE_STRATEGY, photonCamera, CAMERA_TO_ROBOT.inverse());
         }
 
         this.photonPoseEstimator = photonPoseEstimator;
