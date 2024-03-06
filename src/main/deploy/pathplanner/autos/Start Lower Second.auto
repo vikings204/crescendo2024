@@ -24,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.85
+                  "waitTime": 0.8
                 }
               },
               {
@@ -67,7 +67,57 @@
               {
                 "type": "path",
                 "data": {
+                  "pathName": "mid to top"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 8.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
                   "pathName": "top to note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStart"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "not to top"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStart"
                 }
               }
             ]
@@ -80,7 +130,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "intakeStart"
+                  "name": "bumpStart"
                 }
               },
               {
@@ -92,50 +142,19 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "intakeStop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStart"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "middle to speakjer"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "bumpStart"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "bumpStop"
+                  "name": "bumpstop"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "zeroGyro"
                 }
               }
             ]

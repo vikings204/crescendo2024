@@ -18,13 +18,19 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "lowerIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "shooterStart"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.85
+                  "waitTime": 0.8
                 }
               },
               {
@@ -59,40 +65,59 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "lowerIntake"
+                  "pathName": "mid to top"
                 }
               },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 6.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "top to note"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "intakeStart"
                 }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
+                }
               },
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 1.0
+                  "pathName": "not to top"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "intakeStop"
+                  "name": "shooterStart"
                 }
               }
             ]
@@ -102,18 +127,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStart"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "middle to speakjer"
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -123,19 +136,25 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 0.5
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "bumpStop"
+                  "name": "bumpstop"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "zeroGyro"
                 }
               }
             ]
@@ -144,6 +163,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue Autos",
   "choreoAuto": false
 }

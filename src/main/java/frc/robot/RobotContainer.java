@@ -42,6 +42,7 @@ public class RobotContainer {
         });
 
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> Shooter.receive(true), Shooter));
+        NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> Swerve.zeroGyro(),Swerve));
         NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> Shooter.receive(false), Shooter));
         NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> Shooter.flywheelSpeaker(true), Shooter));
         NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> Shooter.flywheelSpeaker(false), Shooter));
@@ -67,8 +68,8 @@ public class RobotContainer {
         Swerve.setDefaultCommand(
                 new TeleopSwerveCommand(
                         Swerve,
-                        () -> DRIVER.getLeftX(),
-                        () -> -1 * DRIVER.getLeftY(),
+                        () -> -1*DRIVER.getLeftX(),
+                        () ->   DRIVER.getLeftY(),
                         () -> -1 * DRIVER.getRightX(),
                         () -> false,
                         () -> DRIVER.getLeftStickButton(), // slow mode
@@ -91,6 +92,9 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 5)
                 .whileTrue(
                         new RunCommand(() -> Shooter.intake(true, true), Shooter));
+        new JoystickButton(OPERATOR, 4)
+                .whileTrue(
+                        new RunCommand(() -> Swerve.zeroGyro(), Swerve));                
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
                         new RunCommand(() -> Shooter.intake(true, false), Shooter));
@@ -103,7 +107,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         Swerve.gyro.setYaw(-90.0); // temp for auto testing
-        return new PathPlannerAuto("Comp Auto 1");
+        return new PathPlannerAuto("Test Auto 1");
     }
 
 //    public Command getAutonomousCommand() {

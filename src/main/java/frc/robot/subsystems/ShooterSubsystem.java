@@ -61,6 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
         intakeMotor.restoreFactoryDefaults();
         ReduceCANUsage.SparkMax.setCANSparkMaxBusUsage(intakeMotor, Usage.kAll);
         intakeMotor.setSmartCurrentLimit(CURRENT_LIMIT);
+    
         intakeMotor.setInverted(!BUMP_INVERT);
         intakeMotor.setIdleMode(IDLE_MODE);
         intakeMotor.burnFlash();
@@ -123,6 +124,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
             if (shoot && !detected) {
                 intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
+                    System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
             } else {
                 intakeMotor.set(0);
             }
