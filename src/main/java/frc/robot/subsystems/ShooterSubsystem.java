@@ -35,8 +35,9 @@ public class ShooterSubsystem extends SubsystemBase {
         sensor1 = new ColorSensorV3(I2C.Port.kOnboard);
         sensor1.configureProximitySensor(ColorSensorV3.ProximitySensorResolution.kProxRes11bit, ColorSensorV3.ProximitySensorMeasurementRate.kProxRate6ms);
 
-        ignoreSensorChooser.setDefaultOption("sensor is active", true);
         ignoreSensorChooser.addOption("deactivate sensor", false);
+        ignoreSensorChooser.setDefaultOption("sensor is active", true);
+        SmartDashboard.putData("Ignore Intake Sensor", ignoreSensorChooser);
         ignoreSensorChooser.onChange((Boolean val) -> ignoreSensor = val);
     }
 

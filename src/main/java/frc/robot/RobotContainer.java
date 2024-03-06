@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Robot.ControlMode;
 import frc.robot.commands.ShootSpeakerCommand;
+import frc.robot.commands.ShootSpeakerPoselessCommand;
 import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
 import frc.robot.util.Gamepad;
@@ -42,7 +43,7 @@ public class RobotContainer {
         });
 
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> Shooter.receive(true), Shooter));
-        NamedCommands.registerCommand("zeroGyro", new InstantCommand(() -> Swerve.zeroGyro(),Swerve));
+        NamedCommands.registerCommand("zeroGyro", new InstantCommand(Swerve::zeroGyro, Swerve));
         NamedCommands.registerCommand("intakeStop", new InstantCommand(() -> Shooter.receive(false), Shooter));
         NamedCommands.registerCommand("shooterStart", new InstantCommand(() -> Shooter.flywheelSpeaker(true), Shooter));
         NamedCommands.registerCommand("shooterStop", new InstantCommand(() -> Shooter.flywheelSpeaker(false), Shooter));
@@ -73,7 +74,7 @@ public class RobotContainer {
                         () -> -1 * DRIVER.getRightX(),
                         () -> false,
                         () -> DRIVER.getLeftStickButton(), // slow mode
-                        () -> DRIVER.getAButton())); // fast mode
+                        () -> DRIVER.getYButton())); // fast mode
 
         Shooter.setDefaultCommand(
                 new RunCommand(
@@ -94,15 +95,17 @@ public class RobotContainer {
                         new RunCommand(() -> Shooter.intake(true, true), Shooter));
         new JoystickButton(OPERATOR, 4)
                 .whileTrue(
-                        new RunCommand(() -> Swerve.zeroGyro(), Swerve));                
+                        new RunCommand(Swerve::zeroGyro, Swerve));
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
                         new RunCommand(() -> Shooter.intake(true, false), Shooter));
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
-        new JoystickButton(OPERATOR, 9)
+        new JoystickButton(OPERATOR, 1)
                 .whileTrue(new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter));
+        new JoystickButton(OPERATOR, 2)
+                .whileTrue(new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter));
     }
 
     public Command getAutonomousCommand() {
