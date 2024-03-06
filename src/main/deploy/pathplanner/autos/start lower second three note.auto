@@ -73,7 +73,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.8
+                  "waitTime": 5.0
                 }
               }
             ]
@@ -94,6 +94,12 @@
                 "data": {
                   "pathName": "top to note"
                 }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
               }
             ]
           }
@@ -109,15 +115,15 @@
                 }
               },
               {
-                "type": "path",
-                "data": {
-                  "pathName": "not to top"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "shooterStart"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "not to top"
                 }
               }
             ]
@@ -127,6 +133,80 @@
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpstop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStart"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "mid to note"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterstart"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "note to mid"
+                }
+              },
               {
                 "type": "named",
                 "data": {

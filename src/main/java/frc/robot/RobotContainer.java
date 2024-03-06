@@ -101,13 +101,13 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
-        new JoystickButton(OPERATOR, 11)
+        new JoystickButton(OPERATOR, 9)
                 .whileTrue(new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter));
     }
 
     public Command getAutonomousCommand() {
         Swerve.gyro.setYaw(-90.0); // temp for auto testing
-        return new PathPlannerAuto("Test Auto 1");
+        return new PathPlannerAuto("Start Lower Second");
     }
 
 //    public Command getAutonomousCommand() {

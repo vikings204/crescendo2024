@@ -166,8 +166,8 @@ public final class Constants {
     }
 
     public static final class Vision {
-        public static final String PHOTONVISION_NAME = "pv204";
-        public static final boolean VISION_ENABLED = false;
+        public static final String PHOTONVISION_NAME = "webcam";
+        public static final boolean VISION_ENABLED = true;
 
         public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.2;
         public static final Transform3d APRILTAG_CAMERA_TO_ROBOT = new Transform3d();
