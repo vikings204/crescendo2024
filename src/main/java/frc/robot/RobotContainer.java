@@ -97,7 +97,7 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
-        new JoystickButton(OPERATOR, 11)
+        new JoystickButton(OPERATOR, 9)
                 .whileTrue(new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter));
     }
 
