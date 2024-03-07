@@ -23,6 +23,10 @@ public class RevBlinkinSystem extends SubsystemBase{
         blinkin.set(0.71); //sets color to Lawn Green if the robot successfully intakes the ring
     }
 
+    public void HoldingNoteLight(){
+        blinkin.set(0.63); //sets color to Red Orance if the robot is currently in possession of the orange note.
+    }
+
     public void PreLight() {
         blinkin.set(0.67); /*sets color to Gold if robot is about to do the following:
         about to shoot into the Speaker
