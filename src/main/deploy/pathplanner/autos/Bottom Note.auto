@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.6,
-      "y": 5.55
+      "y": 5.5
     },
     "rotation": 90.0
   },
@@ -67,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "mid to top"
+                  "pathName": "Mid to Bottom"
                 }
               },
               {
@@ -92,7 +92,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "top to note"
+                  "pathName": "bottom to note"
                 }
               }
             ]
@@ -105,7 +105,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "not to top"
+                  "pathName": "bottom note to mid"
                 }
               },
               {

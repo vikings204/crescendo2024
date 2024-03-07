@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
+      "x": 1.65,
       "y": 5.55
     },
     "rotation": 90.0
@@ -24,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.75
+                  "waitTime": 0.8
                 }
               },
               {
@@ -55,9 +55,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "speaker to intake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "lowerIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "mid to top"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 4.4
+                }
+              }
+            ]
           }
         },
         {
@@ -71,24 +90,12 @@
                 }
               },
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 3.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStop"
+                  "pathName": "top to note"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of speaker to intake"
           }
         },
         {
@@ -96,17 +103,30 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "not to top"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "shooterStart"
                 }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
               {
                 "type": "named",
                 "data": {
@@ -116,99 +136,25 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 1.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "bumpStop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "speaker to intake"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStart"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 3.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of speaker to intake"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStart"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.75
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "bumpStart"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "bumpStop"
+                  "name": "bumpstop"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "zeroGyro"
                 }
               }
             ]
@@ -217,6 +163,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue Autos",
   "choreoAuto": false
 }

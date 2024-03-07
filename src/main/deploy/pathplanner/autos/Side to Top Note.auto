@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.6,
-      "y": 5.55
+      "x": 1.35,
+      "y": 6.34
     },
-    "rotation": 90.0
+    "rotation": 135.0
   },
   "command": {
     "type": "sequential",
@@ -15,12 +15,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "lowerIntake"
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -65,15 +59,21 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "lowerIntake"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
-                  "pathName": "mid to top"
+                  "pathName": "Top side to top"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.0
+                  "waitTime": 4.4
                 }
               }
             ]
@@ -94,24 +94,24 @@
                 "data": {
                   "pathName": "top to note"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStop"
-                }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "not to top"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
                 }
               },
               {
@@ -136,7 +136,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 1.0
                 }
               },
               {
@@ -163,6 +163,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue Autos",
   "choreoAuto": false
 }

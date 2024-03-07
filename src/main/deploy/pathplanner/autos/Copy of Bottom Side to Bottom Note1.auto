@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 1.6,
-      "y": 5.55
+      "y": 5.5
     },
-    "rotation": 90.0
+    "rotation": 45.0
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.85
+                  "waitTime": 0.8
                 }
               },
               {
@@ -67,7 +67,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "top to note"
+                  "pathName": "Side to Bottom"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 4.4
                 }
               }
             ]
@@ -84,15 +90,34 @@
                 }
               },
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 1.0
+                  "pathName": "bottom to note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "bottom note to mid"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "intakeStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStart"
                 }
               }
             ]
@@ -105,37 +130,31 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterStart"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "middle to speakjer"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "bumpStart"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 1.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "bumpStop"
+                  "name": "bumpstop"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "zeroGyro"
                 }
               }
             ]
