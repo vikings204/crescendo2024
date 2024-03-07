@@ -99,6 +99,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "intakeStop"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -115,12 +121,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "intakeStop"
           }
         },
         {
@@ -163,6 +163,6 @@
       ]
     }
   },
-  "folder": "Blue Autos",
+  "folder": null,
   "choreoAuto": false
 }
