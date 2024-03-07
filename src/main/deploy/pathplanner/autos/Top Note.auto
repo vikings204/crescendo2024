@@ -105,22 +105,15 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "not to top"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStart"
-                }
-              }
-            ]
+            "name": "shooterStart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "top to speaker"
           }
         },
         {
