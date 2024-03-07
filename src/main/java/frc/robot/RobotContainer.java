@@ -28,7 +28,7 @@ public class RobotContainer {
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.DRIVER_PORT);
-    PathPlannerAuto pathChosen = new PathPlannerAuto(null);
+    PathPlannerAuto pathChosen ;//= new PathPlannerAuto(null);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,7 +44,15 @@ public class RobotContainer {
             configureButtonBindings();
             System.out.println("Switched control mode to " + mode);
         });
-
+        AutoBuilder.configureHolonomic(
+                PoseEstimation::getCurrentPose,
+                PoseEstimation::setCurrentPose,
+                Swerve::getSpeeds,
+                Swerve::driveRobotRelative,
+                Constants.Auto.PATH_FOLLOWER_CONFIG,
+                () -> Robot.alliance == DriverStation.Alliance.Red,
+                Swerve
+        );
         AutoModeChooser.onChange((AutoMode mode1) -> {
             if (mode1 == AutoMode.MidToTop) {
                 pathChosen = new PathPlannerAuto("Top Note");
@@ -77,15 +85,7 @@ public class RobotContainer {
         configureDefaultCommands();
         configureButtonBindings();
 
-        AutoBuilder.configureHolonomic(
-                PoseEstimation::getCurrentPose,
-                PoseEstimation::setCurrentPose,
-                Swerve::getSpeeds,
-                Swerve::driveRobotRelative,
-                Constants.Auto.PATH_FOLLOWER_CONFIG,
-                () -> Robot.alliance == DriverStation.Alliance.Red,
-                Swerve
-        );
+
     }
 
     private void configureDefaultCommands() {
