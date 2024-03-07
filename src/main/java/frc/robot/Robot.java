@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
           AutoModeChooser.addOption("Middle to Top", AutoMode.MidToTop);
           AutoModeChooser.addOption("Middle to Bot", AutoMode.MidToBot);
           AutoModeChooser.addOption("Top to Top", AutoMode.ToptoTop);
-          AutoModeChooser.addOption("Top to Top", AutoMode.BottoBot);
+          AutoModeChooser.addOption("Bot to Bot", AutoMode.BottoBot);
            SmartDashboard.putData("Auto Select", AutoModeChooser);
     }
     /**
