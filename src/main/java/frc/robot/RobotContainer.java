@@ -61,7 +61,7 @@ public class RobotContainer {
                 pathChosen = new PathPlannerAuto("Bottom Note");
             } 
             else  if (mode1 == AutoMode.ToptoTop) {
-                pathChosen = new PathPlannerAuto("Side to Top Note");
+                pathChosen = new PathPlannerAuto("Top to Top Note");
             } 
             else   if (mode1 == AutoMode.BottoBot) {
                 pathChosen = new PathPlannerAuto("Copy of Bottom Side to Bottom");

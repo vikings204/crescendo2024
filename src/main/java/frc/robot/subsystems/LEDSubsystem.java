@@ -1,17 +1,29 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LEDSubsystem {
     private final Spark blinkin;
     private BlinkinPattern currentPattern;
     public presetSettings Presets;
+    private final SendableChooser<Boolean> ledChooser = new SendableChooser<>();
+    private final PowerDistribution pd;
 
     public LEDSubsystem() {
         blinkin = new Spark(0);
+        pd = new PowerDistribution(1, ModuleType.kRev);
 
         Presets = new presetSettings();
         Presets.Default();
+
+        ledChooser.addOption("LED off", false);
+        ledChooser.setDefaultOption("LED on", true);
+        SmartDashboard.putData("LED status", ledChooser);
+        ledChooser.onChange((Boolean val) -> pd.setSwitchableChannel(val));
     }
 
     // https://www.chiefdelphi.com/t/rev-blinkin-example-code/452871/4
@@ -151,7 +163,7 @@ public class LEDSubsystem {
             setPattern(BlinkinPattern.DARK_RED);
         }
         public void HasNote() {
-            setPattern(BlinkinPattern.COLOR_WAVES_LAVA_PALETTE);
+            setPattern(BlinkinPattern.COLOR_WAVES_OCEAN_PALETTE);
         }
     }
 }
