@@ -73,7 +73,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 6.0
+                  "waitTime": 5.5
                 }
               }
             ]
@@ -111,16 +111,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "intakeStop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "shooterStart"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeStop"
           }
         },
         {
