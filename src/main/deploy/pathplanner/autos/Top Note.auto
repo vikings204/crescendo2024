@@ -111,12 +111,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "top to speaker"
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
