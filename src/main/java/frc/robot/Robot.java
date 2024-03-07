@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.Auto;
 
 import java.util.Optional;
 
@@ -24,7 +25,11 @@ public class Robot extends TimedRobot {
     public enum ControlMode {
         SINGLE, COMPETITION
     }
+        public enum AutoMode {
+        MidToTop,MidToBot,ToptoTop,BottoBot
+    }
     public static final SendableChooser<ControlMode> ControlModeChooser = new SendableChooser<>();
+    public static final SendableChooser<AutoMode> AutoModeChooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -44,6 +49,12 @@ public class Robot extends TimedRobot {
         ControlModeChooser.addOption("Single Controller (Driver:usb1 Operator:usb1)", ControlMode.SINGLE);
         ControlModeChooser.setDefaultOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
         SmartDashboard.putData("Control Mode", ControlModeChooser);
+
+          AutoModeChooser.addOption("Middle to Top", AutoMode.MidToTop);
+          AutoModeChooser.addOption("Middle to Bot", AutoMode.MidToBot);
+          AutoModeChooser.addOption("Top to Top", AutoMode.ToptoTop);
+          AutoModeChooser.addOption("Top to Top", AutoMode.BottoBot);
+           SmartDashboard.putData("Auto Select", AutoModeChooser);
     }
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
