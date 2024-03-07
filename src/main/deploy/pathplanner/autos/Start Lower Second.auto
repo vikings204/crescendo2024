@@ -73,7 +73,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.8
+                  "waitTime": 4.4
                 }
               }
             ]
@@ -103,15 +103,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "intakeStop"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "not to top"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
                 }
               },
               {
