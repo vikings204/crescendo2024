@@ -38,8 +38,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
         ignoreSensorChooser.addOption("deactivate sensor", false);
         ignoreSensorChooser.setDefaultOption("sensor is active", true);
-        Shuffleboard.getTab("SmartDashboard").add("ignore intake sensor", ignoreSensorChooser).withWidget(BuiltInWidgets.kSplitButtonChooser); //SmartDashboard.putData("Ignore Intake Sensor", ignoreSensorChooser);
+        Shuffleboard.getTab("SmartDashboard").add("ignore intake sensor", ignoreSensorChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1); //SmartDashboard.putData("Ignore Intake Sensor", ignoreSensorChooser);
         ignoreSensorChooser.onChange((Boolean val) -> ignoreSensor = val);
+
+        Shuffleboard.getTab("SmartDashboard").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
     }
 
     //configDriveMotor();
@@ -122,7 +124,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
             if (shoot && !detected) {
                 intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
-                Shuffleboard.getTab("SmartDashboard").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
+                // moved to init Shuffleboard.getTab("SmartDashboard").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
             } else {
                 intakeMotor.set(0);
             }

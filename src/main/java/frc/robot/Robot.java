@@ -68,13 +68,13 @@ public class Robot extends TimedRobot {
 
         ControlModeChooser.addOption("Single Controller (Driver:usb1 Operator:usb1)", ControlMode.SINGLE);
         ControlModeChooser.setDefaultOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
-        Shuffleboard.getTab("SmartDashboard").add("control mode", ControlModeChooser).withWidget(BuiltInWidgets.kSplitButtonChooser); //SmartDashboard.putData("Control Mode", ControlModeChooser);
+        Shuffleboard.getTab("SmartDashboard").add("control mode", ControlModeChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1); //SmartDashboard.putData("Control Mode", ControlModeChooser);
 
         AutoModeChooser.addOption(AutoMode.MidToTop.optionName(), AutoMode.MidToTop);
         AutoModeChooser.addOption(AutoMode.MidToBot.optionName(), AutoMode.MidToBot);
         AutoModeChooser.addOption(AutoMode.TopToTop.optionName(), AutoMode.TopToTop);
         AutoModeChooser.addOption(AutoMode.BotToBot.optionName(), AutoMode.BotToBot);
-        Shuffleboard.getTab("SmartDashboard").add("Auto Select", AutoModeChooser).withSize(3, 2); //SmartDashboard.putData("Auto Select", AutoModeChooser);
+        Shuffleboard.getTab("SmartDashboard").add("Auto Select", AutoModeChooser).withSize(3, 1); //SmartDashboard.putData("Auto Select", AutoModeChooser);
     }
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics

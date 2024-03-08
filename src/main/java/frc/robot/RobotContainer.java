@@ -112,10 +112,10 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
-        new JoystickButton(OPERATOR, 1)
-                .whileTrue(new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter));
-        new JoystickButton(OPERATOR, 2)
-                .whileTrue(new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter));
+        // new JoystickButton(OPERATOR, 1)
+        //         .whileTrue(new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter));
+        // new JoystickButton(OPERATOR, 1)
+        //         .whileTrue(new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter));
     }
 
     public Command getAutonomousCommand() {

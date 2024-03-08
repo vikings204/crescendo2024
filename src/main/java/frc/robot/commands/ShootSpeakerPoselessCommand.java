@@ -36,7 +36,7 @@ public class ShootSpeakerPoselessCommand extends Command {
 
     private final PhotonCamera camera = new PhotonCamera(CAMERA_NAME);
     private double range;
-    private final GenericEntry secondsToShootEntry = Shuffleboard.getTab("SmartDashboard").add("seconds to shoot", (double) 1/3).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", 0, "max", 1)).getEntry();
+    private final GenericEntry secondsToShootEntry = Shuffleboard.getTab("SmartDashboard").add("seconds to shoot p", (double) 1/3).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", 0, "max", 1)).getEntry();
 
     public ShootSpeakerPoselessCommand(
             SwerveSubsystem Swerve,
