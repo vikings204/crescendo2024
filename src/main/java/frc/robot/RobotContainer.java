@@ -56,7 +56,9 @@ public class RobotContainer {
 
               var alliance = DriverStation.getAlliance();
               if (alliance.isPresent()) {
+                System.out.println("I am on Red Alliance True or False? " + (alliance.get()== DriverStation.Alliance.Red));
                 return alliance.get() == DriverStation.Alliance.Red;
+
               }
               return false;},
                 Swerve
