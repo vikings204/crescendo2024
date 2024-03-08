@@ -25,10 +25,10 @@ public class Robot extends TimedRobot {
         SINGLE, COMPETITION
     }
     public enum AutoMode {
-        MidToTop("Top Note"),
-        MidToBot("Bottom Note"),
+        MidToTop("Middle to Top Note"),
+        MidToBot("MIddle to Bottom Note"),
         TopToTop("Top to Top Note"),
-        BotToBot("Copy of Bottom Side to Bottom");
+        BotToBot("Bottom to Bottom Note");
 
         public final String pathplannerName;
         AutoMode(String str) {
