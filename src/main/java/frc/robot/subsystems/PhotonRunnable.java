@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -35,6 +36,9 @@ public class PhotonRunnable implements Runnable {
         }
 
         this.photonPoseEstimator = photonPoseEstimator;
+
+        //Shuffleboard.getTab("camera").addCamera("raw?", "webcam", "https://photonvision.local:1181").withSize(7, 7);
+        Shuffleboard.getTab("camera").addCamera("processed?", "webcam", "https://photonvision.local:1182").withSize(7, 7);
     }
 
     @Override

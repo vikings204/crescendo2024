@@ -12,9 +12,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.ReduceCANUsage;
 import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
+
+import java.util.Map;
 
 import static frc.robot.Constants.Swerve.*;
 
@@ -181,7 +185,7 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         //SmartDashboard.putNumber("Raw Angle Reading " + moduleNumber, (angleMotor.getSelectedSensorPosition()/1023)*360);
-        SmartDashboard.putNumber("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder.getPosition());
+        Shuffleboard.getTab("swerve").add("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder.getPosition()).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180)); //SmartDashboard.putNumber("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder.getPosition());
         //System.out.println("Encoder Position: "+((angleMotor.getSelectedSensorPosition()/1023)*360-angleOffset.getDegrees()));
         return new SwerveModulePosition(
                 driveEncoder.getPosition(),

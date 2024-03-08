@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Robot.AutoMode;
 import frc.robot.Robot.ControlMode;
 import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShootSpeakerPoselessCommand;
@@ -28,7 +27,6 @@ public class RobotContainer {
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.DRIVER_PORT);
-    PathPlannerAuto pathChosen ;//= new PathPlannerAuto(null);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -42,8 +40,8 @@ public class RobotContainer {
             }
             configureDefaultCommands();
             configureButtonBindings();
-            System.out.println("Switched control mode to " + mode);
         });
+
         AutoBuilder.configureHolonomic(
                 PoseEstimation::getCurrentPose,
                 PoseEstimation::setCurrentPose,
@@ -53,25 +51,6 @@ public class RobotContainer {
                 () -> Robot.alliance == DriverStation.Alliance.Red,
                 Swerve
         );
-        AutoModeChooser.onChange((AutoMode mode1) -> {
-            if (mode1 == AutoMode.MidToTop) {
-                pathChosen = new PathPlannerAuto("Top Note");
-            } 
-            else  if (mode1 == AutoMode.MidToBot) {
-                pathChosen = new PathPlannerAuto("Bottom Note");
-            } 
-            else  if (mode1 == AutoMode.ToptoTop) {
-                pathChosen = new PathPlannerAuto("Top to Top Note");
-            } 
-            else   if (mode1 == AutoMode.BottoBot) {
-                pathChosen = new PathPlannerAuto("Copy of Bottom Side to Bottom");
-            } 
-            else {
-                pathChosen = new PathPlannerAuto("Top Note");
-            }
-        
-           // System.out.println("Switched control mode to " + mode);
-        });
 
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> Shooter.receive(true), Shooter));
         NamedCommands.registerCommand("zeroGyro", new InstantCommand(Swerve::zeroGyro, Swerve));
@@ -84,8 +63,6 @@ public class RobotContainer {
 
         configureDefaultCommands();
         configureButtonBindings();
-
-
     }
 
     private void configureDefaultCommands() {
@@ -134,7 +111,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         //Swerve.gyro.setYaw(-90.0); // temp for auto testing
         //return new PathPlannerAuto("Start Lower Second");
-        return pathChosen;
+        return new PathPlannerAuto(AutoModeChooser.getSelected().pathplannerName);
 }
 
 //    public Command getAutonomousCommand() {

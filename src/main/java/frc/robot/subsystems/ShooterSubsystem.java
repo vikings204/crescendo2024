@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         ignoreSensorChooser.addOption("deactivate sensor", false);
         ignoreSensorChooser.setDefaultOption("sensor is active", true);
-        SmartDashboard.putData("Ignore Intake Sensor", ignoreSensorChooser);
+        Shuffleboard.getTab("SmartDashboard").add("ignore intake sensor", ignoreSensorChooser).withWidget(BuiltInWidgets.kSplitButtonChooser); //SmartDashboard.putData("Ignore Intake Sensor", ignoreSensorChooser);
         ignoreSensorChooser.onChange((Boolean val) -> ignoreSensor = val);
     }
 

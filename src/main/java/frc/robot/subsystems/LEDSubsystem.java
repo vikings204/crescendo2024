@@ -3,8 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LEDSubsystem {
     private final Spark blinkin;
@@ -22,8 +23,8 @@ public class LEDSubsystem {
 
         ledChooser.addOption("LED off", false);
         ledChooser.setDefaultOption("LED on", true);
-        SmartDashboard.putData("LED status", ledChooser);
-        ledChooser.onChange((Boolean val) -> pd.setSwitchableChannel(val));
+        Shuffleboard.getTab("SmartDashboard").add("LED status", ledChooser).withWidget(BuiltInWidgets.kSplitButtonChooser); // SmartDashboard.putData("LED status", ledChooser);
+        ledChooser.onChange(pd::setSwitchableChannel);
     }
 
     // https://www.chiefdelphi.com/t/rev-blinkin-example-code/452871/4

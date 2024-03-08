@@ -1,13 +1,12 @@
 package frc.robot;
 
-import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.Auto;
 
 import java.util.Optional;
 
@@ -25,8 +24,31 @@ public class Robot extends TimedRobot {
     public enum ControlMode {
         SINGLE, COMPETITION
     }
-        public enum AutoMode {
-        MidToTop,MidToBot,ToptoTop,BottoBot
+    public enum AutoMode {
+        MidToTop("Top Note"),
+        MidToBot("Bottom Note"),
+        TopToTop("Top to Top Note"),
+        BotToBot("Copy of Bottom Side to Bottom");
+
+        public final String pathplannerName;
+        AutoMode(String str) {
+            this.pathplannerName = str;
+        }
+
+        private String decode(char[] chars) {
+            String str = "" + chars[0] + chars[1] + chars[2];
+            if (str.equals("Mid")) {
+                return "Middle";
+            } else if (str.equals("Bot")) {
+                return "Bottom";
+            } else {
+                return str;
+            }
+        }
+        public String optionName() {
+            char[] chars = this.toString().toCharArray();
+            return "PP " + decode(new char[]{chars[0], chars[1], chars[2]}) + " TO " + decode(new char[]{chars[5], chars[6], chars[7]});
+        }
     }
     public static final SendableChooser<ControlMode> ControlModeChooser = new SendableChooser<>();
     public static final SendableChooser<AutoMode> AutoModeChooser = new SendableChooser<>();
@@ -42,19 +64,17 @@ public class Robot extends TimedRobot {
 
         robotContainer = new RobotContainer();
         //CameraServer.startAutomaticCapture(); // use for USB camera
-        PortForwarder.add(8888, "10.2.4.69", 80);
+        //PortForwarder.add(8888, "10.2.4.69", 80);
 
-        //ControlModeChooser.setDefaultOption("Single Controller (Driver:usb1 Operator:usb1)", ControlMode.SINGLE);
-        //ControlModeChooser.addOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
         ControlModeChooser.addOption("Single Controller (Driver:usb1 Operator:usb1)", ControlMode.SINGLE);
         ControlModeChooser.setDefaultOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
-        SmartDashboard.putData("Control Mode", ControlModeChooser);
+        Shuffleboard.getTab("SmartDashboard").add("control mode", ControlModeChooser).withWidget(BuiltInWidgets.kSplitButtonChooser); //SmartDashboard.putData("Control Mode", ControlModeChooser);
 
-          AutoModeChooser.addOption("Middle to Top", AutoMode.MidToTop);
-          AutoModeChooser.addOption("Middle to Bot", AutoMode.MidToBot);
-          AutoModeChooser.addOption("Top to Top", AutoMode.ToptoTop);
-          AutoModeChooser.addOption("Bot to Bot", AutoMode.BottoBot);
-           SmartDashboard.putData("Auto Select", AutoModeChooser);
+        AutoModeChooser.addOption(AutoMode.MidToTop.optionName(), AutoMode.MidToTop);
+        AutoModeChooser.addOption(AutoMode.MidToBot.optionName(), AutoMode.MidToBot);
+        AutoModeChooser.addOption(AutoMode.TopToTop.optionName(), AutoMode.TopToTop);
+        AutoModeChooser.addOption(AutoMode.BotToBot.optionName(), AutoMode.BotToBot);
+        Shuffleboard.getTab("SmartDashboard").add("Auto Select", AutoModeChooser).withSize(3, 2); //SmartDashboard.putData("Auto Select", AutoModeChooser);
     }
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
