@@ -3,10 +3,11 @@ package frc.robot;
 public final class Constants204 {
     // these two are stowaways - eventually all constants will merge
     public static final class Autonomous {
-        public static final String CHOREO_PATH_FILE = "path"; // omit file extension
+        public static final String CHOREO_PATH_FILE = "TestingPath"; // omit file extension
     }
     public static final class Controller {
-        public static final int PORT = 1;
+        public static final int DRIVER_PORT = 1;
+        public static final int OPERATOR_PORT = 2;
     }
 
     // BELOW IS UNUSED

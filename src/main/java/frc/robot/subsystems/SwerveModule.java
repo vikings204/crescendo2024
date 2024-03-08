@@ -69,7 +69,6 @@ public class SwerveModule {
         // Custom optimize command, since default WPILib optimize assumes continuous controller which
         // REV and CTRE are not
 
-        //desiredState = OnboardModuleState.optimize(desiredState, getState().angle);
         desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
 
         setAngle(desiredState);
@@ -117,10 +116,10 @@ public class SwerveModule {
         driveMotor.setIdleMode(Constants.Swerve.driveNeutralMode);
         driveEncoder.setVelocityConversionFactor(Constants.Swerve.driveConversionVelocityFactor);
         driveEncoder.setPositionConversionFactor(Constants.Swerve.driveConversionPositionFactor);
-        driveController.setP(Constants.Swerve.angleKP);
-        driveController.setI(Constants.Swerve.angleKI);
-        driveController.setD(Constants.Swerve.angleKD);
-        driveController.setFF(Constants.Swerve.angleKFF);
+        driveController.setP(Constants.Swerve.driveKP);
+        driveController.setI(Constants.Swerve.driveKI);
+        driveController.setD(Constants.Swerve.driveKD);
+        driveController.setFF(Constants.Swerve.driveKFF);
         driveMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
         driveMotor.burnFlash();
         driveEncoder.setPosition(0.0);
