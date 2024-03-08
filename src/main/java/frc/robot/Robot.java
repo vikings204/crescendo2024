@@ -75,6 +75,8 @@ public class Robot extends TimedRobot {
         AutoModeChooser.addOption(AutoMode.TopToTop.optionName(), AutoMode.TopToTop);
         AutoModeChooser.addOption(AutoMode.BotToBot.optionName(), AutoMode.BotToBot);
         Shuffleboard.getTab("SmartDashboard").add("Auto Select", AutoModeChooser).withSize(3, 1); //SmartDashboard.putData("Auto Select", AutoModeChooser);
+        checkDriverStationUpdate();
+        Shuffleboard.getTab("SmartDashboard").addString("alliance", () -> allianceString);
     }
     /**
      * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -96,6 +98,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        checkDriverStationUpdate();
     }
     @Override
     public void disabledPeriodic() {
@@ -111,6 +114,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
           autonomousCommand.schedule();
         }
+        checkDriverStationUpdate();
     }
     @Override
     public void autonomousPeriodic() {
@@ -141,12 +145,14 @@ public class Robot extends TimedRobot {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
         //teleopCommand.cancel();
+        checkDriverStationUpdate();
     }
     @Override
     public void testPeriodic() {
     }
 
     public static DriverStation.Alliance alliance;
+    public static String allianceString = "never init";
     /**
      * Checks the driverstation alliance. We have have to check repeatedly because we don't know when the
      * driverstation/FMS will connect, and the alliance can change at any time in the shop.
@@ -157,11 +163,9 @@ public class Robot extends TimedRobot {
 
         if (allianceOpt.isPresent()) {
             DriverStation.Alliance newAlliance = allianceOpt.get();
-            // If we have data, and have a new alliance from last time
-            if (DriverStation.isDSAttached() && newAlliance != alliance) {
-                robotContainer.PoseEstimation.setAlliance(newAlliance);
-                alliance = newAlliance;
-            }
+            robotContainer.PoseEstimation.setAlliance(newAlliance);
+            alliance = newAlliance;
+            allianceString = newAlliance.toString();
         }
     }
 }

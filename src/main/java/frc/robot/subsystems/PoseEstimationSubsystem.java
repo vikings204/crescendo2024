@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -71,6 +72,10 @@ public class PoseEstimationSubsystem extends SubsystemBase {
             photonNotifier.setName("PhotonRunnable");
             photonNotifier.startPeriodic(0.02);
         }
+
+        Shuffleboard.getTab("SmartDashboard").addNumber("pose X", poseEstimator.getEstimatedPosition()::getX);
+        Shuffleboard.getTab("SmartDashboard").addNumber("pose Y", poseEstimator.getEstimatedPosition()::getY);
+        Shuffleboard.getTab("SmartDashboard").addNumber("gyro angle", poseEstimator.getEstimatedPosition().getRotation()::getDegrees);
     }
 
     /**
@@ -127,10 +132,6 @@ public class PoseEstimationSubsystem extends SubsystemBase {
             dashboardPose = flipAlliance(dashboardPose);
         }
         field.setRobotPose(dashboardPose);
-
-        SmartDashboard.putNumber("pose X", poseEstimator.getEstimatedPosition().getX());
-        SmartDashboard.putNumber("pose Y", poseEstimator.getEstimatedPosition().getY());
-        SmartDashboard.putNumber("gyro angle", poseEstimator.getEstimatedPosition().getRotation().getDegrees());
     }
 
     public Pose2d getCurrentPose() {

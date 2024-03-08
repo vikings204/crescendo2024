@@ -4,6 +4,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -18,6 +20,7 @@ import frc.robot.util.Gamepad;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Robot.ControlModeChooser;
+import static frc.robot.Robot.alliance;
 import static frc.robot.Robot.AutoModeChooser;
 
 public class RobotContainer {
@@ -49,18 +52,7 @@ public class RobotContainer {
                 Swerve::getSpeeds,
                 Swerve::driveRobotRelative,
                 Constants.Auto.PATH_FOLLOWER_CONFIG,
-                            () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                System.out.println("I am on Red Alliance True or False? " + (alliance.get()== DriverStation.Alliance.Red));
-                return alliance.get() == DriverStation.Alliance.Red;
-
-              }
-              return false;},
+                () -> Robot.alliance == DriverStation.Alliance.Red,
                 Swerve
         );
 

@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -24,6 +26,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private final SendableChooser<Boolean> ignoreSensorChooser = new SendableChooser<>();
     private final LEDSubsystem led;
     private boolean noteDetected;
+    
+    private GenericEntry entry;
 
     public ShooterSubsystem(LEDSubsystem ledSubsystem) {
         led = ledSubsystem;
@@ -42,6 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
         ignoreSensorChooser.onChange((Boolean val) -> ignoreSensor = val);
 
         Shuffleboard.getTab("SmartDashboard").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
+        entry = Shuffleboard.getTab("SmartDashboard").add("amp speed", AMP_SPEED).getEntry();
     }
 
     //configDriveMotor();
@@ -87,9 +92,11 @@ public class ShooterSubsystem extends SubsystemBase {
     public void flywheelAmp(boolean shoot) {
         flywheelState = shoot;
         if (shoot) {
-            shooterMotor_1.set(AMP_SPEED);
-//            shooterMotor_2.set(AMP_SPEED - .025);
-            shooterMotor_2.set(AMP_SPEED);
+//             shooterMotor_1.set(AMP_SPEED);
+// //            shooterMotor_2.set(AMP_SPEED - .025);
+//             shooterMotor_2.set(AMP_SPEED);
+            shooterMotor_1.set(entry.getDouble(AMP_SPEED));
+            shooterMotor_2.set(entry.getDouble(AMP_SPEED));
         } else {
             shooterMotor_1.set(0);
             shooterMotor_2.set(0);

@@ -34,7 +34,7 @@ public final class Constants {
         public static final double VOLTAGE_COMP = 16.0;
 
         public static final double SPEAKER_SPEED = 1.0;
-        public static final double AMP_SPEED = .057;
+        public static final double AMP_SPEED = .080;
         public static final double INTAKE_SPEED = 1.0;
 
         public static final int INTAKE_SENSOR_THRESHOLD = 200;
