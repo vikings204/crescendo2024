@@ -138,8 +138,8 @@ public class SwerveSubsystem extends SubsystemBase {
     public SwerveModulePosition[] getPositions() {
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for (SwerveModule mod : modules) {
-            Shuffleboard.getTab("swerve").add("position: module " + mod.moduleNumber, mod.getPosition().distanceMeters); // SmartDashboard.putNumber("position: module " + mod.moduleNumber, mod.getPosition().distanceMeters);
-            Shuffleboard.getTab("swerve").add("angle: module " + mod.moduleNumber, mod.getPosition().angle.getDegrees()).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180)); // SmartDashboard.putNumber("angle: module " + mod.moduleNumber, mod.getPosition().angle.getDegrees());
+            Shuffleboard.getTab("swerve").addNumber("position: module " + mod.moduleNumber, () -> mod.getPosition().distanceMeters); // SmartDashboard.putNumber("position: module " + mod.moduleNumber, mod.getPosition().distanceMeters);
+            Shuffleboard.getTab("swerve").addNumber("angle: module " + mod.moduleNumber, mod.getPosition().angle::getDegrees).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180)); // SmartDashboard.putNumber("angle: module " + mod.moduleNumber, mod.getPosition().angle.getDegrees());
             positions[mod.moduleNumber] = mod.getPosition();
         }
         return positions;
@@ -208,8 +208,8 @@ public class SwerveSubsystem extends SubsystemBase {
         for (SwerveModule mod : modules) {
             //  SmartDashboard.putNumber(
             //    "Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
-            Shuffleboard.getTab("swerve").add("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees()).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180)); // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
-            Shuffleboard.getTab("swerve").add("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond); //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+            Shuffleboard.getTab("swerve").addNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle::getDegrees).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180)); // SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
+            Shuffleboard.getTab("swerve").addNumber("Mod " + mod.moduleNumber + " Velocity", () -> mod.getState().speedMetersPerSecond); //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
     }
 }

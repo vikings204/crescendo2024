@@ -185,7 +185,7 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         //SmartDashboard.putNumber("Raw Angle Reading " + moduleNumber, (angleMotor.getSelectedSensorPosition()/1023)*360);
-        Shuffleboard.getTab("swerve").add("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder.getPosition()).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180)); //SmartDashboard.putNumber("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder.getPosition());
+        Shuffleboard.getTab("swerve").addNumber("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder::getPosition).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180)); //SmartDashboard.putNumber("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder.getPosition());
         //System.out.println("Encoder Position: "+((angleMotor.getSelectedSensorPosition()/1023)*360-angleOffset.getDegrees()));
         return new SwerveModulePosition(
                 driveEncoder.getPosition(),

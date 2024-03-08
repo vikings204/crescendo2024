@@ -122,7 +122,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
             if (shoot && !detected) {
                 intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
-                Shuffleboard.getTab("SmartDashboard").add("Intake Motor Current", intakeMotor.getOutputCurrent()); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
+                Shuffleboard.getTab("SmartDashboard").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
             } else {
                 intakeMotor.set(0);
             }
