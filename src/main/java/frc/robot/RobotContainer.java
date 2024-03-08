@@ -22,7 +22,7 @@ import static frc.robot.Robot.AutoModeChooser;
 public class RobotContainer {
     public final SwerveSubsystem Swerve = new SwerveSubsystem();
     public final LEDSubsystem LED = new LEDSubsystem();
-    public final ShooterSubsystem Shooter = new ShooterSubsystem(LED.Presets::HasNote, LED.Presets::Default);
+    public final ShooterSubsystem Shooter = new ShooterSubsystem(LED);
     public final LinearActuatorSubsystem LinearActuator = new LinearActuatorSubsystem();
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);

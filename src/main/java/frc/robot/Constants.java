@@ -181,7 +181,6 @@ public final class Constants {
         public static final double TARGET_OFFSET = inchesToMeters(50);//inchesToMeters(4);
         public static final Translation2d SPEAKER_RED = new Translation2d(inchesToMeters(652.73) - TARGET_OFFSET, inchesToMeters(218.42));
         public static final Translation2d SPEAKER_BLUE = new Translation2d(TARGET_OFFSET, inchesToMeters(218.42));
-        public static final double SECONDS_TO_SPIN_UP = (double) 1/3;
     }
 }
   

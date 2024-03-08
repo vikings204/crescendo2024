@@ -22,12 +22,11 @@ public class ShooterSubsystem extends SubsystemBase {
     private boolean flywheelState = false;
     private boolean ignoreSensor = false;
     private final SendableChooser<Boolean> ignoreSensorChooser = new SendableChooser<>();
-    private final Runnable ledHasNote;
-    private final Runnable ledEmpty;
+    private final LEDSubsystem led;
+    private boolean noteDetected;
 
-    public ShooterSubsystem(Runnable hasNote, Runnable empty) {
-        ledHasNote = hasNote;
-        ledEmpty = empty;
+    public ShooterSubsystem(LEDSubsystem ledSubsystem) {
+        led = ledSubsystem;
 
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);
         shooterMotor_2 = new CANSparkMax(SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
@@ -97,9 +96,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void receive(boolean shoot) {
-        SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
-
-        if (shoot && sensor1.getProximity() < INTAKE_SENSOR_THRESHOLD) {
+        if (shoot && !noteDetected) {
             shooterMotor_1.set(-.05);
             shooterMotor_2.set(-.05);
             intakeMotor.set(0.8);
@@ -118,16 +115,14 @@ public class ShooterSubsystem extends SubsystemBase {
                 intakeMotor.set(0);
             }
         } else {
-            SmartDashboard.putNumber("DISTANCE", sensor1.getProximity());
-            var detected = sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD;
-
+            var detected = noteDetected;
             if (flywheelState || reverse) {
                 detected = false;
             }
 
             if (shoot && !detected) {
                 intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
-                    System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
+                Shuffleboard.getTab("SmartDashboard").add("Intake Motor Current", intakeMotor.getOutputCurrent()); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
             } else {
                 intakeMotor.set(0);
             }
@@ -136,10 +131,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD) {
-            ledHasNote.run();
+        SmartDashboard.putNumber("NOTE DISTANCE", sensor1.getProximity());
+        noteDetected = sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD;
+
+        if (noteDetected && !flywheelState) {
+            led.Presets.HasNote();
+        } else if (flywheelState) {
+            led.Presets.Shooting();
         } else {
-            ledEmpty.run();
+            led.Presets.Default();
         }
     }
 }

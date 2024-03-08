@@ -166,5 +166,8 @@ public class LEDSubsystem {
         public void HasNote() {
             setPattern(BlinkinPattern.COLOR_WAVES_OCEAN_PALETTE);
         }
+        public void Shooting() {
+            setPattern(BlinkinPattern.SHOT_RED);
+        }
     }
 }
