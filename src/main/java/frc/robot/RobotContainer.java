@@ -4,8 +4,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -18,9 +16,7 @@ import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
 import frc.robot.util.Gamepad;
 
-import static frc.robot.Constants.*;
 import static frc.robot.Robot.ControlModeChooser;
-import static frc.robot.Robot.alliance;
 import static frc.robot.Robot.AutoModeChooser;
 
 public class RobotContainer {
@@ -29,6 +25,10 @@ public class RobotContainer {
     public final ShooterSubsystem Shooter = new ShooterSubsystem(LED);
     public final LinearActuatorSubsystem LinearActuator = new LinearActuatorSubsystem();
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
+
+    private final ShootSpeakerCommand ShootSpeakerCMD = new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter);
+    private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter);
+
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.DRIVER_PORT);
 
@@ -106,10 +106,9 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
-        // new JoystickButton(OPERATOR, 1)
-        //         .whileTrue(new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter));
-        // new JoystickButton(OPERATOR, 1)
-        //         .whileTrue(new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter));
+
+        new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerCMD);
+        new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
     }
 
     public Command getAutonomousCommand() {

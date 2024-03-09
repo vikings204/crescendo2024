@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ReduceCANUsage;
 import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
@@ -33,6 +33,8 @@ public class LinearActuatorSubsystem extends SubsystemBase {
         actuatorMotor.setSmartCurrentLimit(CURRENT_LIMIT);
         actuatorMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         actuatorMotor.burnFlash();
+
+        Shuffleboard.getTab("debug").addNumber("LINEAR ACTUATOR HEIGHT", encoder::getPosition);
     }
 
     public void shift(boolean up, boolean down) {
@@ -57,7 +59,5 @@ public class LinearActuatorSubsystem extends SubsystemBase {
             controller.setReference(0, CANSparkBase.ControlType.kVelocity);
             actuatorMotor.set(0);
         }
-
-        SmartDashboard.putNumber("LINEAR ACTUATOR HEIGHT", encoder.getPosition());
     }
 }

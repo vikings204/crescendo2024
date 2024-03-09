@@ -30,7 +30,7 @@ public class ShootSpeakerCommand extends Command {
     private final ProfiledPIDController xPID = new ProfiledPIDController(3, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 4));
     private final ProfiledPIDController yPID = new ProfiledPIDController(3, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 4));
     private final ProfiledPIDController thetaPID = new ProfiledPIDController(2, 0, 0, new Constraints(Constants.Swerve.MAX_ANGULAR_VELOCITY, 4));
-    private final GenericEntry secondsToShootEntry = Shuffleboard.getTab("SmartDashboard").add("seconds to shoot", (double) 1/3).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", 0, "max", 1)).getEntry();
+    private final GenericEntry secondsToShootEntry = Shuffleboard.getTab("config").add("seconds to shoot", (double) 1/3).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", 0, "max", 1)).getEntry();
 
 
     public ShootSpeakerCommand(

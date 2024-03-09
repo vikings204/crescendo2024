@@ -23,7 +23,7 @@ public class LEDSubsystem {
 
         ledChooser.addOption("LED off", false);
         ledChooser.setDefaultOption("LED on", true);
-        Shuffleboard.getTab("SmartDashboard").add("LED status", ledChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1); // SmartDashboard.putData("LED status", ledChooser);
+        Shuffleboard.getTab("config").add("LED status", ledChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1);
         ledChooser.onChange(pd::setSwitchableChannel);
     }
 

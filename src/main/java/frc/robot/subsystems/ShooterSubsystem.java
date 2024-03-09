@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ReduceCANUsage;
 import frc.robot.util.ReduceCANUsage.SparkMax.Usage;
@@ -26,8 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final SendableChooser<Boolean> ignoreSensorChooser = new SendableChooser<>();
     private final LEDSubsystem led;
     private boolean noteDetected;
-    
-    private GenericEntry entry;
+    private final GenericEntry entry;
 
     public ShooterSubsystem(LEDSubsystem ledSubsystem) {
         led = ledSubsystem;
@@ -42,11 +40,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
         ignoreSensorChooser.addOption("deactivate sensor", false);
         ignoreSensorChooser.setDefaultOption("sensor is active", true);
-        Shuffleboard.getTab("SmartDashboard").add("ignore intake sensor", ignoreSensorChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1); //SmartDashboard.putData("Ignore Intake Sensor", ignoreSensorChooser);
+        Shuffleboard.getTab("config").add("ignore intake sensor", ignoreSensorChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1);
         ignoreSensorChooser.onChange((Boolean val) -> ignoreSensor = val);
 
-        Shuffleboard.getTab("SmartDashboard").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
-        entry = Shuffleboard.getTab("SmartDashboard").add("amp speed", AMP_SPEED).getEntry();
+        Shuffleboard.getTab("debug").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent);
+        entry = Shuffleboard.getTab("config").add("amp speed", AMP_SPEED).getEntry();
+        Shuffleboard.getTab("debug").addNumber("NOTE DISTANCE", () -> {
+            double prox = sensor1.getProximity();
+            noteDetected = prox > INTAKE_SENSOR_THRESHOLD;
+            return prox;
+        });
     }
 
     //configDriveMotor();
@@ -131,7 +134,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
             if (shoot && !detected) {
                 intakeMotor.set(reverse ? -INTAKE_SPEED : INTAKE_SPEED);
-                // moved to init Shuffleboard.getTab("SmartDashboard").addNumber("Intake Motor Current", intakeMotor::getOutputCurrent); //System.out.println("Intake Motor Current "+intakeMotor.getOutputCurrent());
             } else {
                 intakeMotor.set(0);
             }
@@ -140,9 +142,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("NOTE DISTANCE", sensor1.getProximity());
-        noteDetected = sensor1.getProximity() > INTAKE_SENSOR_THRESHOLD;
-
         if (noteDetected && !flywheelState) {
             led.Presets.HasNote();
         } else if (flywheelState) {

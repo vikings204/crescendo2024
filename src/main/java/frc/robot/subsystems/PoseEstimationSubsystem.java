@@ -9,10 +9,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -73,9 +73,10 @@ public class PoseEstimationSubsystem extends SubsystemBase {
             photonNotifier.startPeriodic(0.02);
         }
 
-        Shuffleboard.getTab("SmartDashboard").addNumber("pose X", poseEstimator.getEstimatedPosition()::getX);
-        Shuffleboard.getTab("SmartDashboard").addNumber("pose Y", poseEstimator.getEstimatedPosition()::getY);
-        Shuffleboard.getTab("SmartDashboard").addNumber("gyro angle", poseEstimator.getEstimatedPosition().getRotation()::getDegrees);
+        Shuffleboard.getTab("field").add("pose est field", field).withWidget(BuiltInWidgets.kField).withSize(7, 4);
+        Shuffleboard.getTab("main").addNumber("pose X", poseEstimator.getEstimatedPosition()::getX);
+        Shuffleboard.getTab("main").addNumber("pose Y", poseEstimator.getEstimatedPosition()::getY);
+        Shuffleboard.getTab("main").addNumber("gyro angle", poseEstimator.getEstimatedPosition().getRotation()::getDegrees);
     }
 
     /**
