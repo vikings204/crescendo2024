@@ -25,6 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final SendableChooser<Boolean> ignoreSensorChooser = new SendableChooser<>();
     private final LEDSubsystem led;
     private boolean noteDetected;
+    public boolean detecting = true;
     private final GenericEntry entry;
 
     public ShooterSubsystem(LEDSubsystem ledSubsystem) {
@@ -50,6 +51,8 @@ public class ShooterSubsystem extends SubsystemBase {
             noteDetected = prox > INTAKE_SENSOR_THRESHOLD;
             return prox;
         });
+        Shuffleboard.getTab("debug").addBoolean("DETECTED", () -> noteDetected);
+        Shuffleboard.getTab("debug").addBoolean("detecting?", () -> detecting);
     }
 
     //configDriveMotor();
@@ -109,9 +112,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void receive(boolean shoot) {
         if (shoot && !noteDetected) {
-            shooterMotor_1.set(-.05);
-            shooterMotor_2.set(-.05);
-            intakeMotor.set(0.8);
+            shooterMotor_1.set(-.5);
+            shooterMotor_2.set(-.5);
+            intakeMotor.set(-0.8);
         } else {
             shooterMotor_1.set(0);
             shooterMotor_2.set(0);
@@ -128,6 +131,9 @@ public class ShooterSubsystem extends SubsystemBase {
             }
         } else {
             var detected = noteDetected;
+            if (!detecting) {
+                detected = true;
+            }
             if (flywheelState || reverse) {
                 detected = false;
             }
@@ -143,6 +149,7 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (noteDetected && !flywheelState) {
+            detecting = false;
             led.Presets.HasNote();
         } else if (flywheelState) {
             led.Presets.Shooting();

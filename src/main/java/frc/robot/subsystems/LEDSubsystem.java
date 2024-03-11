@@ -170,4 +170,11 @@ public class LEDSubsystem {
             setPattern(BlinkinPattern.SHOT_RED);
         }
     }
+
+    public void ledOff() {
+        pd.setSwitchableChannel(false);
+    }
+    public void ledOn() {
+        pd.setSwitchableChannel(true);
+    }
 }

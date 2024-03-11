@@ -30,7 +30,7 @@ public class RobotContainer {
     private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter);
 
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
-    Gamepad OPERATOR = new Gamepad(Controller.DRIVER_PORT);
+    Gamepad OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -52,9 +52,12 @@ public class RobotContainer {
                 Swerve::getSpeeds,
                 Swerve::driveRobotRelative,
                 Constants.Auto.PATH_FOLLOWER_CONFIG,
-                () -> Robot.alliance == DriverStation.Alliance.Red,
+                () -> false,//Robot.alliance == DriverStation.Alliance.Red,
                 Swerve
         );
+        if (Robot.alliance == DriverStation.Alliance.Red) {
+                PoseEstimation.disableEntry.setBoolean(true);
+        }
 
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> Shooter.receive(true), Shooter));
         NamedCommands.registerCommand("zeroGyro", new InstantCommand(Swerve::zeroGyro, Swerve));
@@ -64,7 +67,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("bumpStart", new InstantCommand(() -> Shooter.intake(true, false), Shooter));
         NamedCommands.registerCommand("bumpStop", new InstantCommand(() -> Shooter.intake(false, false), Shooter));
         NamedCommands.registerCommand("lowerIntake", new InstantCommand(() -> LinearActuator.shift(false,true), LinearActuator));
-
+        NamedCommands.registerCommand("lowerIntakeStop", new InstantCommand(() -> LinearActuator.shift(false,false), LinearActuator));
+        
         configureDefaultCommands();
         configureButtonBindings();
     }
@@ -77,8 +81,8 @@ public class RobotContainer {
                         () ->   DRIVER.getLeftY(),
                         () -> -1 * DRIVER.getRightX(),
                         () -> false,
-                        () -> DRIVER.getLeftStickButton(), // slow mode
-                        () -> DRIVER.getYButton())); // fast mode
+                        () -> false,// DRIVER.getLeftStickButton(), // slow mode
+                        () -> false));//DRIVER.getRightStickButton())); // fast mode
 
         Shooter.setDefaultCommand(
                 new RunCommand(
@@ -97,18 +101,23 @@ public class RobotContainer {
         new JoystickButton(OPERATOR, 5)
                 .whileTrue(
                         new RunCommand(() -> Shooter.intake(true, true), Shooter));
-        new JoystickButton(OPERATOR, 4)
+        new JoystickButton(DRIVER, 4)
                 .whileTrue(
                         new RunCommand(Swerve::zeroGyro, Swerve));
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
-                        new RunCommand(() -> Shooter.intake(true, false), Shooter));
-        new JoystickButton(OPERATOR, 10)
+                        new RunCommand(() -> Shooter.intake(true, false), Shooter))
+                .whileTrue(
+                        new InstantCommand(() -> Shooter.detecting = true));
+        // new JoystickButton(OPERATOR, 5)
+        //         .whileTrue(
+        //                 new RunCommand(() -> Shooter.receive(true), Shooter));
+        new JoystickButton(OPERATOR, 4)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
 
         new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerCMD);
-        new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
+        new JoystickButton(OPERATOR, 2).whileTrue(ShootSpeakerPoselessCMD);
     }
 
     public Command getAutonomousCommand() {

@@ -37,8 +37,8 @@ public class PhotonRunnable implements Runnable {
 
         this.photonPoseEstimator = photonPoseEstimator;
 
-        Shuffleboard.getTab("camera").addCamera("raw", "webcam", "https://photonvision.local:1181").withSize(7, 7);
-        Shuffleboard.getTab("camera").addCamera("processed", "webcam", "http://photonvision.local:1182").withSize(7, 7);
+        //Shuffleboard.getTab("camera").addCamera("raw", "webcam", "https://photonvision.local:1181").withSize(7, 7);
+        Shuffleboard.getTab("camera").addCamera("processed", "webcam", "http://photonvision.local:1182/stream.mjpg").withSize(7, 7);
     }
 
     @Override

@@ -42,7 +42,7 @@ public final class Constants {
 
     public static final class Swerve {
         public static final double FAST_SPEED_MULTIPLIER = 1;
-        public static final double NORMAL_SPEED_MULTIPLIER = .8;
+        public static final double NORMAL_SPEED_MULTIPLIER = 1;//.8;
         public static final double SLOW_SPEED_MULTIPLIER = .6;
 
         public static final double ANGLE_PID_FF = 0.0;
@@ -81,8 +81,8 @@ public final class Constants {
         public static final double VOLTAGE_COMPENSATION = 12.0;
 
         /* Swerve Current Limiting */
-        public static final int DRIVE_CURRENT_LIMIT = 30;
-        public static final int ANGLE_CURRENT_LIMIT = 5;
+        public static final int DRIVE_CURRENT_LIMIT = 40;//30;
+        public static final int ANGLE_CURRENT_LIMIT = 10;//5;
 
         /* Swerve Profiling Values */
         public static final double MAX_SPEED = 4.5; // meters per second
@@ -141,7 +141,7 @@ public final class Constants {
 
     public static final class LinearActuator {
         public static final int MOTOR_CAN_ID = 31;
-        public static final int CURRENT_LIMIT = 20;
+        public static final int CURRENT_LIMIT = 10;
 
         public static final double PID_P = 1.0;
         public static final double PID_I = 0.0;

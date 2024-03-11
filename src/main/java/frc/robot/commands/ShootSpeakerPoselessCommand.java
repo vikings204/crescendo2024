@@ -62,12 +62,14 @@ public class ShootSpeakerPoselessCommand extends Command {
         Pose2d robotPose = PoseEst.getCurrentPose();
         var result = camera.getLatestResult();
 
-        if (result.hasTargets() && result.getBestTarget().getFiducialId() == 8 || result.getBestTarget().getFiducialId() == 4) {
+        if (result.hasTargets()) {
+            if (result.getBestTarget().getFiducialId() == 8 || result.getBestTarget().getFiducialId() == 4) {
             range = PhotonUtils.calculateDistanceToTargetMeters(
                             CAMERA_TO_ROBOT.getZ(),//CAMERA_HEIGHT_METERS,
                             Units.inchesToMeters(53.88),//TARGET_HEIGHT_METERS,
                             0,//CAMERA_PITCH_RADIANS,
                             Units.degreesToRadians(result.getBestTarget().getPitch()));
+            }
         }
         //if (getFPGATimestamp() > initialTimestamp + secondsToShootEntry.getDouble((double) 1/3) && xPID.atSetpoint() && thetaPID.atGoal()) {
         if (getFPGATimestamp() > initialTimestamp + secondsToShootEntry.getDouble((double) 1/3) && Math.abs(range/TARGET_OFFSET-1)<=0.2) {

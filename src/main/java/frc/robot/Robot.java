@@ -25,10 +25,16 @@ public class Robot extends TimedRobot {
         SINGLE, COMPETITION
     }
     public enum AutoMode {
-        MidToTop("Middle to Top Note"),
-        MidToBot("MIddle to Bottom Note"),
-        TopToTop("Top to Top Note"),
-        BotToBot("Bottom to Bottom Note");
+        MidToTop("middle to top"),
+        MidToBot("middle to bottom"),
+        TopToTop("top to top"),
+        BotToBot("bottom to bottom"),
+        TopToEsc("top to escape"),
+        BotToEsc("bottom to escape"),
+        TopToEsc_Red("R top to escape"),
+        BotToEsc_Red("R bottom to escape"),
+        TopTwoNote_Red("R top two note"),
+        MidToMid("middle to middle");
 
         public final String pathplannerName;
         AutoMode(String str) {
@@ -41,13 +47,16 @@ public class Robot extends TimedRobot {
                 return "Middle";
             } else if (str.equals("Bot")) {
                 return "Bottom";
+            } else if (str.equals("Esc")) {
+                return "Escape";
             } else {
                 return str;
             }
         }
         public String optionName() {
-            char[] chars = this.toString().toCharArray();
-            return "PP " + decode(new char[]{chars[0], chars[1], chars[2]}) + " TO " + decode(new char[]{chars[5], chars[6], chars[7]});
+            return this.toString();
+            //char[] chars = this.toString().toCharArray();
+            //return "PP " + decode(new char[]{chars[0], chars[1], chars[2]}) + " TO " + decode(new char[]{chars[5], chars[6], chars[7]}) + (chars.length > 7 ? " RED" : " BLUE");
         }
     }
     public static final SendableChooser<ControlMode> ControlModeChooser = new SendableChooser<>();
@@ -70,10 +79,10 @@ public class Robot extends TimedRobot {
         ControlModeChooser.setDefaultOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
         Shuffleboard.getTab("main").add("control mode", ControlModeChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1);
 
-        AutoModeChooser.addOption(AutoMode.MidToTop.optionName(), AutoMode.MidToTop);
-        AutoModeChooser.addOption(AutoMode.MidToBot.optionName(), AutoMode.MidToBot);
-        AutoModeChooser.addOption(AutoMode.TopToTop.optionName(), AutoMode.TopToTop);
-        AutoModeChooser.addOption(AutoMode.BotToBot.optionName(), AutoMode.BotToBot);
+        for (AutoMode i : AutoMode.values()) {
+            AutoModeChooser.addOption(i.optionName(), i);
+        }
+
         Shuffleboard.getTab("main").add("Auto Select", AutoModeChooser).withSize(3, 1);
         checkDriverStationUpdate();
         Shuffleboard.getTab("main").addString("alliance", () -> allianceString);

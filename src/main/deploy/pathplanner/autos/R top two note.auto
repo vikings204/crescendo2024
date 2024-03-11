@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 15.72,
+      "y": 6.7
+    },
+    "rotation": 30.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -18,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.8
+                  "waitTime": 1.0
                 }
               },
               {
@@ -30,7 +36,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 0.2
                 }
               },
               {
@@ -44,83 +50,74 @@
                 "data": {
                   "name": "shooterStop"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "lowerIntake"
                 }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Side to Bottom"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 4.4
-                }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Side to Top Note"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 6.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeStart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R Top to Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeStop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lowerIntakeStop"
           }
         },
         {
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStart"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "bottom to escape"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "bottom note to mid"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStop"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "shooterStart"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "R Note to Center"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -130,19 +127,19 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "bumpstop"
+                  "waitTime": 0.2
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStop"
                 }
               },
               {
@@ -157,6 +154,6 @@
       ]
     }
   },
-  "folder": "Blue Autos",
+  "folder": "Red Autos",
   "choreoAuto": false
 }

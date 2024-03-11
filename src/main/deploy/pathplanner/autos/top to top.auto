@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.8,
+      "y": 6.74
+    },
+    "rotation": 150.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -18,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.8
+                  "waitTime": 1.0
                 }
               },
               {
@@ -30,7 +36,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.25
+                  "waitTime": 0.2
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "lowerIntake"
                 }
               },
               {
@@ -53,21 +65,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "lowerIntake"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
-                  "pathName": "Side to Bottom"
+                  "pathName": "Top side to top"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 4.4
+                  "waitTime": 6.5
                 }
               }
             ]
@@ -86,35 +92,28 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "bottom to escape"
+                  "pathName": "top to note"
                 }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "bottom note to mid"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterStart"
-                }
-              }
-            ]
+            "name": "intakeStop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shooterStart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "not to top"
           }
         },
         {
@@ -131,6 +130,12 @@
                 "type": "wait",
                 "data": {
                   "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "lowerIntakeStop"
                 }
               },
               {
@@ -157,6 +162,6 @@
       ]
     }
   },
-  "folder": "Blue Autos",
+  "folder": null,
   "choreoAuto": false
 }
