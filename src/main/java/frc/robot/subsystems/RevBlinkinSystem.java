@@ -40,18 +40,18 @@ public class RevBlinkinSystem extends SubsystemBase{
     //based on note possession
     public void setColorBasedOnNote(boolean HoldingNote) {
         if (HoldingNote) { //if holding note
-            blinkin.set(0.65); //sets color to Orange if the robot is currently in possession of the orange note.
+            blinkin.set(0.81); //sets color to Aqua if the robot is currently in possession of the orange note.
         }
 
         else { //not holding note
-            blinkin.set(0.69); //sets color to Yellow if the robot is currently in possession of the orange note.
+            blinkin.set(0.65); //sets color to Orange if the robot is currently in possession of the orange note.
            
         }
     }
     
     public void setColorBasedOnHookSuccess(boolean SuccessfulHookLight) {
         if (SuccessfulHookLight) { //successfully holds onto hook
-            blinkin.set(0.79); //sets color to Blue Green if the robot successfully attaches to chain with Hook
+            blinkin.set(0.67); //sets color to Gold if the robot successfully attaches to chain with Hook
         }
 
         else {
@@ -73,7 +73,7 @@ public class RevBlinkinSystem extends SubsystemBase{
     //based on whether robot is preparing or not, no else condition because when it isnt preparing it's just doing basically any other condition
     public void setColorBasedOnPreparation(boolean PreLight) {
         if (PreLight) { //about to prepare to make a move
-            blinkin.set(0.67); /*sets color to Gold if robot is about to do the following:
+            blinkin.set(0.69); /*sets color to Yellow if robot is about to do the following:
         about to shoot into the Speaker, the Amp OR the robot is about to attach to the hook
         */
         }
