@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -68,6 +69,7 @@ public class SwerveModule {
         lastAngle = getState().angle;
 
         Shuffleboard.getTab("swerve").addNumber("angleEncoderCurrent Reading " + moduleNumber, integratedAngleEncoder::getPosition).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180));
+        Shuffleboard.getTab("swerve").addNumber("angleMotorAbsEncoder Reading " + moduleNumber, angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute)::getVoltage);
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
@@ -193,5 +195,9 @@ public class SwerveModule {
                 Rotation2d.fromDegrees(integratedAngleEncoder.getPosition())
         );
 
+    }
+
+    public Rotation2d getAbsoluteAnglePosition() {
+        return new Rotation2d(angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage());
     }
 }

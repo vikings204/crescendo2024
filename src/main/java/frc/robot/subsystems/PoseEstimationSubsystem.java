@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -55,7 +54,6 @@ public class PoseEstimationSubsystem extends SubsystemBase {
     private boolean sawTag = false;
 
     private double[] stupidPose = new double[]{0, 0, 0};
-    public GenericEntry disableEntry = Shuffleboard.getTab("config").add("disable vision", false).getEntry();
 
     public PoseEstimationSubsystem(
             Supplier<Rotation2d> rotationSupplier, Supplier<SwerveModulePosition[]> modulePositionSupplier) {
@@ -121,8 +119,7 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         // Update pose estimator with drivetrain sensors
         poseEstimator.update(rotationSupplier.get(), modulePositionSupplier.get());
 
-        if (VISION_ENABLED && !disableEntry.getBoolean(false)) {
-            System.out.println("DOING VISION");
+        if (VISION_ENABLED) {
             var visionPose = photonEstimator.grabLatestEstimatedPose();
             if (visionPose != null) {
                 // New pose from vision
