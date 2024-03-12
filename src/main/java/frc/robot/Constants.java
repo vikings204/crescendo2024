@@ -104,21 +104,21 @@ public final class Constants {
         public static final class Mod0 {
             public static final int DRIVE_MOTOR_ID = 10;
             public static final int ANGLE_MOTOR_ID = 20;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(348.15);
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(348.10);
         }
 
         /* Front Right Module - Module 1 */
         public static final class Mod1 {
             public static final int DRIVE_MOTOR_ID = 11;
             public static final int ANGLE_MOTOR_ID = 21;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(0.00);
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(29.45);
         }
 
         /* Back Left Module - Module 2 */
         public static final class Mod2 {
             public static final int DRIVE_MOTOR_ID = 13;
             public static final int ANGLE_MOTOR_ID = 23;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(182.38);
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(185.38);
         }
 
         /* Back Right Module - Module 3 */

@@ -51,7 +51,7 @@ public class ShootSpeakerCommand extends Command {
         Shooter.flywheelSpeaker(true);
 
         Translation2d destTranslation = Robot.alliance == DriverStation.Alliance.Blue ? SPEAKER_BLUE : SPEAKER_RED;
-        Rotation2d destRotation = new Rotation2d(Robot.alliance == DriverStation.Alliance.Blue ? 0 : 1);
+        Rotation2d destRotation = new Rotation2d(0);
 
         xPID.setGoal(destTranslation.getX());
         yPID.setGoal(destTranslation.getY());

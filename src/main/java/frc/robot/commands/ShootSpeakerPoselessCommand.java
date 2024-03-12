@@ -55,7 +55,7 @@ public class ShootSpeakerPoselessCommand extends Command {
         initialTimestamp = getFPGATimestamp();
         Shooter.flywheelSpeaker(true);
 
-        thetaPID.setGoal(new Rotation2d(Robot.alliance == DriverStation.Alliance.Blue ? 0 : 1).getRadians());
+        thetaPID.setGoal(new Rotation2d(0).getRadians());
     }
     @Override
     public void execute() {

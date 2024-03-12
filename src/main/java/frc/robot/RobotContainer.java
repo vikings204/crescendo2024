@@ -3,6 +3,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -44,6 +46,9 @@ public class RobotContainer {
             configureDefaultCommands();
             configureButtonBindings();
         });
+
+        Shuffleboard.getTab("main").add("swerve", Swerve);
+        Shuffleboard.getTab("main").add("shooter", Shooter);
 
         AutoBuilder.configureHolonomic(
                 PoseEstimation::getCurrentPose,

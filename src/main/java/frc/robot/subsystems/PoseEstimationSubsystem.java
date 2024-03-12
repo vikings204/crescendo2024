@@ -79,7 +79,6 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         //Shuffleboard.getTab("main").addNumber("pose X", poseEstimator.getEstimatedPosition()::getX);
         //Shuffleboard.getTab("main").addNumber("pose Y", poseEstimator.getEstimatedPosition()::getY);
         //Shuffleboard.getTab("main").addNumber("gyro angle", poseEstimator.getEstimatedPosition().getRotation()::getDegrees);
-        Shuffleboard.getTab("main").add("pose est sub", this);
         Shuffleboard.getTab("main").addNumber("pose X", () -> stupidPose[0]);
         Shuffleboard.getTab("main").addNumber("pose Y", () -> stupidPose[1]);
         Shuffleboard.getTab("main").addNumber("gyro angle", () -> stupidPose[2]);
