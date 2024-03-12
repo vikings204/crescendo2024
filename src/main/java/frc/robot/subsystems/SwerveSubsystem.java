@@ -183,6 +183,11 @@ public class SwerveSubsystem extends SubsystemBase {
 //    public double getRoll() {
 //        return 0.0;//gyro.getRoll();
 //    }
+public void resetEncoders(){
+    for (int i = 0; i<4; i++){
+        modules[i].resetToAbsolute();
+      }
+}
 
 //    public void resetEverything() {
 ////        modules[0].setAngleForX(0);

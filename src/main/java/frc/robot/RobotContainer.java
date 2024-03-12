@@ -100,6 +100,9 @@ public class RobotContainer {
         new JoystickButton(DRIVER, 4)
                 .whileTrue(
                         new RunCommand(Swerve::zeroGyro, Swerve));
+        new JoystickButton(DRIVER, 5)
+                .whileTrue(
+                        new RunCommand(Swerve::resetEncoders, Swerve));                        
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
                         new RunCommand(() -> Shooter.intake(true, false), Shooter))
