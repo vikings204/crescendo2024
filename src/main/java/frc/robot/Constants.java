@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.Servo;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -181,6 +183,12 @@ public final class Constants {
         public static final double TARGET_OFFSET = inchesToMeters(50);//inchesToMeters(4);
         public static final Translation2d SPEAKER_RED = new Translation2d(inchesToMeters(652.73) - TARGET_OFFSET, inchesToMeters(218.42));
         public static final Translation2d SPEAKER_BLUE = new Translation2d(TARGET_OFFSET, inchesToMeters(218.42));
+    }
+    public static final class Flap{
+        public static final int FLAP_PWM_CHANNEL =1;
+        public static final double AMP_POSITION = 0.5;
+        public static final double SOURCE_POSITION = 0.75;
+         public static final double CLOSED_POSITION = 0.0;
     }
 }
   

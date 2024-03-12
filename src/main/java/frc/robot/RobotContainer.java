@@ -26,6 +26,7 @@ public class RobotContainer {
     public final ShooterSubsystem Shooter = new ShooterSubsystem(LED);
     public final LinearActuatorSubsystem LinearActuator = new LinearActuatorSubsystem();
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
+    public final FlapSubSystem Flap = new FlapSubSystem();
 
     private final ShootSpeakerCommand ShootSpeakerCMD = new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter);
     private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter);
@@ -122,6 +123,8 @@ public class RobotContainer {
 
         //new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerCMD);
         new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
+        
+        new JoystickButton(OPERATOR, 3).onTrue(new RunCommand(()->Flap.setFlapSource(true)));
     }
 
     public Command getAutonomousCommand() {
