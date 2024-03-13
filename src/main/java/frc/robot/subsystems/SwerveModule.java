@@ -84,12 +84,13 @@ public class SwerveModule {
 
     public void resetToAbsolute() {
         //double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
+        System.out.println("Encoder "+moduleNumber+ " is Zerod");
+        integratedAngleEncoder.setPosition(0.0);
 
-        //integratedAngleEncoder.setPosition(0.0);
+        //double absolutePosition = (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 >= angleOffset.getDegrees()? (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 - angleOffset.getDegrees() :360 + (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 - angleOffset.getDegrees();
+        //integratedAngleEncoder.setPosition(absolutePosition);
 
-        double absolutePosition = (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 >= angleOffset.getDegrees()? (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 - angleOffset.getDegrees() :360 + (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 - angleOffset.getDegrees();
-        integratedAngleEncoder.setPosition(absolutePosition);
-        System.out.println("Current Encoder Postition for Module " + moduleNumber + " is: " + absolutePosition);
+       // System.out.println("Current Encoder Postition for Module " + moduleNumber + " is: " + absolutePosition +"\n Current Analog Encoder is "+ (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 + "Current Offset is "+ angleOffset.getDegrees());
     }
 
     private void configAngleEncoder() {
@@ -112,9 +113,10 @@ public class SwerveModule {
         angleController.setI(ANGLE_PID_I);
         angleController.setD(ANGLE_PID_D);
         angleController.setFF(ANGLE_PID_FF);
+       // angleController.setFeedbackDevice(angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute));
         angleMotor.enableVoltageCompensation(VOLTAGE_COMPENSATION);
         angleMotor.burnFlash();
-        Timer.delay(8);
+        Timer.delay(1);
         resetToAbsolute();
     }
 
@@ -157,7 +159,7 @@ public class SwerveModule {
             /*SmartDashboard.putNumber("Angle Position Setting Mod" + moduleNumber, angle.getDegrees());
             SmartDashboard.putNumber("Encoder Position Setting without Offset" + moduleNumber, (((angle.getDegrees())/360)*1023));   
             SmartDashboard.putNumber("Encoder Position Setting with Offset" + moduleNumber, (((angle.getDegrees()+angleOffset.getDegrees())/360)*1023)); */
-
+       // double targetVoltage = angle.getDegrees()- angleOffset.getDegrees();
         angleController.setReference(angle.getDegrees(), ControlType.kPosition);
         lastAngle = angle;
     }
@@ -173,23 +175,24 @@ public class SwerveModule {
         //System.out.println("Encoder Position Mod "+moduleNumber+": "+(angleMotor.getSelectedSensorPosition()/1023)*360);
         //return Rotation2d.fromDegrees(((angleMotor.getSelectedSensorPosition()/1023)*360)-angleOffset.getDegrees());
         return Rotation2d.fromDegrees(integratedAngleEncoder.getPosition());
+        //return Rotation2d.fromDegrees(getCanCoder().getDegrees() - angleOffset.getDegrees());
     }
     
 
     public Rotation2d getCanCoder() {
         // return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
         //return Rotation2d.fromDegrees(((angleMotor.getSelectedSensorPosition()/1023)*360)-angleOffset.getDegrees());
-       // return Rotation2d.fromDegrees(integratedAngleEncoder.getPosition());
-       return Rotation2d.fromDegrees((angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360);
+       return Rotation2d.fromDegrees(integratedAngleEncoder.getPosition());
+       //return Rotation2d.fromDegrees((angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360);
     }
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(driveEncoder.getVelocity(), getAngle());
     }
 
-    //public void resetEncoder() {
-      //  integratedAngleEncoder.setPosition(0);
-    //}
+    public void resetEncoder() {
+        integratedAngleEncoder.setPosition(0);
+    }
 
     public SwerveModulePosition getPosition() {
         //SmartDashboard.putNumber("Raw Angle Reading " + moduleNumber, (angleMotor.getSelectedSensorPosition()/1023)*360);

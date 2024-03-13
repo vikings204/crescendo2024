@@ -22,17 +22,20 @@ public class FlapSubSystem extends SubsystemBase {
             open = true;
             source = true;
             amp = false;
+            System.out.println("Go to Source");
         }
         else if (actuate && open == true && amp == true){
             flapServo.set(Flap.SOURCE_POSITION);
             source = true;
             amp = false;
+               System.out.println("Go to Source");
         }
         else if (actuate && open == true && source == true){
             flapServo.set(Flap.CLOSED_POSITION);
             source = false;
             open = false;
             amp = false;
+               System.out.println("Go to Close");
         }
         else{}
 

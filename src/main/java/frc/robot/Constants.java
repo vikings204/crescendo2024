@@ -167,7 +167,7 @@ public final class Constants {
     }
 
     public static final class Vision {
-        public static final boolean VISION_ENABLED = false;
+        public static final boolean VISION_ENABLED = true;
         public static final String CAMERA_NAME = "webcam";
 
         public static final PhotonPoseEstimator.PoseStrategy POSE_STRATEGY = PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR;
@@ -182,7 +182,8 @@ public final class Constants {
 
         public static final double TARGET_OFFSET = inchesToMeters(50);//inchesToMeters(4);
         public static final Translation2d SPEAKER_RED = new Translation2d(inchesToMeters(652.73) - TARGET_OFFSET, inchesToMeters(218.42));
-        public static final Translation2d SPEAKER_BLUE = new Translation2d(TARGET_OFFSET, inchesToMeters(218.42));
+        //public static final Translation2d SPEAKER_BLUE = new Translation2d(TARGET_OFFSET, inchesToMeters(218.42));
+        public static final Translation2d SPEAKER_BLUE = new Translation2d(2, 4.6);
     }
     public static final class Flap{
         public static final int FLAP_PWM_CHANNEL =1;

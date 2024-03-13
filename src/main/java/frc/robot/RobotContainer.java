@@ -29,7 +29,7 @@ public class RobotContainer {
     public final FlapSubSystem Flap = new FlapSubSystem();
 
     private final ShootSpeakerCommand ShootSpeakerCMD = new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter);
-    private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Swerve, PoseEstimation, Shooter);
+    private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Swerve, Shooter);
 
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
@@ -117,14 +117,15 @@ public class RobotContainer {
          new JoystickButton(OPERATOR, 5)
                  .whileTrue(
                          new RunCommand(() -> Shooter.receive(true), Shooter));
-        new JoystickButton(OPERATOR, 4)
+        new JoystickButton(OPERATOR, 10)
                 .whileTrue(
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
 
         //new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerCMD);
-        new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
-        
-        new JoystickButton(OPERATOR, 3).onTrue(new RunCommand(()->Flap.setFlapSource(true)));
+        //new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
+
+        new JoystickButton(OPERATOR, 4).onTrue(new InstantCommand(()->Flap.setFlapSource(true)));
+        //new JoystickButton(OPERATOR, 4).onTrue(new InstantCommand(()->Swerve.resetEncoders()));
     }
 
     public Command getAutonomousCommand() {

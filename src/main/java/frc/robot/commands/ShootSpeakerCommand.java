@@ -27,9 +27,9 @@ public class ShootSpeakerCommand extends Command {
     private final ShooterSubsystem Shooter;
     private double initialTimestamp;
 
-    private final ProfiledPIDController xPID = new ProfiledPIDController(3, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 4));
-    private final ProfiledPIDController yPID = new ProfiledPIDController(3, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED, 4));
-    private final ProfiledPIDController thetaPID = new ProfiledPIDController(2, 0, 0, new Constraints(Constants.Swerve.MAX_ANGULAR_VELOCITY, 4));
+    private final ProfiledPIDController xPID = new ProfiledPIDController(1, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED/8, 0.5));
+    private final ProfiledPIDController yPID = new ProfiledPIDController(1, 0, 0, new Constraints(Constants.Swerve.MAX_SPEED/8, 0.5));
+    private final ProfiledPIDController thetaPID = new ProfiledPIDController(1, 0, 0, new Constraints(Constants.Swerve.MAX_ANGULAR_VELOCITY/8, 0.5));
     private final GenericEntry secondsToShootEntry = Shuffleboard.getTab("config").add("seconds to shoot", (double) 1/3).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", 0, "max", 1)).getEntry();
 
 
@@ -51,7 +51,7 @@ public class ShootSpeakerCommand extends Command {
         Shooter.flywheelSpeaker(true);
 
         Translation2d destTranslation = Robot.alliance == DriverStation.Alliance.Blue ? SPEAKER_BLUE : SPEAKER_RED;
-        Rotation2d destRotation = new Rotation2d(0);
+        Rotation2d destRotation = new Rotation2d(1*Math.PI);
 
         xPID.setGoal(destTranslation.getX());
         yPID.setGoal(destTranslation.getY());
@@ -69,7 +69,7 @@ public class ShootSpeakerCommand extends Command {
 //            Swerve.drive(new Translation2d(xPID.calculate(robotPose.getX()), yPID.calculate(robotPose.getY())), thetaPID.calculate(robotPose.getRotation().getRadians()), true, false); // isOpenLoop differs from teleop
 //        }
 
-        Swerve.drive(new Translation2d(xPID.calculate(robotPose.getX()), yPID.calculate(robotPose.getY())), thetaPID.calculate(robotPose.getRotation().getRadians()), true, false); // isOpenLoop differs from teleop
+        Swerve.drive(new Translation2d(-1*xPID.calculate(robotPose.getX()), yPID.calculate(robotPose.getY())), -1*thetaPID.calculate(Swerve.getYaw().getRadians()), true, false); // isOpenLoop differs from teleop
         if (getFPGATimestamp() > initialTimestamp+secondsToShootEntry.getDouble((double) 1/3) && xPID.atGoal() && yPID.atGoal() && thetaPID.atGoal()) {
             Shooter.intake(true, false);
         }

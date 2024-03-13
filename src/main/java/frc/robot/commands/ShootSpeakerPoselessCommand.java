@@ -27,7 +27,6 @@ import static frc.robot.Constants.Vision.*;
 
 public class ShootSpeakerPoselessCommand extends Command {
     private final SwerveSubsystem Swerve;
-    private final PoseEstimationSubsystem PoseEst;
     private final ShooterSubsystem Shooter;
     private double initialTimestamp;
 
@@ -40,11 +39,9 @@ public class ShootSpeakerPoselessCommand extends Command {
 
     public ShootSpeakerPoselessCommand(
             SwerveSubsystem Swerve,
-            PoseEstimationSubsystem PoseEst,
             ShooterSubsystem Shooter
     ) {
         this.Swerve = Swerve;
-        this.PoseEst = PoseEst;
         this.Shooter = Shooter;
 
         addRequirements(Swerve, Shooter);
@@ -55,11 +52,10 @@ public class ShootSpeakerPoselessCommand extends Command {
         initialTimestamp = getFPGATimestamp();
         Shooter.flywheelSpeaker(true);
 
-        thetaPID.setGoal(new Rotation2d(0).getRadians());
+        thetaPID.setGoal(new Rotation2d(1*Math.PI).getRadians());
     }
     @Override
     public void execute() {
-        Pose2d robotPose = PoseEst.getCurrentPose();
         var result = camera.getLatestResult();
 
         if (result.hasTargets()) {
@@ -75,7 +71,7 @@ public class ShootSpeakerPoselessCommand extends Command {
         if (getFPGATimestamp() > initialTimestamp + secondsToShootEntry.getDouble((double) 1/3) && Math.abs(range/TARGET_OFFSET-1)<=0.2) {
             Shooter.intake(true, false);
         }
-        Swerve.drive(new Translation2d(-xPID.calculate(range, TARGET_OFFSET), 0), thetaPID.calculate(robotPose.getRotation().getRadians()), true, false); // isOpenLoop differs from teleop
+        Swerve.drive(new Translation2d(-xPID.calculate(range, TARGET_OFFSET), 0), thetaPID.calculate(Swerve.getYaw().getRadians()), true, false); // isOpenLoop differs from teleop
     }
     @Override
     public void end(boolean interrupted) {
