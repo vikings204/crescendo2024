@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.79769185179396,
-        "y": 6.756069677727822
+        "x": 0.8179285706763773,
+        "y": 6.735832958845405
       },
       "isLocked": false,
       "linkedName": null
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Test Auto 1",
   "previewStartingState": {
-    "rotation": 150.0,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

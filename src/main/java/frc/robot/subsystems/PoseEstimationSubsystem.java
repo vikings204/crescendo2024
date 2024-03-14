@@ -11,10 +11,12 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 import java.util.function.Supplier;
 
@@ -75,13 +77,13 @@ public class PoseEstimationSubsystem extends SubsystemBase {
             photonNotifier.startPeriodic(0.02);
         }
 
-        Shuffleboard.getTab("field").add("pose est field", field).withWidget(BuiltInWidgets.kField).withSize(7, 4);
+        Shuffleboard.getTab("field").add("pose est field", field).withWidget(BuiltInWidgets.kField).withSize(8, 5);
         //Shuffleboard.getTab("main").addNumber("pose X", poseEstimator.getEstimatedPosition()::getX);
         //Shuffleboard.getTab("main").addNumber("pose Y", poseEstimator.getEstimatedPosition()::getY);
         //Shuffleboard.getTab("main").addNumber("gyro angle", poseEstimator.getEstimatedPosition().getRotation()::getDegrees);
         Shuffleboard.getTab("main").addNumber("pose X", () -> stupidPose[0]);
         Shuffleboard.getTab("main").addNumber("pose Y", () -> stupidPose[1]);
-        Shuffleboard.getTab("main").addNumber("gyro angle", () -> stupidPose[2]);
+        Shuffleboard.getTab("main").addNumber("pose theta", () -> stupidPose[2]);
     }
 
     /**
@@ -127,6 +129,9 @@ public class PoseEstimationSubsystem extends SubsystemBase {
                 if (originPosition != kBlueAllianceWallRightSide) {
                     pose2d = flipAlliance(pose2d);
                 }
+                if (Robot.alliance == DriverStation.Alliance.Blue) {
+                    pose2d = new Pose2d(pose2d.getTranslation(), pose2d.getRotation().plus(new Rotation2d(1*Math.PI)));//System.out.println("pose estimation yaw: " + pose2d.getRotation());
+                }
                 poseEstimator.addVisionMeasurement(pose2d, visionPose.timestampSeconds);
             }
         }
@@ -140,6 +145,7 @@ public class PoseEstimationSubsystem extends SubsystemBase {
         field.setRobotPose(dashboardPose);
 
         //System.out.println(poseEstimator.getEstimatedPosition().getRotation().getDegrees());
+        //stupidPose = new double[]{dashboardPose.getX(), dashboardPose.getY(), dashboardPose.getRotation().getDegrees()};
         stupidPose = new double[]{dashboardPose.getX(), dashboardPose.getY(), dashboardPose.getRotation().getDegrees()};
         //System.out.println(dashboardPose.getX() + "     " + dashboardPose.getY());
     }

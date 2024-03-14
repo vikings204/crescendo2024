@@ -65,6 +65,10 @@ public class SwerveSubsystem extends SubsystemBase {
             Shuffleboard.getTab("swerve").addNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle::getDegrees).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", -180, "max", 180));
             Shuffleboard.getTab("swerve").addNumber("Mod " + mod.moduleNumber + " Velocity", () -> mod.getState().speedMetersPerSecond);
         }
+        Shuffleboard.getTab("main").addNumber("gyro angle", () -> {
+            Rotation2d yaw = getYaw();
+            return yaw.getDegrees();
+        });
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -78,6 +82,7 @@ public class SwerveSubsystem extends SubsystemBase {
         for (SwerveModule mod : modules) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
+        System.out.println("Current Heading: "+getYaw());
     }
 
     /* Used by SwerveControllerCommand in Auto */
@@ -105,8 +110,8 @@ public class SwerveSubsystem extends SubsystemBase {
 //        //SmartDashboard.putNumber("gyro roll", gyro.getRoll());
 //        //SmartDashboard.putNumber("pitch rate", getPitchRate());
 //
-//        return swerveOdometry.getPoseMeters();
-//    }
+       // return swerveOdometry.getPoseMeters();
+   // }
 
 //    public void resetOdometry(Pose2d pose) {
 //        swerveOdometry.resetPosition(getYaw(), getPositions(), pose);

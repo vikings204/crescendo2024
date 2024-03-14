@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 1.45,
-      "y": 5.55
+      "y": 5.5
     },
-    "rotation": 90.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -37,18 +37,6 @@
                 "type": "wait",
                 "data": {
                   "waitTime": 0.2
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "lowerIntake"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 8.0
                 }
               }
             ]

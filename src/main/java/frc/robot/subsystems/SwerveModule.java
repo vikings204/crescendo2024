@@ -83,7 +83,9 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute() {
-        //double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
+        angleMotor.getAnalog().setPositionConversionFactor(ANGLE_POSITION_CONVERSION_FACTOR);
+        double absolutePosition = angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getPosition() - angleOffset.getDegrees();
+        System.out.println("Encoder" +moduleNumber+ "Absolute Position: "+absolutePosition);    
         System.out.println("Encoder "+moduleNumber+ " is Zerod");
         integratedAngleEncoder.setPosition(0.0);
 

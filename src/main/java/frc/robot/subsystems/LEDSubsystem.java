@@ -161,7 +161,8 @@ public class LEDSubsystem {
 
     public class presetSettings {
         public void Default() {
-            setPattern(BlinkinPattern.DARK_RED);
+            //setPattern(BlinkinPattern.DARK_RED);
+            setPattern(BlinkinPattern.COLOR_WAVES_LAVA_PALETTE);
         }
         public void HasNote() {
             setPattern(BlinkinPattern.COLOR_WAVES_OCEAN_PALETTE);

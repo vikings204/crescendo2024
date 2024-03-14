@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.93,
-      "y": 4.29
-    },
-    "rotation": 35.0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -42,12 +36,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "lowerIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "shooterStop"
                 }
               },
@@ -77,24 +65,12 @@
                 }
               },
               {
-                "type": "named",
-                "data": {
-                  "name": "intakeStart"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "bottom to escape"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "lowerIntakeStop"
           }
         },
         {

@@ -172,7 +172,7 @@ public class Robot extends TimedRobot {
 
         if (allianceOpt.isPresent()) {
             DriverStation.Alliance newAlliance = allianceOpt.get();
-            robotContainer.PoseEstimation.setAlliance(newAlliance);
+            robotContainer.PoseEstimation.setAlliance(DriverStation.Alliance.Blue);//robotContainer.PoseEstimation.setAlliance(newAlliance);
             alliance = newAlliance;
             allianceString = newAlliance.toString();
         }

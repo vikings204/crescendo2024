@@ -3,7 +3,11 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -16,6 +20,7 @@ import frc.robot.commands.ShootSpeakerPoselessCommand;
 import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
 import frc.robot.util.Gamepad;
+
 
 import static frc.robot.Robot.ControlModeChooser;
 import static frc.robot.Robot.AutoModeChooser;
@@ -51,7 +56,7 @@ public class RobotContainer {
         Shuffleboard.getTab("main").add("swerve", Swerve);
         Shuffleboard.getTab("main").add("shooter", Shooter);
 
-        AutoBuilder.configureHolonomic(
+      AutoBuilder.configureHolonomic(
                 PoseEstimation::getCurrentPose,
                 PoseEstimation::setCurrentPose,
                 Swerve::getSpeeds,
@@ -60,6 +65,9 @@ public class RobotContainer {
                 () -> false,//Robot.alliance == DriverStation.Alliance.Red,
                 Swerve
         );
+ 
+
+
 
         NamedCommands.registerCommand("intakeStart", new InstantCommand(() -> Shooter.receive(true), Shooter));
         NamedCommands.registerCommand("zeroGyro", new InstantCommand(Swerve::zeroGyro, Swerve));
@@ -79,8 +87,8 @@ public class RobotContainer {
         Swerve.setDefaultCommand(
                 new TeleopSwerveCommand(
                         Swerve,
-                        () -> -1*DRIVER.getLeftX(),
-                        () ->   DRIVER.getLeftY(),
+                        () -> -1*DRIVER.getLeftY(),
+                        () ->   -1*DRIVER.getLeftX(),
                         () -> -1 * DRIVER.getRightX(),
                         () -> false,
                         () -> false,// DRIVER.getLeftStickButton(), // slow mode
@@ -106,9 +114,9 @@ public class RobotContainer {
         new JoystickButton(DRIVER, 4)
                 .whileTrue(
                         new RunCommand(Swerve::zeroGyro, Swerve));
-        new JoystickButton(DRIVER, 5)
-                .whileTrue(
-                        new RunCommand(Swerve::resetEncoders, Swerve));                        
+        //new JoystickButton(DRIVER, 5)
+         //       .whileTrue(
+          //              new RunCommand(Swerve::resetEncoders, Swerve));                        
         new JoystickButton(OPERATOR, 6)
                 .whileTrue(
                         new RunCommand(() -> Shooter.intake(true, false), Shooter))
@@ -122,7 +130,7 @@ public class RobotContainer {
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
 
         //new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerCMD);
-        //new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
+        new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
 
         new JoystickButton(OPERATOR, 4).onTrue(new InstantCommand(()->Flap.setFlapSource(true)));
         //new JoystickButton(OPERATOR, 4).onTrue(new InstantCommand(()->Swerve.resetEncoders()));

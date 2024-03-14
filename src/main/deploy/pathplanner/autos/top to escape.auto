@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.8,
-      "y": 6.74
-    },
-    "rotation": 150.0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -42,12 +36,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "lowerIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "bumpStop"
                 }
               },
@@ -71,30 +59,12 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 6.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeStart"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Top To Long Note"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "lowerIntakeStop"
           }
         },
         {
