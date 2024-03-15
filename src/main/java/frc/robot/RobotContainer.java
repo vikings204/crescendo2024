@@ -31,10 +31,8 @@ public class RobotContainer {
     public final ShooterSubsystem Shooter = new ShooterSubsystem(LED);
     public final LinearActuatorSubsystem LinearActuator = new LinearActuatorSubsystem();
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
-    public final FlapSubSystem Flap = new FlapSubSystem();
 
-    private final ShootSpeakerCommand ShootSpeakerCMD = new ShootSpeakerCommand(Swerve, PoseEstimation, Shooter);
-    private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Swerve, Shooter);
+    private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Shooter);
 
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
@@ -103,13 +101,6 @@ public class RobotContainer {
                 new RunCommand(
                         () -> LinearActuator.shift(OPERATOR.getPOV() == 0, OPERATOR.getPOV() == 180),
                         LinearActuator
-                )
-        );
-
-        Flap.setDefaultCommand(
-                new InstantCommand(
-                        () -> Flap.shift(OPERATOR.getPOV() == 270, OPERATOR.getPOV() == 90),
-                        Flap
                 )
         );
     }
