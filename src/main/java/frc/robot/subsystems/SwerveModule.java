@@ -83,16 +83,23 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute() {
-        angleMotor.getAnalog().setPositionConversionFactor(ANGLE_POSITION_CONVERSION_FACTOR);
+        //angleMotor.getAnalog().setPositionConversionFactor(ANGLE_POSITION_CONVERSION_FACTOR);
         double absolutePosition = angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getPosition() - angleOffset.getDegrees();
         System.out.println("Encoder" +moduleNumber+ "Absolute Position: "+absolutePosition);    
         System.out.println("Encoder "+moduleNumber+ " is Zerod");
         integratedAngleEncoder.setPosition(0.0);
+    }
 
-        //double absolutePosition = (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 >= angleOffset.getDegrees()? (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 - angleOffset.getDegrees() :360 + (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 - angleOffset.getDegrees();
-        //integratedAngleEncoder.setPosition(absolutePosition);
-
-       // System.out.println("Current Encoder Postition for Module " + moduleNumber + " is: " + absolutePosition +"\n Current Analog Encoder is "+ (angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage()/3.3)*360.0 + "Current Offset is "+ angleOffset.getDegrees());
+        public void resetToAbsoluteTest() {
+        //angleMotor.getAnalog().setPositionConversionFactor(ANGLE_POSITION_CONVERSION_FACTOR);
+        double absolutePosition = convertToDegrees(angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute).getVoltage());
+        System.out.println("Encoder" +moduleNumber+ "Absolute Position: "+absolutePosition);    
+       
+        integratedAngleEncoder.setPosition(absolutePosition);
+         System.out.println("Encoder "+moduleNumber+ " is set to postion: "+integratedAngleEncoder.getPosition());
+    }
+    public double convertToDegrees(double voltage){
+        return (voltage/3.3)*360 - angleOffset.getDegrees();
     }
 
     private void configAngleEncoder() {
