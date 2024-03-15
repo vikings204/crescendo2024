@@ -67,7 +67,7 @@ public class FlapSubSystem extends SubsystemBase {
         if (up) {
             setpoint = 0.2;
         } else if (down) {
-            setpoint = 0.5;
+            setpoint = 0.45;
         }
         flapServo.set(setpoint);
     }
