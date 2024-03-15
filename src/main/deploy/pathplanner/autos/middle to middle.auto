@@ -38,6 +38,18 @@
                 "data": {
                   "waitTime": 0.2
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpstop"
+                }
               }
             ]
           }
@@ -51,7 +63,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 7.0
+            "waitTime": 8.0
           }
         },
         {

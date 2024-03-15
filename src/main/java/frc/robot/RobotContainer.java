@@ -131,9 +131,6 @@ public class RobotContainer {
 
         //new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerCMD);
         new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
-
-        new JoystickButton(OPERATOR, 4).onTrue(new InstantCommand(()->Flap.setFlapSource(true)));
-        //new JoystickButton(OPERATOR, 4).onTrue(new InstantCommand(()->Swerve.resetEncoders()));
     }
 
     public Command getAutonomousCommand() {
