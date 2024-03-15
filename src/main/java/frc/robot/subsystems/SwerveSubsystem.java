@@ -82,7 +82,7 @@ public class SwerveSubsystem extends SubsystemBase {
         for (SwerveModule mod : modules) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
-        System.out.println("Current Heading: "+getYaw());
+        //System.out.println("Current Heading: "+getYaw());
     }
 
     /* Used by SwerveControllerCommand in Auto */
