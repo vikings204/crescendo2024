@@ -105,6 +105,13 @@ public class RobotContainer {
                         LinearActuator
                 )
         );
+
+        Flap.setDefaultCommand(
+                new InstantCommand(
+                        () -> Flap.shift(OPERATOR.getPOV() == 270, OPERATOR.getPOV() == 90),
+                        Flap
+                )
+        );
     }
 
     private void configureButtonBindings() { // MOVE POOP FUNCTION TO ANOTHER BUTTON
