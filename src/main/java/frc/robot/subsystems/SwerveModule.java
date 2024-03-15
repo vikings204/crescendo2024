@@ -125,7 +125,7 @@ public class SwerveModule {
        // angleController.setFeedbackDevice(angleMotor.getAnalog(SparkAnalogSensor.Mode.kAbsolute));
         angleMotor.enableVoltageCompensation(VOLTAGE_COMPENSATION);
         angleMotor.burnFlash();
-        Timer.delay(1);
+        Timer.delay(2);
         resetToAbsolute();
     }
 
