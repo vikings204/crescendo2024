@@ -62,7 +62,7 @@ public class RobotContainer {
                 Swerve::getSpeeds,
                 Swerve::driveRobotRelative,
                 Constants.Auto.PATH_FOLLOWER_CONFIG,
-                () -> false,//Robot.alliance == DriverStation.Alliance.Red,
+                () -> Robot.alliance == DriverStation.Alliance.Red,
                 Swerve
         );
  

@@ -188,8 +188,8 @@ public final class Constants {
     public static final class Flap{
         public static final int FLAP_PWM_CHANNEL =1;
         public static final double AMP_POSITION = 0.5;
-        public static final double SOURCE_POSITION = 0.75;
-         public static final double CLOSED_POSITION = 0.0;
+        public static final double SOURCE_POSITION = .5;
+         public static final double CLOSED_POSITION = 0.02;
     }
 }
   
