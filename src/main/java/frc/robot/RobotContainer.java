@@ -3,9 +3,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -15,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Controller;
 import frc.robot.Robot.ControlMode;
-import frc.robot.commands.ShootSpeakerCommand;
 import frc.robot.commands.ShootSpeakerPoselessCommand;
 import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
@@ -27,7 +23,7 @@ import static frc.robot.Robot.AutoModeChooser;
 
 public class RobotContainer {
     public final SwerveSubsystem Swerve = new SwerveSubsystem();
-    public final LEDSubsystem LED = new LEDSubsystem();
+    public final AlternateLEDSubsystem LED = new AlternateLEDSubsystem(); //public final LEDSubsystem LED = new LEDSubsystem();
     public final ShooterSubsystem Shooter = new ShooterSubsystem(LED);
     public final LinearActuatorSubsystem LinearActuator = new LinearActuatorSubsystem();
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);

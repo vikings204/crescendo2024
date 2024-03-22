@@ -1,21 +1,30 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
-public class LEDSubsystem {
-    private final Spark blinkin;
+public class AlternateLEDSubsystem {
+    private final AddressableLED blinkin;
     private BlinkinPattern currentPattern;
     public presetSettings Presets;
     private final SendableChooser<Boolean> ledChooser = new SendableChooser<>();
     private final PowerDistribution pd;
 
-    public LEDSubsystem() {
-        blinkin = new Spark(0);
+    public AlternateLEDSubsystem() {
+        blinkin = new AddressableLED(0);
+        blinkin.setLength(1);
+        blinkin.setSyncTime(0);
+        AddressableLEDBuffer buffer = new AddressableLEDBuffer(1);
+        buffer.setRGB(0, 255, 255, 255);
+        blinkin.setData(buffer);
+        blinkin.setBitTiming(0, 0, 1005, 995);
+        blinkin.start();
+
         pd = new PowerDistribution(1, ModuleType.kRev);
 
         Presets = new presetSettings();
@@ -155,7 +164,10 @@ public class LEDSubsystem {
     public void setPattern(BlinkinPattern pat) {
         if (currentPattern != pat) {
             currentPattern = pat;
-            blinkin.set(pat.value);
+            blinkin.stop(); // might not be needed
+            int duty = (int) (500 * (pat.value + 1) + 1000);
+            blinkin.setBitTiming(0, 0, duty, 2000-duty);
+            blinkin.start();
         }
     }
 
