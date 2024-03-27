@@ -14,6 +14,7 @@ public class AlternateLEDSubsystem {
     public presetSettings Presets;
     private final SendableChooser<Boolean> ledChooser = new SendableChooser<>();
     private final PowerDistribution pd;
+    private final SendableChooser<BlinkinPattern> patternBypassChooser = new SendableChooser<>();
 
     public AlternateLEDSubsystem() {
         blinkin = new AddressableLED(0);
@@ -34,6 +35,12 @@ public class AlternateLEDSubsystem {
         ledChooser.setDefaultOption("LED on", true);
         Shuffleboard.getTab("config").add("LED status", ledChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1);
         ledChooser.onChange(pd::setSwitchableChannel);
+
+        for (BlinkinPattern pat : BlinkinPattern.values()) {
+            patternBypassChooser.addOption(pat.name(), pat);
+        }
+        Shuffleboard.getTab("config").add("LED bypass", patternBypassChooser);
+        patternBypassChooser.onChange(this::setPattern);
     }
 
     // https://www.chiefdelphi.com/t/rev-blinkin-example-code/452871/4

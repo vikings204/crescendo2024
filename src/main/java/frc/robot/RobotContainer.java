@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Controller;
 import frc.robot.Robot.ControlMode;
-import frc.robot.commands.ShootSpeakerPoselessCommand;
+import frc.robot.commands.TimedSpeakerShotCommand;
 import frc.robot.commands.TeleopSwerveCommand;
 import frc.robot.subsystems.*;
 import frc.robot.util.Gamepad;
@@ -28,7 +28,7 @@ public class RobotContainer {
     public final LinearActuatorSubsystem LinearActuator = new LinearActuatorSubsystem();
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
 
-    private final ShootSpeakerPoselessCommand ShootSpeakerPoselessCMD = new ShootSpeakerPoselessCommand(Shooter);
+    private final TimedSpeakerShotCommand TimedSpeakerShot = new TimedSpeakerShotCommand(Shooter);
 
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
@@ -90,7 +90,7 @@ public class RobotContainer {
 
         Shooter.setDefaultCommand(
                 new RunCommand(
-                        () -> Shooter.flywheelSpeaker(OPERATOR.getXButton()),
+                        () -> Shooter.flywheelSpeaker(false),
                         Shooter));
 
         LinearActuator.setDefaultCommand(
@@ -101,7 +101,7 @@ public class RobotContainer {
         );
     }
 
-    private void configureButtonBindings() { // MOVE POOP FUNCTION TO ANOTHER BUTTON
+    private void configureButtonBindings() {
         new JoystickButton(OPERATOR, 2)
                 .whileTrue(
                         new RunCommand(() -> Shooter.intake(true, true), Shooter));
@@ -124,7 +124,7 @@ public class RobotContainer {
                         new RunCommand(() -> Shooter.flywheelAmp(true), Shooter));
 
         //new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerCMD);
-        new JoystickButton(OPERATOR, 1).whileTrue(ShootSpeakerPoselessCMD);
+        new JoystickButton(OPERATOR, 1).whileTrue(TimedSpeakerShot);
     }
 
     public Command getAutonomousCommand() {
