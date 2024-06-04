@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -22,6 +25,8 @@ public class TeleopSwerveCommand extends Command {
     private final SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);  //Limits the rate of change of the voltage output to the motor to some maximum value.  Would change if you wanted the robot to "ramp" faster
     private final SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);     // See above
     private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);   //Not really used with the brushed motors going to a position but could be.  We don't use the trapazoid pid profile suggested only because it hasn't been implemented yet
+
+    private final GenericEntry finalSpeedModifierEntry = Shuffleboard.getTab("config").add("final speed modifier %", 100).withWidget(BuiltInWidgets.kDial).getEntry();
 
     public TeleopSwerveCommand(
             SwerveSubsystem s_Swerve,
@@ -48,6 +53,8 @@ public class TeleopSwerveCommand extends Command {
         double speedMultiplier = Constants.Swerve.NORMAL_SPEED_MULTIPLIER;
         if (highSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.FAST_SPEED_MULTIPLIER;
         if (slowSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.SLOW_SPEED_MULTIPLIER;
+
+        speedMultiplier *= finalSpeedModifierEntry.getInteger(100) * 0.01;
 
         /* Review the x,y and rotate inputs and run them through the rate limiter.  The code also applies a deadband
          * no input will be "Seen" by the robot unless the stick is passed the deadband.
