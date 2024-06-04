@@ -4,7 +4,9 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -18,6 +20,8 @@ import frc.robot.subsystems.*;
 import frc.robot.util.Gamepad;
 
 
+import java.util.Map;
+
 import static frc.robot.Robot.ControlModeChooser;
 import static frc.robot.Robot.AutoModeChooser;
 
@@ -29,6 +33,8 @@ public class RobotContainer {
     public final PoseEstimationSubsystem PoseEstimation = new PoseEstimationSubsystem(Swerve::getYaw, Swerve::getPositions);
 
     private final TimedSpeakerShotCommand TimedSpeakerShot = new TimedSpeakerShotCommand(Shooter);
+
+    private final GenericEntry finalSpeedModifierEntry = Shuffleboard.getTab("config").add("final speed modifier", 1.0).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 1)).getEntry();
 
     Gamepad DRIVER = new Gamepad(Controller.DRIVER_PORT);
     Gamepad OPERATOR = new Gamepad(Controller.OPERATOR_PORT);
@@ -86,7 +92,8 @@ public class RobotContainer {
                         () -> -1 * DRIVER.getRightX(),
                         () -> false,
                         () -> false,// DRIVER.getLeftStickButton(), // slow mode
-                        () -> false));//DRIVER.getRightStickButton())); // fast mode
+                        () -> false,//DRIVER.getRightStickButton())); // fast mode
+                        () -> finalSpeedModifierEntry.getDouble(1.0)));
 
         Shooter.setDefaultCommand(
                 new RunCommand(

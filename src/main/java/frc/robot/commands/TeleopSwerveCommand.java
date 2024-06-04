@@ -3,9 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -26,7 +23,7 @@ public class TeleopSwerveCommand extends Command {
     private final SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);     // See above
     private final SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);   //Not really used with the brushed motors going to a position but could be.  We don't use the trapazoid pid profile suggested only because it hasn't been implemented yet
 
-    private final GenericEntry finalSpeedModifierEntry = Shuffleboard.getTab("config").add("final speed modifier %", 100).withWidget(BuiltInWidgets.kDial).getEntry();
+    private final DoubleSupplier finalSpeedModifierSup;
 
     public TeleopSwerveCommand(
             SwerveSubsystem s_Swerve,
@@ -35,7 +32,8 @@ public class TeleopSwerveCommand extends Command {
             DoubleSupplier rotationSup,
             BooleanSupplier robotCentricSup,
             BooleanSupplier slowSpeedSup,
-            BooleanSupplier highSpeedSup) {
+            BooleanSupplier highSpeedSup,
+            DoubleSupplier finalSpeedModifierSup) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);  //Adds the swerve subsystem as a req of the command and will not schedule any other commands that require the swerve sub
 
@@ -46,6 +44,8 @@ public class TeleopSwerveCommand extends Command {
         this.robotCentricSup = robotCentricSup;
         this.slowSpeedSup = slowSpeedSup;
         this.highSpeedSup = highSpeedSup;
+
+        this.finalSpeedModifierSup = finalSpeedModifierSup;
     }
 
     @Override
@@ -53,8 +53,6 @@ public class TeleopSwerveCommand extends Command {
         double speedMultiplier = Constants.Swerve.NORMAL_SPEED_MULTIPLIER;
         if (highSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.FAST_SPEED_MULTIPLIER;
         if (slowSpeedSup.getAsBoolean()) speedMultiplier = Constants.Swerve.SLOW_SPEED_MULTIPLIER;
-
-        speedMultiplier *= finalSpeedModifierEntry.getInteger(100) * 0.01;
 
         /* Review the x,y and rotate inputs and run them through the rate limiter.  The code also applies a deadband
          * no input will be "Seen" by the robot unless the stick is passed the deadband.
@@ -75,8 +73,8 @@ public class TeleopSwerveCommand extends Command {
          * tell it how much to rotate
          */
         s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.MAX_SPEED),
-                rotationVal * Constants.Swerve.MAX_ANGULAR_VELOCITY,
+                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.MAX_SPEED * finalSpeedModifierSup.getAsDouble()),
+                rotationVal * Constants.Swerve.MAX_ANGULAR_VELOCITY * finalSpeedModifierSup.getAsDouble(),
                 !robotCentricSup.getAsBoolean(),
                 true);
     }
