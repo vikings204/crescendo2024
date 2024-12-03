@@ -1,0 +1,148 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.93,
+      "y": 4.29
+    },
+    "rotation": 35.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.2
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "lowerIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "side to b"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 6.5
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "bot to bot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeStop"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shooterStart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bottom note to mid"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "zeroGyro"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

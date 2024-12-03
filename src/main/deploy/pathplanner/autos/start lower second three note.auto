@@ -1,0 +1,248 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.35,
+      "y": 6.34
+    },
+    "rotation": 45.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.8
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.25
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "lowerIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "mid to top"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStart"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "top to note"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStart"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "not to top"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpstop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStart"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "mid to note"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeStop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterstart"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "note to mid"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpStart"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "bumpstop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterStop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "zeroGyro"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Blue Autos",
+  "choreoAuto": false
+}
