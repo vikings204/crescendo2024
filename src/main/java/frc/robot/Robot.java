@@ -75,8 +75,13 @@ public class Robot extends TimedRobot {
         //CameraServer.startAutomaticCapture(); // use for USB camera
         //PortForwarder.add(8888, "10.2.4.69", 80);
 
-        ControlModeChooser.addOption("Single Controller (Driver:usb1 Operator:usb1)", ControlMode.SINGLE);
-        ControlModeChooser.setDefaultOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
+        if (Constants.Controller.DEFAULT_CONTROL_MODE == ControlMode.SINGLE) {
+            ControlModeChooser.setDefaultOption("Single Controller (Driver:usb1 Operator:usb1)", ControlMode.SINGLE);
+            ControlModeChooser.addOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
+        } else if (Constants.Controller.DEFAULT_CONTROL_MODE == ControlMode.COMPETITION) {
+            ControlModeChooser.addOption("Single Controller (Driver:usb1 Operator:usb1)", ControlMode.SINGLE);
+            ControlModeChooser.setDefaultOption("Competition (Driver:usb1 Operator:usb2)", ControlMode.COMPETITION);
+        }
         Shuffleboard.getTab("main").add("control mode", ControlModeChooser).withWidget(BuiltInWidgets.kSplitButtonChooser).withSize(2, 1);
 
         for (AutoMode i : AutoMode.values()) {

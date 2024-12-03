@@ -23,12 +23,12 @@ public class ShooterSubsystem extends SubsystemBase {
     private boolean flywheelState = false;
     private boolean ignoreSensor = false;
     private final SendableChooser<Boolean> ignoreSensorChooser = new SendableChooser<>();
-    private final AlternateLEDSubsystem led;
+    private final LEDSubsystem led;
     private boolean noteDetected;
     public boolean detecting = true;
     private final GenericEntry entry;
 
-    public ShooterSubsystem(AlternateLEDSubsystem ledSubsystem) {
+    public ShooterSubsystem(LEDSubsystem ledSubsystem) {
         led = ledSubsystem;
 
         shooterMotor_1 = new CANSparkMax(SHOOTER_MOTOR1_ID, MotorType.kBrushless);

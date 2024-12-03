@@ -1,14 +1,12 @@
 package frc.robot;
 
-import edu.wpi.first.math.geometry.*;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.Servo;
-
-import com.revrobotics.CANSparkBase.IdleMode;
-
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import com.revrobotics.CANSparkBase.IdleMode;
+import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import frc.robot.Robot.ControlMode;
 import org.photonvision.PhotonPoseEstimator;
 
 import static edu.wpi.first.math.util.Units.inchesToMeters;
@@ -19,6 +17,7 @@ public final class Constants {
         public static final int DRIVER_PORT = 1;
         public static final int OPERATOR_PORT = 2;
         public static final double DEADBAND = 0.1;
+        public static final ControlMode DEFAULT_CONTROL_MODE = ControlMode.SINGLE;
 
         // will eventually have keybinds and stuff
     }
